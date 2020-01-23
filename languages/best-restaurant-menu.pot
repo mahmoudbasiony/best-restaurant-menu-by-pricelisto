@@ -1,0 +1,867 @@
+# Copyright (C) 2019 Best Restaurant Menu
+# This file is distributed under the same license as the Best Restaurant Menu package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Best Restaurant Menu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: includes/class-brm-menu-template.php:53
+msgid "Best Restaurant Menu"
+msgstr ""
+
+#: includes/class-brm-shortcode.php:110
+msgid "Best Restaurant Menu Plugin by"
+msgstr ""
+
+#: includes/class-brm-utilities.php:56
+msgid "Group"
+msgstr ""
+
+#: includes/class-brm-utilities.php:64, includes/class-brm-utilities.php:177
+msgid "Name"
+msgstr ""
+
+#: includes/class-brm-utilities.php:72, includes/class-brm-utilities.php:185
+msgid "Description"
+msgstr ""
+
+#: includes/class-brm-utilities.php:82, includes/class-brm-utilities.php:206
+msgid "Save"
+msgstr ""
+
+#: includes/class-brm-utilities.php:83, includes/class-brm-utilities.php:207, includes/class-brm-utilities.php:534
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-brm-utilities.php:146
+msgid "Add subgroup"
+msgstr ""
+
+#: includes/class-brm-utilities.php:149
+msgid "Add item"
+msgstr ""
+
+#: includes/class-brm-utilities.php:170
+msgid "Item"
+msgstr ""
+
+#: includes/class-brm-utilities.php:196
+msgid "Price"
+msgstr ""
+
+#: includes/class-brm-utilities.php:296
+msgid "Select Image"
+msgstr ""
+
+#: includes/class-brm-utilities.php:301
+msgid "Item Image"
+msgstr ""
+
+#: includes/class-brm-utilities.php:485
+msgid "Insert Restaurant Menu Shortcode"
+msgstr ""
+
+#: includes/class-brm-utilities.php:492
+msgid "Groups"
+msgstr ""
+
+#: includes/class-brm-utilities.php:502
+msgid "Leave it empty to display all menu groups!"
+msgstr ""
+
+#: includes/class-brm-utilities.php:508
+msgid "Show Items"
+msgstr ""
+
+#: includes/class-brm-utilities.php:517
+msgid "View mode"
+msgstr ""
+
+#: includes/class-brm-utilities.php:521
+msgid "Minimalist"
+msgstr ""
+
+#: includes/class-brm-utilities.php:522
+msgid "2 Column Minimalist"
+msgstr ""
+
+#: includes/class-brm-utilities.php:523
+msgid "Fancy"
+msgstr ""
+
+#: includes/class-brm-utilities.php:524
+msgid "Colorful"
+msgstr ""
+
+#: includes/class-brm-utilities.php:525
+msgid "Bold"
+msgstr ""
+
+#: includes/class-brm-utilities.php:533
+msgid "Insert shortcode"
+msgstr ""
+
+#: includes/admin/class-brm-admin-groups.php:228
+msgid "Group Name is a required field!"
+msgstr ""
+
+#: includes/admin/class-brm-admin-items.php:123
+msgid "Item Name is a required field!"
+msgstr ""
+
+#: includes/admin/class-brm-admin-items.php:131
+msgid "Price is a numeric field!"
+msgstr ""
+
+#: includes/admin/class-brm-admin-menu.php:44, includes/admin/class-brm-admin-menu.php:45, includes/admin/class-brm-admin-menu.php:54, includes/admin/class-brm-admin-menu.php:55, templates/admin/menu.php:37
+msgid "Menu"
+msgstr ""
+
+#: includes/admin/class-brm-admin-menu.php:63, includes/admin/class-brm-admin-menu.php:64, templates/admin/settings.php:86
+msgid "Settings"
+msgstr ""
+
+#. translators: 1) int version 2) int version
+#: includes/admin/class-brm-admin-notices.php:106
+msgid "Best Restaurant Menu Extension - The minimum PHP version required for this plugin is %1$s. You are running %2$s."
+msgstr ""
+
+#. translators: 1) int version 2) int version
+#: includes/admin/class-brm-admin-notices.php:116
+msgid "Best Restaurant Menu Extension - The minimum WordPress version required for this plugin is %1$s. You are running %2$s."
+msgstr ""
+
+#: includes/admin/class-brm-admin-notices.php:133
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: includes/admin/class-brm-admin-notices.php:137
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: templates/admin/menu.php:78
+msgid "Add new group"
+msgstr ""
+
+#: templates/admin/settings.php:67
+msgid "Settings updated!"
+msgstr ""
+
+#: templates/admin/settings.php:72
+msgid "Updating settings failed!"
+msgstr ""
+
+#: templates/admin/settings.php:92
+msgid "Business Name"
+msgstr ""
+
+#: templates/admin/settings.php:96
+msgid "."
+msgstr ""
+
+#: templates/admin/settings.php:101
+msgid "Address"
+msgstr ""
+
+#: templates/admin/settings.php:105, templates/admin/settings.php:114, templates/admin/settings.php:123, templates/admin/settings.php:132, templates/admin/settings.php:158
+msgstr ""
+
+#: templates/admin/settings.php:110
+msgid "City"
+msgstr ""
+
+#: templates/admin/settings.php:119
+msgid "State"
+msgstr ""
+
+#: templates/admin/settings.php:128
+msgid "ZIP Code"
+msgstr ""
+
+#: templates/admin/settings.php:138
+msgid "Country"
+msgstr ""
+
+#: templates/admin/settings.php:154
+msgid "Phone Number"
+msgstr ""
+
+#: templates/admin/settings.php:164
+msgid "Currency"
+msgstr ""
+
+#: templates/admin/settings.php:180
+msgid "Display"
+msgstr ""
+
+#: templates/admin/settings.php:185
+msgid "Theme template"
+msgstr ""
+
+#: templates/admin/settings.php:195
+msgid "Theme used to generate front-end menu"
+msgstr ""
+
+#: templates/admin/settings.php:202
+msgid "Save Changes"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:10
+msgid "United Arab Emirates dirham"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:11
+msgid "Afghan afghani"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:12
+msgid "Albanian lek"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:13
+msgid "Armenian dram"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:14
+msgid "Netherlands Antillean guilder"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:15
+msgid "Angolan kwanza"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:16
+msgid "Argentine peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:17
+msgid "Australian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:18
+msgid "Aruban florin"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:19
+msgid "Azerbaijani manat"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:20
+msgid "Bosnia and Herzegovina convertible mark"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:21
+msgid "Barbadian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:22
+msgid "Bangladeshi taka"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:23
+msgid "Bulgarian lev"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:24
+msgid "Bahraini dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:25
+msgid "Burundian franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:26
+msgid "Bermudian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:27
+msgid "Brunei dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:28
+msgid "Bolivian boliviano"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:29
+msgid "Brazilian real"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:30
+msgid "Bahamian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:31
+msgid "Bitcoin"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:32
+msgid "Bhutanese ngultrum"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:33
+msgid "Botswana pula"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:34
+msgid "Belarusian ruble (old)"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:35
+msgid "Belarusian ruble"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:36
+msgid "Belize dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:37
+msgid "Canadian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:38
+msgid "Congolese franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:39
+msgid "Swiss franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:40
+msgid "Chilean peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:41
+msgid "Chinese yuan"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:42
+msgid "Colombian peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:43
+msgid "Costa Rican col&oacute;n"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:44
+msgid "Cuban convertible peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:45
+msgid "Cuban peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:46
+msgid "Cape Verdean escudo"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:47
+msgid "Czech koruna"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:48
+msgid "Djiboutian franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:49
+msgid "Danish krone"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:50
+msgid "Dominican peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:51
+msgid "Algerian dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:52
+msgid "Egyptian pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:53
+msgid "Eritrean nakfa"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:54
+msgid "Ethiopian birr"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:55
+msgid "Euro"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:56
+msgid "Fijian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:57
+msgid "Falkland Islands pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:58
+msgid "Pound sterling"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:59
+msgid "Georgian lari"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:60
+msgid "Guernsey pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:61
+msgid "Ghana cedi"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:62
+msgid "Gibraltar pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:63
+msgid "Gambian dalasi"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:64
+msgid "Guinean franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:65
+msgid "Guatemalan quetzal"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:66
+msgid "Guyanese dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:67
+msgid "Hong Kong dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:68
+msgid "Honduran lempira"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:69
+msgid "Croatian kuna"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:70
+msgid "Haitian gourde"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:71
+msgid "Hungarian forint"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:72
+msgid "Indonesian rupiah"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:73
+msgid "Israeli new shekel"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:74
+msgid "Manx pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:75
+msgid "Indian rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:76
+msgid "Iraqi dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:77
+msgid "Iranian rial"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:78
+msgid "Iranian toman"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:79
+msgid "Icelandic kr&oacute;na"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:80
+msgid "Jersey pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:81
+msgid "Jamaican dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:82
+msgid "Jordanian dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:83
+msgid "Japanese yen"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:84
+msgid "Kenyan shilling"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:85
+msgid "Kyrgyzstani som"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:86
+msgid "Cambodian riel"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:87
+msgid "Comorian franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:88
+msgid "North Korean won"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:89
+msgid "South Korean won"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:90
+msgid "Kuwaiti dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:91
+msgid "Cayman Islands dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:92
+msgid "Kazakhstani tenge"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:93
+msgid "Lao kip"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:94
+msgid "Lebanese pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:95
+msgid "Sri Lankan rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:96
+msgid "Liberian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:97
+msgid "Lesotho loti"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:98
+msgid "Libyan dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:99
+msgid "Moroccan dirham"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:100
+msgid "Moldovan leu"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:101
+msgid "Malagasy ariary"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:102
+msgid "Macedonian denar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:103
+msgid "Burmese kyat"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:104
+msgid "Mongolian t&ouml;gr&ouml;g"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:105
+msgid "Macanese pataca"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:106
+msgid "Mauritanian ouguiya"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:107
+msgid "Mauritian rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:108
+msgid "Maldivian rufiyaa"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:109
+msgid "Malawian kwacha"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:110
+msgid "Mexican peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:111
+msgid "Malaysian ringgit"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:112
+msgid "Mozambican metical"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:113
+msgid "Namibian dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:114
+msgid "Nigerian naira"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:115
+msgid "Nicaraguan c&oacute;rdoba"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:116
+msgid "Norwegian krone"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:117
+msgid "Nepalese rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:118
+msgid "New Zealand dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:119
+msgid "Omani rial"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:120
+msgid "Panamanian balboa"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:121
+msgid "Sol"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:122
+msgid "Papua New Guinean kina"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:123
+msgid "Philippine peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:124
+msgid "Pakistani rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:125
+msgid "Polish z&#x142;oty"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:126
+msgid "Transnistrian ruble"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:127
+msgid "Paraguayan guaran&iacute;"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:128
+msgid "Qatari riyal"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:129
+msgid "Romanian leu"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:130
+msgid "Serbian dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:131
+msgid "Russian ruble"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:132
+msgid "Rwandan franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:133
+msgid "Saudi riyal"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:134
+msgid "Solomon Islands dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:135
+msgid "Seychellois rupee"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:136
+msgid "Sudanese pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:137
+msgid "Swedish krona"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:138
+msgid "Singapore dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:139
+msgid "Saint Helena pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:140
+msgid "Sierra Leonean leone"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:141
+msgid "Somali shilling"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:142
+msgid "Surinamese dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:143
+msgid "South Sudanese pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:144
+msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:145
+msgid "Syrian pound"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:146
+msgid "Swazi lilangeni"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:147
+msgid "Thai baht"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:148
+msgid "Tajikistani somoni"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:149
+msgid "Turkmenistan manat"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:150
+msgid "Tunisian dinar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:151
+msgid "Tongan pa&#x2bb;anga"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:152
+msgid "Turkish lira"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:153
+msgid "Trinidad and Tobago dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:154
+msgid "New Taiwan dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:155
+msgid "Tanzanian shilling"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:156
+msgid "Ukrainian hryvnia"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:157
+msgid "Ugandan shilling"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:158
+msgid "United States (US) dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:159
+msgid "Uruguayan peso"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:160
+msgid "Uzbekistani som"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:161
+msgid "Venezuelan bol&iacute;var"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:162
+msgid "Bol&iacute;var soberano"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:163
+msgid "Vietnamese &#x111;&#x1ed3;ng"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:164
+msgid "Vanuatu vatu"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:165
+msgid "Samoan t&#x101;l&#x101;"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:166
+msgid "Central African CFA franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:167
+msgid "East Caribbean dollar"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:168
+msgid "West African CFA franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:169
+msgid "CFP franc"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:170
+msgid "Yemeni rial"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:171
+msgid "South African rand"
+msgstr ""
+
+#: templates/admin/vendor/currencies.php:172
+msgid "Zambian kwacha"
+msgstr ""
