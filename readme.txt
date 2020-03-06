@@ -2,7 +2,7 @@
 Contributors: pricelisto
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza
 Requires at least: 4.4.0
-Tested up to: 5.2.2
+Tested up to: 5.3.2
 Stable tag: 1.0.1
 License: GNU General Public License v3.0
 
