@@ -3,11 +3,11 @@
  * Plugin Name: Best Restaurant Menu by PriceListo
  * Plugin URI: https://www.pricelisto.com/plugins
  * Description: The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. 
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: PriceListo
  * Author URI: https://www.pricelisto.com
  * Requires at least: 4.4.0
- * Tested up to: 5.2.2
+ * Tested up to: 5.3.2
  *
  * Text Domain: best-restaurant-menu
  * Domain Path: /languages/
@@ -289,7 +289,6 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			) {$charset_collate};";
 
 			return $sql;
-
 		}
 
 		/**
@@ -304,6 +303,9 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 */
 		public static function create_brm_items_table( $table_name_with_prefix, $charset_collate ) {
 
+			global $wpdb;
+			$groups_table = $wpdb->prefix . 'brm_groups';
+
 			$sql = "CREATE TABLE {$table_name_with_prefix} (
 				id bigint(20) unsigned NOT NULL auto_increment,
 				name text NOT NULL,
@@ -315,12 +317,11 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 				created_at datetime NOT NULL default '0000-00-00 00:00:00',
 				updated_at datetime NOT NULL default '0000-00-00 00:00:00',
 				PRIMARY KEY (id),
-				FOREIGN KEY (group_id) REFERENCES wp_brm_groups(id) ON DELETE CASCADE
+				FOREIGN KEY (group_id) REFERENCES {$groups_table}(id) ON DELETE CASCADE
 
 			) {$charset_collate};";
 
 			return $sql;
-
 		}
 
 		/**

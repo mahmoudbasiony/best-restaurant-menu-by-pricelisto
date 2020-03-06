@@ -2,8 +2,8 @@
 Contributors: pricelisto
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza
 Requires at least: 4.4.0
-Tested up to: 5.3.2
-Stable tag: 1.0.0
+Tested up to: 5.2.2
+Stable tag: 1.0.1
 License: GNU General Public License v3.0
 
 The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
@@ -15,7 +15,7 @@ The fastest and easiest way to create professional-looking menu or price list fo
 - Allows to create a menu quickly for your restaurant or business.
 - It comes with 5 templates out of the box and supports custom templating.
 - Default templates are all responsive and look great on desktop, tablet, and mobile.
-- Menu supports groups/categories, sub groups/categories, and items.
+- Menu supports groups/categories and items.
 - Items can include item name, description, image, and price.
 - Menu editor allows you to easily drag and drop groups and items to re-organize easily and quickly.
 
@@ -72,15 +72,16 @@ Creating a custom template is easy. If you're used to working and creating WordP
 
 == Screenshots ==
 
-1. Fancy Menu Template
-2. Minimalist Menu Template
-3. Colorful Menu Template
-4. Bold Menu Template
-5. Minimalist 2-Column Menu Template
-6. Menu Admin Screen
+1. Floating badge that shows up on every part of your website.
+2. Embedded badge showing up on the cart page. (WooCommerce)
+3. Embedded badge showing up on the checkout page. (WooCommerce)
 
 == Changelog ==
 
-= 1.0.0 - 2020-01-23 =
+= 1.0.0 - 2020-01-14 =
 
 *Initial release*
+
+= 1.0.1 - 2020-03-06 =
+
+* Fixed a bug regarding database table naming.

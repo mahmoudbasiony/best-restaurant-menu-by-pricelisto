@@ -142,9 +142,6 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			ob_start();
 			?>
 				<div class="group-raw-actions">
-					<span id="add-new-subgroup" data-group-id="<?php echo esc_attr( $group_id ) ?>">
-						<input type="submit" name="add-new-subgroup" value="<?php _e( 'Add subgroup', 'best-restaurant-menu'); ?>" class="button-primary add-new-subgroup" />
-					</span>
 					<span id="add-new-item" data-group-id="<?php echo esc_attr( $group_id ) ?>">
 						<input type="submit" name="add-new-item" value="<?php _e( 'Add item', 'best-restaurant-menu'); ?>" class="button-primary add-new-item" />
 					</span>
@@ -553,12 +550,9 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			global $wpdb;
 
 			$groups_table = $wpdb->prefix . 'brm_groups';
-			$items_table = $wpdb->prefix . 'brm_items';
+			$items_table  = $wpdb->prefix . 'brm_items';
 
-			//$sql = "SELECT * FROM $items_table LEFT JOIN $groups_table ON $items_table.group_id = $groups_table.id ORDER BY wp_brm_items.sort ASC";
-
-			$sql = "SELECT * FROM $items_table WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC";
-
+			$sql   = "SELECT * FROM $items_table WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC";
 			$items = $wpdb->get_results( $sql );
 
 			$html = "";
