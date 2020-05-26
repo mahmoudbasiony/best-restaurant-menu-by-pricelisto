@@ -20,8 +20,9 @@
 		revert: 250,
 		tabSize: 25,
 		tolerance: 'pointer',
-		maxLevels: 0,
+		maxLevels: 3,
 		isTree: true,
+		protectRoot: false,
 		expandOnHover: 700,
 		startCollapsed: false,
 		isAllowed: function(placeholder, placeholderParent, currentItem) {
@@ -38,7 +39,6 @@
 		},
 		change: function(){
 			console.log('Changed item');
-
 		},
 		relocate: function(e, ui) {
 			console.log('Relocated item');

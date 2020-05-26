@@ -100,7 +100,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 						<tr>
 							<td style="width:40px;"><i class="fa fa-bars icon-move ui-sortable-handle"></i></td>
 							<td style="position: relative;">
-								<div class="group-name"><?php echo esc_html( stripslashes( $name ) ); ?></div>
+								<div class="group-name">
+									<?php echo esc_html( stripslashes( $name ) ); ?>
+									<span class="group-id">Group ID: <?php echo esc_attr( stripslashes( $id ) ); ?></span>
+								</div>
 								<div class="group-desc" id="group-<?php echo $id ?>-desc"><?php echo wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ); ?></div>
 							</td>
 							<td style="width:82px; position:absolute; top:10px; right:60px;">
@@ -132,16 +135,22 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Renders group raw action buttons.
 		 *
-		 * @param int $group_id The linked group ID
+		 * @param int $group_id  The linked group ID
+		 * @param int $parent_id The parent group ID
 		 *
-		 * @since 1.0.0
-		 *
+		 * @since   1.0.0
+		 * @version 1.1.0
 		 * @return mixed HTML
 		 */
-		public static function group_raw_actions( $group_id = 0 ) {
+		public static function group_raw_actions( $group_id = 0, $parent_id = 0 ) {
 			ob_start();
 			?>
 				<div class="group-raw-actions">
+					<?php if ( 0 == $parent_id ) : ?>
+						<span id="add-new-subgroup" data-group-id="<?php echo esc_attr( $group_id ) ?>">
+							<input type="submit" name="add-new-subgroup" value="<?php _e( 'Add subgroup', 'best-restaurant-menu'); ?>" class="button-primary add-new-subgroup" />
+						</span>
+					<?php endif; ?>
 					<span id="add-new-item" data-group-id="<?php echo esc_attr( $group_id ) ?>">
 						<input type="submit" name="add-new-item" value="<?php _e( 'Add item', 'best-restaurant-menu'); ?>" class="button-primary add-new-item" />
 					</span>
@@ -336,7 +345,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 							$html .= self::get_items_per_group( $group['items'][$cat_id], $currency_symbol );
 						}
 
-						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id );
+						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id, $parent_id );
 
 						$html .= "</li> \n";
 					}
@@ -350,7 +359,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 							$html .= self::get_items_per_group( $group['items'][$cat_id], $currency_symbol );
 						}
 
-						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id );
+						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id, $parent_id );
 
 						$html .= self::render_menu_backend( $cat_id, $group );
 						$html .= "</li> \n";
@@ -463,7 +472,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Render shortcode builder form.
 		 *
-		 * @since 1.0.0
+		 * @since   1.0.0
+		 * @version 1.1.0
 		 *
 		 * @return void
 		 */
@@ -500,6 +510,24 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 								</td>
 							</tr>
 
+							<tr valign="top">
+								<th scope="raw">
+									<label for="show-group-title"><?php _e( 'Show Group Title', 'best-restaurant-menu' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="show_group_title" checked value="yes" class="show-group-title" id="show-group-title" />
+								</td>
+							</tr>
+
+							<tr valign="top">
+								<th scope="raw">
+									<label for="show-group-desc"><?php _e( 'Show Group Description', 'best-restaurant-menu' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="show_group_desc" checked value="yes" class="show-group-desc" id="show-group-desc" />
+								</td>
+							</tr>
+	
 							<tr valign="top">
 								<th scope="raw">
 									<label for="show-items"><?php _e( 'Show Items', 'best-restaurant-menu' ); ?></label>

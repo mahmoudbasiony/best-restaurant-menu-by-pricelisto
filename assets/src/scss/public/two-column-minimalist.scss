@@ -47,6 +47,18 @@
     padding-bottom: 20px;
 }
 
+.brm-heading.subgroup {
+    border-bottom: 0;
+    background: #eee;
+    padding: 10px;
+}
+
+.brm-heading.subgroup h2 {
+    font-size: 32px;
+    letter-spacing: -1px;
+    color: #444;
+}
+
 .brm-item {
     margin: 0px 0 30px;
     font-size: 18px;
@@ -149,6 +161,10 @@
     .brm-menu-section h2 {
         font-size: 32px;
         letter-spacing: -1px;
+    }
+
+    .brm-menu-section .subgroup h2 {
+        font-size: 24px;
     }
 
     .brm-item-image {

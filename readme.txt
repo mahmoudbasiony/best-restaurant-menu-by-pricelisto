@@ -1,21 +1,21 @@
 === Best Restaurant Menu by PriceListo ===
 Contributors: pricelisto
-Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza
+Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
 Requires at least: 4.4.0
-Tested up to: 5.3.2
-Stable tag: 1.0.1
+Tested up to: 5.4.1
+Stable tag: 1.1.0
 License: GNU General Public License v3.0
 
-The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
+The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
 
 == Description ==
 
 = What this plugin can do for you =
 
-- Allows to create a menu quickly for your restaurant or business.
+- Allows to create a menu quickly for your restaurant or other business type (such as salons, gyms, etc).
 - It comes with 5 templates out of the box and supports custom templating.
 - Default templates are all responsive and look great on desktop, tablet, and mobile.
-- Menu supports groups/categories and items.
+- Menu supports groups/categories, sub groups/categories, and items.
 - Items can include item name, description, image, and price.
 - Menu editor allows you to easily drag and drop groups and items to re-organize easily and quickly.
 
@@ -70,18 +70,16 @@ You. The menu templates were designed and coded to look great on desktop and mob
 
 Creating a custom template is easy. If you're used to working and creating WordPress themes, then you're in luck. Best Restuarant Menu templates work the same way. To get started, simply create a new file in `/wp-content/plugins/best-restaurant-menu/templates/` and use the format from one of the default templates as a starting point. The template file should be named the same as the template name. If you wish to use a separate css file, you can name it the same as the template name.
 
-== Screenshots ==
-
-1. Floating badge that shows up on every part of your website.
-2. Embedded badge showing up on the cart page. (WooCommerce)
-3. Embedded badge showing up on the checkout page. (WooCommerce)
-
 == Changelog ==
 
-= 1.0.0 - 2020-01-14 =
+## 1.1.0 - 2020-05-24
+### Feature - add show group title shortcode attribute.
+### Feature - add show group description shortcode attribute.
+### Tweak - display group ID beside group name in menu dashboard.
+### Feature - enable one level nested subgroups feature.
 
-*Initial release*
+## 1.0.1 - 2020-03-05
+### Fix - rational table prefix bug.
 
-= 1.0.1 - 2020-03-06 =
-
-* Fixed a bug regarding database table naming.
+## 1.0.0 - 2019-10-10
+### Initial release

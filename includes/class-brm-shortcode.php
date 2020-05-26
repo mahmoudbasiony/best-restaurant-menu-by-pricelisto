@@ -61,9 +61,11 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 
 			// Set defaults attributes value.
 			$display = shortcode_atts( array(
-				'groups'     => '',
-				'show_items' => 1,
-				'view'       => $view,
+				'groups'           => '',
+				'show_group_title' => 'yes',
+				'show_group_desc'  => 'yes',
+				'show_items'       => 1,
+				'view'             => $view,
 			), $atts );
 
 			// Frontend templates.
@@ -160,10 +162,19 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 
 			// Validate groups.
 			if ( ! empty( $groups ) ) {
-
 				foreach( $groups as $group ) {
 					// Push categories to menu array.
 					$menu_array[$group->parent_id][$group->id] = $group;
+
+					// Remove group title if show group title attribute is set to false
+					if ( isset( $args['show_group_title'] ) && ! empty( $args['show_group_title'] ) && 'no' === strtolower( $args['show_group_title'] ) ) {
+						$group->name = '';
+					}
+
+					// Remove group description if show group description attribute is set to false
+					if ( isset( $args['show_group_desc'] ) && ! empty( $args['show_group_desc'] ) && 'no' === strtolower( $args['show_group_desc'] ) ) {
+						$group->description = '';
+					}
 
 					// Initialize items array
 					$items_array = array();

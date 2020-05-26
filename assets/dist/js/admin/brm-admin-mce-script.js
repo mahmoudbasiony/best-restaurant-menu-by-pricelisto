@@ -10,6 +10,28 @@
 	tinymce.PluginManager.add('brm_restaurant_menu', function (editor, url) {
 
 		/**
+   * onChange show group title option.
+   */
+		$(document).on('change', 'input[name="show_group_title"]', function (e) {
+			if ($(this).is(':checked')) {
+				$(this).val('yes');
+			} else {
+				$(this).val('no');
+			}
+		});
+
+		/**
+   * onChange show group description option.
+   */
+		$(document).on('change', 'input[name="show_group_desc"]', function (e) {
+			if ($(this).is(':checked')) {
+				$(this).val('yes');
+			} else {
+				$(this).val('no');
+			}
+		});
+
+		/**
    * onChange show items option.
    */
 		$(document).on('change', 'input[name="show_items"]', function (e) {
@@ -26,12 +48,16 @@
 		$(document).on('click', '.insert-shortcode', function (e) {
 			e.preventDefault();
 
+			var showGroupTitle = $('.show-group-title').val();
+			var showGroupDesc = $('.show-group-desc').val();
 			var showItems = $('.show-items').val();
 			var viewMode = $('select#view-mode option:selected').val();
 
 			var params = {
 				attr: {
 					'groups': '',
+					'show_group_title': showGroupTitle,
+					'show_group_desc': showGroupDesc,
 					'show_items': showItems,
 					'view': viewMode
 				},

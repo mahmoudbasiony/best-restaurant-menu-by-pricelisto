@@ -9,6 +9,8 @@
  * @var array  $menu     The menu tree array
  * @var string $currency The currency symbol
  *
+ * @version 1.1.0
+ *
  * @see     
  * @package Best_Restaurant_Menu
  * @author  PriceListo
@@ -17,46 +19,31 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+
+/*
+ * Include template functions.
+ */
+include_once( BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'func-temp/two-column-minimalist.php' );
+
 ?>
 
 <div class="brm-menu minimalist-2-column">
 
 <?php
-if (isset($menu[0])):
+$key = key($menu);
 
-$menus = array_chunk($menu[0], ceil(count($menu[0]) / 2));
+if (!is_null($key) && isset($menu[$key])):
+
+$menus = array_chunk($menu[$key], ceil(count($menu[$key]) / 2));
+
 ?>
 
 <?php foreach ($menus as $groups): ?>
 
 	<div class="brm-menu-column">
-	
-	<?php foreach ($groups as $group): ?>
-	
-			<div class="brm-menu-section">
-				<div class="brm-heading">
-					<h2><?php echo esc_html( $group->name ); ?></h2>
-					<?php if (!empty($group->description)): ?>
-					<div class="brm-heading-description"><?php echo esc_html( $group->description ); ?></div>
-					<?php endif; ?>
-				</div>
-				<?php foreach ($group->items as $item): ?>
-				<div class="brm-item">
-					<?php if (!empty($item->image_id)): ?>
-					<div class="brm-item-image">
-						<img src="<?php echo esc_url( wp_get_attachment_image_src($item->image_id, 'thumbnail')[0] ); ?>" alt="<?php echo esc_attr( $item->name ); ?>">
-					</div>
-					<?php endif; ?>
-					<div class="brm-item-details">
-						<div class="brm-item-name"><?php echo esc_html( $item->name ); ?></div>
-						<div class="brm-item-price"><?php echo esc_html( $currency . $item->price ); ?></div>
-						<div class="brm-item-description"><?php echo esc_html( $item->description ); ?></div>
-					</div>
-				</div>
-				<?php endforeach; ?>
-			</div>
-	<?php endforeach; ?>
-	
+
+	<?php echo brm_column_minimalist_renders_frontend_menu( $groups, $currency ); ?>
+
 	</div>
 
 <?php endforeach; ?>

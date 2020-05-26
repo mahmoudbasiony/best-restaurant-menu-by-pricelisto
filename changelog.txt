@@ -1,5 +1,14 @@
 # Changelog
 All notable changes to the plugin will be documented in this file.
 
+## 1.1.0 - 2020-05-24
+### Feature - add show group title shortcode attribute.
+### Feature - add show group description shortcode attribute.
+### Tweak - display group ID beside group name in menu dashboard.
+### Feature - enable one level nested subgroups feature.
+
+## 1.0.1 - 2020-03-05
+### Fix - rational table prefix bug.
+
 ## 1.0.0 - 2019-10-10
 ### Initial release

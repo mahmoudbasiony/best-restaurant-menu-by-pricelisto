@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Best Restaurant Menu
+# Copyright (C) 2020 Best Restaurant Menu
 # This file is distributed under the same license as the Best Restaurant Menu package.
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Best Restaurant Menu"
 msgstr ""
 
-#: includes/class-brm-shortcode.php:110
+#: includes/class-brm-shortcode.php:112
 msgid "Best Restaurant Menu Plugin by"
 msgstr ""
 
@@ -25,87 +25,95 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: includes/class-brm-utilities.php:64, includes/class-brm-utilities.php:177
+#: includes/class-brm-utilities.php:64, includes/class-brm-utilities.php:183
 msgid "Name"
 msgstr ""
 
-#: includes/class-brm-utilities.php:72, includes/class-brm-utilities.php:185
+#: includes/class-brm-utilities.php:72, includes/class-brm-utilities.php:191
 msgid "Description"
 msgstr ""
 
-#: includes/class-brm-utilities.php:82, includes/class-brm-utilities.php:206
+#: includes/class-brm-utilities.php:82, includes/class-brm-utilities.php:212
 msgid "Save"
 msgstr ""
 
-#: includes/class-brm-utilities.php:83, includes/class-brm-utilities.php:207, includes/class-brm-utilities.php:534
+#: includes/class-brm-utilities.php:83, includes/class-brm-utilities.php:213, includes/class-brm-utilities.php:559
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-brm-utilities.php:146
+#: includes/class-brm-utilities.php:151
 msgid "Add subgroup"
 msgstr ""
 
-#: includes/class-brm-utilities.php:149
+#: includes/class-brm-utilities.php:155
 msgid "Add item"
 msgstr ""
 
-#: includes/class-brm-utilities.php:170
+#: includes/class-brm-utilities.php:176
 msgid "Item"
 msgstr ""
 
-#: includes/class-brm-utilities.php:196
+#: includes/class-brm-utilities.php:202
 msgid "Price"
 msgstr ""
 
-#: includes/class-brm-utilities.php:296
+#: includes/class-brm-utilities.php:302
 msgid "Select Image"
 msgstr ""
 
-#: includes/class-brm-utilities.php:301
+#: includes/class-brm-utilities.php:307
 msgid "Item Image"
 msgstr ""
 
-#: includes/class-brm-utilities.php:485
+#: includes/class-brm-utilities.php:492
 msgid "Insert Restaurant Menu Shortcode"
 msgstr ""
 
-#: includes/class-brm-utilities.php:492
+#: includes/class-brm-utilities.php:499
 msgid "Groups"
 msgstr ""
 
-#: includes/class-brm-utilities.php:502
+#: includes/class-brm-utilities.php:509
 msgid "Leave it empty to display all menu groups!"
 msgstr ""
 
-#: includes/class-brm-utilities.php:508
-msgid "Show Items"
-msgstr ""
-
-#: includes/class-brm-utilities.php:517
-msgid "View mode"
-msgstr ""
-
-#: includes/class-brm-utilities.php:521
-msgid "Minimalist"
-msgstr ""
-
-#: includes/class-brm-utilities.php:522
-msgid "2 Column Minimalist"
-msgstr ""
-
-#: includes/class-brm-utilities.php:523
-msgid "Fancy"
+#: includes/class-brm-utilities.php:515
+msgid "Show Group Title"
 msgstr ""
 
 #: includes/class-brm-utilities.php:524
-msgid "Colorful"
-msgstr ""
-
-#: includes/class-brm-utilities.php:525
-msgid "Bold"
+msgid "Show Group Description"
 msgstr ""
 
 #: includes/class-brm-utilities.php:533
+msgid "Show Items"
+msgstr ""
+
+#: includes/class-brm-utilities.php:542
+msgid "View mode"
+msgstr ""
+
+#: includes/class-brm-utilities.php:546
+msgid "Minimalist"
+msgstr ""
+
+#: includes/class-brm-utilities.php:547
+msgid "2 Column Minimalist"
+msgstr ""
+
+#: includes/class-brm-utilities.php:548
+msgid "Fancy"
+msgstr ""
+
+#: includes/class-brm-utilities.php:549
+msgid "Colorful"
+msgstr ""
+
+#: includes/class-brm-utilities.php:550
+msgid "Bold"
+msgstr ""
+
+#: includes/class-brm-utilities.php:558
 msgid "Insert shortcode"
 msgstr ""
 
@@ -151,12 +159,12 @@ msgstr ""
 msgid "Add new group"
 msgstr ""
 
-#: templates/admin/settings.php:67
-msgid "Settings updated!"
-msgstr ""
-
 #: templates/admin/settings.php:72
 msgid "Updating settings failed!"
+msgstr ""
+
+#: templates/admin/settings.php:67
+msgid "Settings updated!"
 msgstr ""
 
 #: templates/admin/settings.php:92

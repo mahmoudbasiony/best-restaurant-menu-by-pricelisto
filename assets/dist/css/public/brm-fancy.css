@@ -38,6 +38,17 @@
 .brm-heading {
   margin-bottom: 30px; }
 
+.brm-heading.subgroup {
+  margin-top: 70px; }
+
+.brm-heading.subgroup h2 {
+  font-size: 30px;
+  border-top: 2px solid #777;
+  color: #777; }
+
+.brm-heading.subgroup h2 span {
+  top: -24px; }
+
 .brm-item {
   margin: 0px 0 30px;
   display: inline-block;
@@ -110,6 +121,12 @@
   .brm-menu-section h2 {
     font-size: 32px;
     letter-spacing: -1px; }
+  .brm-menu-section .subgroup h2 {
+    font-size: 24px; }
+  .brm-heading.subgroup {
+    margin-top: 40px; }
+  .brm-heading.subgroup h2 span {
+    top: -15px; }
   .brm-item-image {
     max-width: 90px; }
   .pl-developer {

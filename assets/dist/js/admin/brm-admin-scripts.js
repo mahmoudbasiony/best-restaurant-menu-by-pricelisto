@@ -22,8 +22,9 @@
 		revert: 250,
 		tabSize: 25,
 		tolerance: 'pointer',
-		maxLevels: 0,
+		maxLevels: 3,
 		isTree: true,
+		protectRoot: false,
 		expandOnHover: 700,
 		startCollapsed: false,
 		isAllowed: function isAllowed(placeholder, placeholderParent, currentItem) {

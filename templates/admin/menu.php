@@ -3,7 +3,7 @@
  * Menu Template.
  *
  * @package Best_Restaurant_Menu/Templates/
- * @author  Haris Bacic
+ * @author  PriceListo
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

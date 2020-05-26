@@ -43,6 +43,16 @@
 	font-weight: 500;
 	padding: 10px 0 5px 0;
 	cursor: text !important;
+
+	.group-id {
+		margin-left: 5px;
+	    padding: 3px 8px;
+	    background-color: #fff;
+	    border-radius: 3px;
+	    font-size: 12px !important;
+	    position: relative;
+	    top: -3px;
+	}
 }
 
 .group-desc {
