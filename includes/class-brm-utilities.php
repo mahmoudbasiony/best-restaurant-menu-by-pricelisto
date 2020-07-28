@@ -79,8 +79,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				</table>
 
 				<p class="submit">
-					<input type="submit" name="save-group" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-group" />
 					<input type="submit" name="cancel-group" value="<?php _e( 'Cancel', 'best-restaurant-menu'); ?>" class="button-primary cancel-group" />
+					<input type="submit" name="save-group" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-group" />
 				</p>
 
 			</form>
@@ -104,7 +104,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 									<?php echo esc_html( stripslashes( $name ) ); ?>
 									<span class="group-id">Group ID: <?php echo esc_attr( stripslashes( $id ) ); ?></span>
 								</div>
-								<div class="group-desc" id="group-<?php echo $id ?>-desc"><?php echo wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ); ?></div>
+								<div class="group-desc" id="group-<?php echo $id ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
 							</td>
 							<td style="width:82px; position:absolute; top:10px; right:60px;">
 								<div class="edit-icons">
@@ -209,8 +209,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				</table>
 
 				<p class="submit">
-					<input type="submit" name="save-item" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-item" />
 					<input type="submit" name="cancel-item" value="<?php _e( 'Cancel', 'best-restaurant-menu'); ?>" class="button-primary cancel-item" />
+					<input type="submit" name="save-item" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-item" />
 				</p>
 
 			</form>
@@ -249,7 +249,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 							</td>
 							<td style="">
 								<span class="item-name"><?php echo esc_html( stripslashes( $name ) ); ?></span>
-								<span class="item-desc"><?php echo wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ); ?></span>
+								<span class="item-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></span>
 								<?php if ( $price && is_numeric( $price )  ) : ?>
 									<span class="item-price"><?php echo esc_html( stripslashes( $currency_symbol . $price ) ); ?></span>
 								<?php endif; ?>

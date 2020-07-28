@@ -216,7 +216,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 			if ( isset($_POST) && ! empty( $_POST['action'] ) && 'brm_save_group' === $_POST['action'] ) {
 				$group_name = isset( $_POST['group_name'] ) ? sanitize_text_field( $_POST['group_name'] ) : '';
-				$group_desc = isset( $_POST['group_desc'] ) ? sanitize_text_field( $_POST['group_desc'] ) : '';
+				$group_desc = isset( $_POST['group_desc'] ) ? sanitize_textarea_field( $_POST['group_desc'] ) : '';
 				$parent_id  = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
 				$order      = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : '';
 				$created_at = current_time( 'mysql' );

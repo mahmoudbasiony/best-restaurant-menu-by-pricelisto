@@ -57,6 +57,7 @@
   background: #fff;
   min-height: 60px;
   max-height: 70px;
+  overflow: auto;
   padding: 0px 10px 0px 10px;
   border: 1px solid white;
   margin: 0px 0px;
@@ -259,8 +260,10 @@ li.mjs-nestedSortable-collapsed > ul, li.mjs-nestedSortable-collapsed > .group-r
       #popup-overlay .brm-shortcode-builder .submit .save-group, #popup-overlay .brm-shortcode-builder .submit .save-item, #popup-overlay .brm-group-form .submit .save-group, #popup-overlay .brm-group-form .submit .save-item, #popup-overlay .brm-item-form .submit .save-group, #popup-overlay .brm-item-form .submit .save-item {
         position: absolute;
         bottom: 10px;
-        right: 70px; }
+        right: 0;
+        box-sizing: content-box; }
       #popup-overlay .brm-shortcode-builder .submit .cancel-group, #popup-overlay .brm-shortcode-builder .submit .cancel-item, #popup-overlay .brm-group-form .submit .cancel-group, #popup-overlay .brm-group-form .submit .cancel-item, #popup-overlay .brm-item-form .submit .cancel-group, #popup-overlay .brm-item-form .submit .cancel-item {
         position: absolute;
         bottom: 10px;
-        right: 0; }
+        right: 60px;
+        box-sizing: content-box; }

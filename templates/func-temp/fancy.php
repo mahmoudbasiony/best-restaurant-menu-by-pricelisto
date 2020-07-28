@@ -13,14 +13,14 @@
  * @param bool   $is_subgroup Whether is a sugroup or not - Default: false
  *
  * @since   1.1.0
- * @version 1.1.0
+ * @version 1.2.0
  *
  * @return mixed|HTML
  */
 function brm_fancy_render_group_heading( $group, $is_subgroup = false ) {
 	ob_start();
 	?>
-		<div class="brm-heading<?php echo $is_subgroup ? " subgroup" : "" ?>" style="display: <?php echo ( empty( $group->name ) && empty( $group->description ) ) ? 'none;' : 'block;'; ?>">
+		<div class="brm-heading brm-group-<?php echo esc_attr( $group->id ); ?><?php echo $is_subgroup ? " subgroup" : "" ?>" style="display: <?php echo ( empty( $group->name ) && empty( $group->description ) ) ? 'none;' : 'block;'; ?>">
 			<?php if ( ! empty( $group->name ) ) : ?>
 				<h2>
 					<span>
@@ -28,8 +28,8 @@ function brm_fancy_render_group_heading( $group, $is_subgroup = false ) {
 					</span>
 				</h2>
 			<?php endif; ?>
-			<?php if (!empty($group->description)): ?>
-				<div class="brm-heading-description"><?php echo wp_kses_post( wptexturize( esc_html( stripslashes( $group->description) ) ) ); ?></div>
+			<?php if ( ! empty( $group->description ) ): ?>
+				<div class="brm-heading-description"><?php echo nl2br( esc_html( stripslashes( $group->description) ) ); ?></div>
 			<?php endif; ?>
 		</div>
 	<?php
@@ -44,7 +44,7 @@ function brm_fancy_render_group_heading( $group, $is_subgroup = false ) {
  * @param bool   $is_subgroup Whether are subgroup items or not
  *
  * @since   1.1.0
- * @version 1.1.0
+ * @version 1.2.0
  *
  * @return mixed|HTML
  */
@@ -53,18 +53,26 @@ function brm_fancy_render_items( $items, $currency, $is_subgroup = false ) {
 	?>
 	<div class="brm-items<?php echo $is_subgroup ? " subgroup" : "" ?>">
 	<?php
-	foreach ($items as $item):
+	foreach ( $items as $item ):
 	?>
-		<div class="brm-item">
-			<?php if (!empty($item->image_id)): ?>
+		<div class="brm-item brm-item-<?php echo esc_attr( $item->id ); ?>">
+			<?php if ( ! empty( $item->image_id ) ):
+				// Image data
+				$caption     = esc_attr( wp_get_attachment_caption( $item->image_id ) );
+				$alt         = esc_attr( get_post_meta( $item->image_id, '_wp_attachment_image_alt', true ) );
+				$large_image = esc_url( wp_get_attachment_image_src( $item->image_id, 'large' )[0] );
+				$thumbnail   = esc_url( wp_get_attachment_image_src( $item->image_id, 'thumbnail' )[0] );
+			?>
 			<div class="brm-item-image">
-				<img src="<?php echo esc_url( wp_get_attachment_image_src($item->image_id, 'thumbnail')[0] ); ?>" alt="<?php echo esc_attr( $item->name ); ?>">
+				<a href="<?php echo $large_image; ?>" data-lightbox="item-image-<?php echo esc_attr( $item->id ); ?>" data-title="<?php echo $caption; ?>" data-alt="<?php echo $alt; ?>">
+					<img src="<?php echo $thumbnail; ?>" alt="<?php echo $alt; ?>">
+				</a>
 			</div>
 			<?php endif; ?>
 			<div class="brm-item-details">
 				<div class="brm-item-name"><?php echo esc_html( stripslashes( $item->name ) ); ?></div>
 				<div class="brm-item-price"><?php echo esc_html( stripslashes ( $currency . $item->price ) ); ?></div>
-				<div class="brm-item-description"><?php echo wp_kses_post( wptexturize( esc_html( stripslashes( $item->description) ) ) ); ?></div>
+				<div class="brm-item-description"><?php echo nl2br( esc_html( stripslashes( $item->description ) ) ); ?></div>
 			</div>
 		</div>
 	<?php

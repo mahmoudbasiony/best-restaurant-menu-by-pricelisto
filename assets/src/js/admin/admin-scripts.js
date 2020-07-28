@@ -678,4 +678,7 @@
 		return false;
 	});
 
+	// Enhance some settings dropdown with select2
+	$('#business_country, #business_currency, #theme-template').select2();
+
 } )( jQuery );

@@ -13,21 +13,21 @@
  * @param bool   $is_subgroup Whether is a sugroup or not - Default: false
  *
  * @since   1.1.0
- * @version 1.1.0
+ * @version 1.2.0
  *
  * @return mixed|HTML
  */
 function brm_bold_render_group_heading( $group, $is_subgroup = false ) {
 	ob_start();
 	?>
-		<div class="brm-heading<?php echo $is_subgroup ? " subgroup" : "" ?>" style="display: <?php echo ( empty( $group->name ) && empty( $group->description ) ) ? 'none;' : 'block;'; ?>">
+		<div class="brm-heading brm-group-<?php echo esc_attr( $group->id ) ?><?php echo $is_subgroup ? " subgroup" : "" ?>" style="display: <?php echo ( empty( $group->name ) && empty( $group->description ) ) ? 'none;' : 'block;'; ?>">
 			<?php if ( ! empty( $group->name ) ) : ?>
 				<h2>
 					<span><?php echo esc_html( stripslashes( $group->name ) ); ?></span>
 				</h2>
 			<?php endif; ?>
-			<?php if (!empty($group->description)): ?>
-				<div class="brm-heading-description"><?php echo wp_kses_post( wptexturize( esc_html( stripslashes( $group->description) ) ) ); ?></div>
+			<?php if ( ! empty( $group->description ) ): ?>
+				<div class="brm-heading-description"><?php echo nl2br( esc_html( stripslashes( $group->description) ) ); ?></div>
 			<?php endif; ?>
 		</div>
 	<?php
@@ -42,7 +42,7 @@ function brm_bold_render_group_heading( $group, $is_subgroup = false ) {
  * @param bool   $is_subgroup Whether are subgroup items or not
  *
  * @since   1.1.0
- * @version 1.1.0
+ * @version 1.2.0
  *
  * @return mixed|HTML
  */
@@ -57,17 +57,23 @@ function brm_bold_render_items( $items, $currency, $is_subgroup = false ) {
 			$html .= '<div class="brm-menu-row">';
 		endif;
 
-		$html .= '<div class="brm-item">';
+		$html .= '<div class="brm-item brm-item-' . esc_attr( $item->id ) . '">';
 		if ( ! empty( $item->image_id ) ) :
+			// Image data
+			$caption     = esc_attr( wp_get_attachment_caption( $item->image_id ) );
+			$alt         = esc_attr( get_post_meta( $item->image_id, '_wp_attachment_image_alt', true ) );
+			$large_image = esc_url( wp_get_attachment_image_src( $item->image_id, 'large' )[0] );
+			$thumbnail   = esc_url( wp_get_attachment_image_src( $item->image_id, 'thumbnail' )[0] );
+
 			$html .= '<div class="brm-item-image">';
-			$html .= '<img src="' . esc_url( wp_get_attachment_image_src($item->image_id, 'thumbnail')[0] ) .'" alt="' . esc_attr( $item->name ) . '">';
+			$html .= '<a href="' . $large_image . '" data-lightbox="item-image-' . esc_attr( $item->id ) . '" data-title="' . $caption . '" data-alt="' . $alt . '"><img src="' . $thumbnail .'" alt="' . $alt . '"/></a>';
 			$html .= '</div>';
 		endif;
 
 		$html .= '<div class="brm-item-details">';
 		$html .= '<div class="brm-item-name">' . esc_html( stripslashes( $item->name ) ) . '</div>';
 		$html .= '<div class="brm-item-price">' . esc_html( stripslashes( $currency . $item->price ) ) . '</div>';
-		$html .= '<div class="brm-item-description">' . wp_kses_post( wptexturize( esc_html( stripslashes( $item->description) ) ) ) . '</div>';
+		$html .= '<div class="brm-item-description">' . nl2br( esc_html( stripslashes( $item->description) ) ) . '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -98,7 +104,7 @@ function brm_renders_bold_frontend_menu( $menu, $currency, $is_child = false ) {
 	$html = '';
 	$child_class = $is_child ? " nested-child" : "";
 	foreach ( $menu as $group ):
-		$html .= '<div class="brm-menu-section ' . $child_class . '">';
+		$html .= '<div class="brm-menu-section' . $child_class . '">';
 		$html .= brm_bold_render_group_heading( $group, $is_child );
 		if ( isset( $group->items ) && ! empty( $group->items ) ) :
 			$html .=  brm_bold_render_items( $group->items, $currency, $is_child );

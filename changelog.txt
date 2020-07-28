@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to the plugin will be documented in this file.
 
+## 1.2.0 - 2020-07-28
+### Feature - add lightbox image feature.
+### Tweak - display group and item id in the html markup.
+### Fix - santize textarea new line bug.
+
+## 1.1.1 - 2020-05-26
+### Bug fix
+
 ## 1.1.0 - 2020-05-24
 ### Feature - add show group title shortcode attribute.
 ### Feature - add show group description shortcode attribute.

@@ -108,7 +108,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 
 			if ( isset($_POST) && ! empty( $_POST['action'] ) && 'brm_save_item' === $_POST['action'] ) {
 				$item_name  = isset( $_POST['item_name'] ) ? sanitize_text_field( $_POST['item_name'] ) : 0;
-				$item_desc  = isset( $_POST['item_desc'] ) ? sanitize_text_field( $_POST['item_desc'] ) : 0;
+				$item_desc  = isset( $_POST['item_desc'] ) ? sanitize_textarea_field( $_POST['item_desc'] ) : 0;
 				$image_id   = isset( $_POST['image_id'] ) ? (int) sanitize_text_field( $_POST['image_id'] ) : 0;
 				$price      = isset( $_POST['price'] ) ? sanitize_text_field( $_POST['price'] ) : 0;
 				$order      = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 0;

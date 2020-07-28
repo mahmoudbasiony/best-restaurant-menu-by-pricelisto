@@ -1,9 +1,9 @@
 === Best Restaurant Menu by PriceListo ===
-Contributors: pricelisto
+Contributors: pricelisto, mahmoudbasiony
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
 Requires at least: 4.4.0
 Tested up to: 5.4.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GNU General Public License v3.0
 
 The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
@@ -71,6 +71,10 @@ You. The menu templates were designed and coded to look great on desktop and mob
 Creating a custom template is easy. If you're used to working and creating WordPress themes, then you're in luck. Best Restuarant Menu templates work the same way. To get started, simply create a new file in `/wp-content/plugins/best-restaurant-menu/templates/` and use the format from one of the default templates as a starting point. The template file should be named the same as the template name. If you wish to use a separate css file, you can name it the same as the template name.
 
 == Changelog ==
+## 1.2.0 - 2020-07-28
+### Feature - add lightbox image feature.
+### Tweak - display group and item id in the html markup.
+### Fix - santize textarea new line bug.
 
 ## 1.1.1 - 2020-05-26
 ### Bug fix

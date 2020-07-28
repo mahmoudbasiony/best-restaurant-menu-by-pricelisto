@@ -50,20 +50,30 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 		}
 		
 		/**
-		 * Enqueues admin scripts.
+		 * Enqueues frontend scripts.
 		 *
-		 * @since 1.0.0
+		 * @since   1.0.0
+		 * @version 1.2.0
 		 *
 		 * @return void
 		 */
 		public function scripts() {
+			// Lightbox2 scripts
+			wp_enqueue_script(
+				'lightbox2',
+				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/js/lightbox.min.js',
+				array( 'jquery' ),
+				false,
+				true
+			);
+	
 			/*
 			 * Global front-end scripts.
 			 */
 			wp_enqueue_script(
 				'brm_scripts',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/js/public/brm-scripts.min.js',
-				array( 'jquery' ),
+				array( 'lightbox2' ),
 				false,
 				true
 			);
@@ -94,14 +104,16 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 		}
 
 		/**
-		 * Enqueues admin styles.
+		 * Enqueues frontend styles.
 		 *
-		 * @since 1.0.0
+		 * @since   1.0.0
+		 * @version 1.2.0
 		 *
 		 * @return void
 		 */
 		public function styles() {
-			wp_enqueue_style( 'brm_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/public/brm-global.min.css', array(), false, 'all' );
+			wp_enqueue_style( 'lightbox2',  BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/css/lightbox.min.css', array(), false, 'all' );
+			wp_enqueue_style( 'brm_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/public/brm-global.min.css', array( 'lightbox2' ), false, 'all' );
 
 			/*
 			 * Registers front-end tempates styles.
