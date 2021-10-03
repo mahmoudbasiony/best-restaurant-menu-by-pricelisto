@@ -111,7 +111,8 @@
 				openPopupOverlay();
 
 				var data = {
-					action: 'brm_shortcode_builder_form'
+					action: 'brm_shortcode_builder_form',
+					nonce: brm_params.nonce
 				};
 
 				$.ajax({

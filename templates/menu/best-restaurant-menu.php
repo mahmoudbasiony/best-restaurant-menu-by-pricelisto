@@ -2,16 +2,15 @@
 /**
  * Template Name : Best Restaurant Menu.
  *
- *
  * This template can be overridden by copying it to yourtheme/best-restaurant-menu/menu/best-restaurant-menu.php.
  *
- * @see     
+ * @see
  * @package Best_Restaurant_Menu
  * @author  PriceListo
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 // Get header.
@@ -22,5 +21,5 @@ get_header();
  */
 echo do_shortcode( '[brm_restaurant_menu]' );
 
-// Get footer
+// Get footer.
 get_footer();

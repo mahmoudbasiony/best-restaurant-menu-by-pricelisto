@@ -24,10 +24,40 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 if ( defined( 'BRM_REMOVE_ALL_DATA' ) && true === BRM_REMOVE_ALL_DATA ) {
 	global $wpdb;
 
-	// Database prefix
+	/*
+	 * Checks if multisite is enabled.
+	 */
+	if ( is_multisite() ) {
+		// Get ids of all sites.
+		$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+		foreach ( $blogids as $blogid ) {
+			switch_to_blog( $blogid );
+
+			// Deletes all plugin data.
+			brm_remove_plugin_data();
+
+			restore_current_blog();
+		}
+	} else {
+		brm_remove_plugin_data();
+	}
+}
+
+/**
+ * Removes all plugin data from the database.
+ *
+ * @since 1.3.0
+ *
+ * @return void
+ */
+function brm_remove_plugin_data() {
+	global $wpdb;
+
+	// Database prefix.
 	$prefix = $wpdb->prefix;
 
-	// Custom tables
+	// Custom tables.
 	$tables = array(
 		'brm_options' => $prefix . 'brm_options',
 		'brm_items'   => $prefix . 'brm_items',
@@ -37,20 +67,20 @@ if ( defined( 'BRM_REMOVE_ALL_DATA' ) && true === BRM_REMOVE_ALL_DATA ) {
 	/*
 	 * Remove created menu page.
 	 */
-	$sql = "SELECT option_value FROM {$tables['brm_options']} WHERE option_name = 'brm_menu_settings'";
+	$sql      = "SELECT option_value FROM {$tables['brm_options']} WHERE option_name = 'brm_menu_settings'";
 	$settings = unserialize( $wpdb->get_var( $sql ) );
 
 	if ( isset( $settings ) && isset( $settings['menu_page_id'] ) && ! empty( $settings['menu_page_id'] ) ) {
 		$menu_page_id = $settings['menu_page_id'];
 
-		// Delete page
+		// Delete page.
 		wp_delete_post( $menu_page_id, true );
 	}
 
 	/*
-	 * Remove plugin custom databse tables
+	 * Remove plugin custom databse tables.
 	 */
-	foreach( $tables as $table ) {
+	foreach ( $tables as $table ) {
 		$sql = "DROP TABLE $table";
 		$wpdb->query( $sql );
 	}

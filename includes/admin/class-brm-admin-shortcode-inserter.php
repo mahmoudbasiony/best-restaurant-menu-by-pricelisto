@@ -28,7 +28,7 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		 * @return void
 		 */
 		public function __construct() {
-			// Actions
+			// Actions.
 			add_action( 'admin_init', array( $this, 'add_inserter_button' ) );
 			add_action( 'wp_ajax_brm_shortcode_builder_form', array( $this, 'shortcode_builder_form' ) );
 		}
@@ -41,11 +41,15 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		 * @return void
 		 */
 		public function shortcode_builder_form() {
-			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_shortcode_builder_form' === $_POST['action'] ) {
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
+			}
 
-				// Initialize result array
-				$result = array();
-				$result['status'] = '200';
+			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_shortcode_builder_form' === $_POST['action'] ) {
+				// Initialize result array.
+				$result                   = array();
+				$result['status']         = '200';
 				$result['shortcode_form'] = BRM_Utilities::render_shortcode_builder_form();
 
 				wp_send_json_success( $result );
@@ -61,9 +65,10 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		 */
 		public function add_inserter_button() {
 			// Validate editing posts/pages capablities.
-			if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) )
+			if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
 				return;
-			
+			}
+
 			// Check if WYSIWYG editor is enabled.
 			if ( 'true' == get_user_option( 'rich_editing' ) ) {
 				add_filter( 'mce_external_plugins', array( $this, 'mce_external_plugins' ), 10, 1 );
@@ -74,7 +79,7 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		/**
 		 * Adds shortcode inserter button to wysiwyg editor.
 		 *
-		 * @param array $buttons The current editor buttons
+		 * @param array $buttons The current editor buttons.
 		 *
 		 * @since 1.0.0
 		 *
@@ -88,7 +93,7 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		/**
 		 * Adds mce external plugin scripts.
 		 *
-		 * @param array $plugin_array
+		 * @param array $plugin_array The plugin array.
 		 *
 		 * @since 1.0.0
 		 *
@@ -101,6 +106,6 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 
 	}
 
-	return new BRM_Admin_Shortcode_Inserter;
+	return new BRM_Admin_Shortcode_Inserter();
 
 endif;

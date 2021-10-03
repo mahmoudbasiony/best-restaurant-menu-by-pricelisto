@@ -28,7 +28,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * @return void
 		 */
 		public function __construct() {
-			// Actions
+			// Actions.
 			add_action( 'wp_ajax_brm_save_item', array( $this, 'save_item' ) );
 			add_action( 'wp_ajax_brm_edit_item', array( $this, 'edit_item' ) );
 			add_action( 'wp_ajax_brm_delete_item', array( $this, 'delete_item' ) );
@@ -46,13 +46,18 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 
 			$item_table = $wpdb->prefix . 'brm_items';
 
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
 			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_delete_item' === $_POST['action'] ) {
 				$item_id = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( $_POST['item_id'] ) : 0;
 
 				if ( $wpdb->delete(
 					$item_table,
 					array(
-						'id' => $item_id
+						'id' => $item_id,
 					),
 					array( '%d' )
 				) ) {
@@ -75,6 +80,11 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 			global $wpdb;
 			$item_table = $wpdb->prefix . 'brm_items';
 
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_edit_item' === $_POST['action'] ) {
 				$item_id  = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( $_POST['item_id'] ) : 0;
 				$order    = isset( $_POST['order'] ) ? (int) sanitize_text_field( $_POST['order'] ) : 0;
@@ -85,9 +95,9 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				$item = $wpdb->get_results( $sql );
 
 				if ( ! empty( $item ) ) {
-					$result['form'] = BRM_Utilities::render_item_form( $order, $item[0], $group_id );
-					$result['order'] = $order;
-					$result['item'] = json_encode( $item );
+					$result['form']     = BRM_Utilities::render_item_form( $order, $item[0], $group_id );
+					$result['order']    = $order;
+					$result['item']     = json_encode( $item );
 					$result['group_id'] = $group_id;
 
 					wp_send_json_success( $result );
@@ -106,7 +116,12 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 			global $wpdb;
 			$item_table = $wpdb->prefix . 'brm_items';
 
-			if ( isset($_POST) && ! empty( $_POST['action'] ) && 'brm_save_item' === $_POST['action'] ) {
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
+			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_save_item' === $_POST['action'] ) {
 				$item_name  = isset( $_POST['item_name'] ) ? sanitize_text_field( $_POST['item_name'] ) : 0;
 				$item_desc  = isset( $_POST['item_desc'] ) ? sanitize_textarea_field( $_POST['item_desc'] ) : 0;
 				$image_id   = isset( $_POST['image_id'] ) ? (int) sanitize_text_field( $_POST['image_id'] ) : 0;
@@ -117,14 +132,14 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				$updated_at = current_time( 'mysql' );
 
 				// Validate item name.
-				if( ! $item_name || '' == $item_name ) {
+				if ( ! $item_name || '' == $item_name ) {
 					$result['status']  = 'error';
 					$result['class']   = 'item-name';
 					$result['message'] = __( 'Item Name is a required field!', 'best-restaurant-menu' );
 					wp_send_json_error( $result );
 				}
 
-				// Validate price number
+				// Validate price number.
 				if ( ! empty( $price ) && 0 !== $price && ! is_numeric( $price ) ) {
 					$result['status']  = 'error';
 					$result['class']   = 'item-price';
@@ -144,21 +159,21 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 							'price'       => round( $price, 2 ),
 							'sort'        => $order,
 							'group_id'    => $group_id,
-							'updated_at'  => $updated_at
+							'updated_at'  => $updated_at,
 						),
 						array( 'id' => $item_id ),
-						array( 
+						array(
 							'%s',
 							'%s',
 							'%d',
 							'%f',
 							'%d',
 							'%d',
-							'%s'
+							'%s',
 						),
 						array( '%d' )
 					) ) {
-						$result['status']   = 'updated';
+						$result['status']  = 'updated';
 						$result['item_id'] = $item_id;
 
 						$result['item_raw'] = BRM_Utilities::render_item_raw( $item_id, $item_name, $item_desc, $image_id, $price, $order, $group_id );
@@ -177,14 +192,14 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 							$order,
 							$group_id,
 							$created_at,
-							$updated_at
+							$updated_at,
 						)
 					);
 
 					if ( $wpdb->query( $sql ) ) {
 						$result['status'] = 'created';
 
-						$item_id = $wpdb->insert_id;
+						$item_id            = $wpdb->insert_id;
 						$result['item_id']  = $item_id;
 						$result['item_raw'] = BRM_Utilities::render_item_raw( $item_id, $item_name, $item_desc, $image_id, $price, $order, $group_id );
 					} else {
@@ -197,6 +212,6 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		}
 	}
 
-	return new BRM_Admin_Items;
+	return new BRM_Admin_Items();
 
 endif;

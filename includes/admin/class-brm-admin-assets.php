@@ -49,7 +49,7 @@ if ( ! class_exists( 'BRM_Admin_Assets' ) ) :
 				'select2',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/select2/dist/js/select2.full.min.js',
 				array( 'jquery' ),
-				false,
+				BEST_RESTAURANT_MENU_VER,
 				true
 			);
 
@@ -58,7 +58,7 @@ if ( ! class_exists( 'BRM_Admin_Assets' ) ) :
 				'nestedsortable',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/nestedSortable/jquery.mjs.nestedSortable.js',
 				array( 'select2', 'jquery-ui-sortable' ),
-				false,
+				BEST_RESTAURANT_MENU_VER,
 				true
 			);
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'BRM_Admin_Assets' ) ) :
 				'brm_admin_scripts',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/js/admin/brm-admin-scripts.min.js',
 				array( 'nestedsortable' ),
-				false,
+				BEST_RESTAURANT_MENU_VER,
 				true
 			);
 
@@ -77,6 +77,7 @@ if ( ! class_exists( 'BRM_Admin_Assets' ) ) :
 				'brm_params',
 				array(
 					'ajax_url'                      => admin_url( 'admin-ajax.php' ),
+					'nonce'                         => wp_create_nonce( 'brm-nonce' ),
 					'render_group_form'             => BRM_Utilities::render_group_form(),
 					'render_group_raw'              => BRM_Utilities::render_group_raw(),
 					'render_item_form'              => BRM_Utilities::render_item_form(),
@@ -93,13 +94,13 @@ if ( ! class_exists( 'BRM_Admin_Assets' ) ) :
 		 * @return void
 		 */
 		public function styles() {
-			wp_enqueue_style( 'font-awesome', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/font-awesome/css/font-awesome.min.css', array(), false, 'all' );
-			wp_enqueue_style( 'select2-css', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/select2/dist/css/select2.min.css', array(), false, 'all' );
-			wp_enqueue_style( 'jquery-ui-css', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/jquery-ui/jquery-ui.min.css', array(), false, 'all' );
-			wp_enqueue_style( 'brm_admin_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/admin/brm-admin-styles.min.css', array('jquery-ui-css', 'select2-css'), false, 'all' );
+			wp_enqueue_style( 'font-awesome', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/font-awesome/css/font-awesome.min.css', array(), BEST_RESTAURANT_MENU_VER, 'all' );
+			wp_enqueue_style( 'select2-css', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/select2/dist/css/select2.min.css', array(), BEST_RESTAURANT_MENU_VER, 'all' );
+			wp_enqueue_style( 'jquery-ui-css', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/jquery-ui/jquery-ui.min.css', array(), BEST_RESTAURANT_MENU_VER, 'all' );
+			wp_enqueue_style( 'brm_admin_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/admin/brm-admin-styles.min.css', array( 'jquery-ui-css', 'select2-css' ), BEST_RESTAURANT_MENU_VER, 'all' );
 		}
 	}
 
-	return new BRM_Admin_Assets;
+	return new BRM_Admin_Assets();
 
 endif;

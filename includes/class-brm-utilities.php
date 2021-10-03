@@ -29,10 +29,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * @return void
 		 */
 		public static function add_settings_notices( $notices ) {
-			foreach( $notices as $notice ) {
+			foreach ( $notices as $notice ) {
 				$class   = $notice['class'];
 				$message = $notice['message'];
-				
+
 				echo "<div id=\"message\" class=\"{$class} inline\"><p><strong>{$message}</strong></p></div>";
 			}
 		}
@@ -40,9 +40,9 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Render group raw html.
 		 *
-		 * @param int   $group_index The index
-		 * @param array $group       The group raw
-		 * @param int   $parent_id   The parent ID
+		 * @param int   $group_index The index.
+		 * @param array $group       The group raw.
+		 * @param int   $parent_id   The parent ID.
 		 *
 		 * @since 1.0.0
 		 *
@@ -53,15 +53,15 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			?>
 			<div class="group-header">
-				<h2><?php _e( 'Group', 'best-restaurant-menu' ); ?></h2>
+				<h2><?php esc_html_e( 'Group', 'best-restaurant-menu' ); ?></h2>
 			</div>
-			<form method="post" id="brm-group-form" class="brm-group-form" data-group-id="<?php echo $group ? esc_attr( stripslashes( $group->id ) ) : '' ?>">
+			<form method="post" id="brm-group-form" class="brm-group-form" data-group-id="<?php echo $group ? esc_attr( stripslashes( $group->id ) ) : ''; ?>">
 				<table class="form-table brm-group-raw-table" id="brm-group-raw-table">
-					<tbody class="brm-group-raw" data-parent-id="<?php echo esc_attr( stripslashes( $parent_id ) ) ?>" data-order="<?php echo $group ? esc_attr( stripslashes( $group->sort ) ) : '' ?>">
+					<tbody class="brm-group-raw" data-parent-id="<?php echo esc_attr( stripslashes( $parent_id ) ); ?>" data-order="<?php echo $group ? esc_attr( stripslashes( $group->sort ) ) : ''; ?>">
 
 						<tr valign="top">
 							<th scope="row">
-								<label for="groups-name"><?php _e( 'Name', 'best-restaurant-menu' ); ?></label>
+								<label for="groups-name"><?php esc_html_e( 'Name', 'best-restaurant-menu' ); ?></label>
 							</th>
 							<td>
 								<input type="text" name="name" required class="groups-name" id="groups-name" value="<?php echo ! empty( $group ) && ! empty( $group->name ) ? esc_attr( stripslashes( $group->name ) ) : ''; ?>" style="width: 80%" class="regular-text" />
@@ -69,7 +69,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="groups-description"><?php _e( 'Description', 'best-restaurant-menu' ); ?></label>
+								<label for="groups-description"><?php esc_html_e( 'Description', 'best-restaurant-menu' ); ?></label>
 							</th>
 							<td>
 								<textarea id="groups-description" class='groups-description' rows="4" style="width: 80%"><?php echo ! empty( $group ) && ! empty( $group->description ) ? esc_textarea( stripslashes( $group->description ) ) : ''; ?></textarea>
@@ -79,8 +79,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				</table>
 
 				<p class="submit">
-					<input type="submit" name="cancel-group" value="<?php _e( 'Cancel', 'best-restaurant-menu'); ?>" class="button-primary cancel-group" />
-					<input type="submit" name="save-group" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-group" />
+					<input type="submit" name="cancel-group" value="<?php esc_html_e( 'Cancel', 'best-restaurant-menu' ); ?>" class="button-primary cancel-group" />
+					<input type="submit" name="save-group" value="<?php esc_html_e( 'Save', 'best-restaurant-menu' ); ?>" class="button-primary save-group" />
 				</p>
 
 			</form>
@@ -89,12 +89,22 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		}
 
 		/**
-		 * Render group raw
+		 * Renders group raw.
+		 *
+		 * @param int    $id The group id.
+		 * @param string $name The group name.
+		 * @param string $desc The group description.
+		 * @param int    $order The group order.
+		 * @param int    $parent_id The group parent id.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return mixed
 		 */
-		public static function render_group_raw ( $id = 0, $name = null, $desc = null, $order = 0, $parent_id = 0 ) {
+		public static function render_group_raw( $id = 0, $name = null, $desc = null, $order = 0, $parent_id = 0 ) {
 			ob_start();
 			?>
-			<div class="group-raw" data-group-id="<?php echo esc_attr( stripslashes( $id ) ); ?>" data-order="<?php echo esc_attr( stripslashes( $order ) ) ?>" data-parent-id="<?php echo esc_attr( stripslashes( $parent_id ) ) ?>">
+			<div class="group-raw" data-group-id="<?php echo esc_attr( stripslashes( $id ) ); ?>" data-order="<?php echo esc_attr( stripslashes( $order ) ); ?>" data-parent-id="<?php echo esc_attr( stripslashes( $parent_id ) ); ?>">
 				<table>
 					<tbody>
 						<tr>
@@ -104,7 +114,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 									<?php echo esc_html( stripslashes( $name ) ); ?>
 									<span class="group-id">Group ID: <?php echo esc_attr( stripslashes( $id ) ); ?></span>
 								</div>
-								<div class="group-desc" id="group-<?php echo $id ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
+								<div class="group-desc" id="group-<?php echo $id; ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
 							</td>
 							<td style="width:82px; position:absolute; top:10px; right:60px;">
 								<div class="edit-icons">
@@ -135,11 +145,12 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Renders group raw action buttons.
 		 *
-		 * @param int $group_id  The linked group ID
-		 * @param int $parent_id The parent group ID
+		 * @param int $group_id  The linked group ID.
+		 * @param int $parent_id The parent group ID.
 		 *
 		 * @since   1.0.0
 		 * @version 1.1.0
+		 *
 		 * @return mixed HTML
 		 */
 		public static function group_raw_actions( $group_id = 0, $parent_id = 0 ) {
@@ -147,12 +158,12 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			?>
 				<div class="group-raw-actions">
 					<?php if ( 0 == $parent_id ) : ?>
-						<span id="add-new-subgroup" data-group-id="<?php echo esc_attr( $group_id ) ?>">
-							<input type="submit" name="add-new-subgroup" value="<?php _e( 'Add subgroup', 'best-restaurant-menu'); ?>" class="button-primary add-new-subgroup" />
+						<span id="add-new-subgroup" data-group-id="<?php echo esc_attr( $group_id ); ?>">
+							<input type="submit" name="add-new-subgroup" value="<?php esc_html_e( 'Add subgroup', 'best-restaurant-menu' ); ?>" class="button-primary add-new-subgroup" />
 						</span>
 					<?php endif; ?>
-					<span id="add-new-item" data-group-id="<?php echo esc_attr( $group_id ) ?>">
-						<input type="submit" name="add-new-item" value="<?php _e( 'Add item', 'best-restaurant-menu'); ?>" class="button-primary add-new-item" />
+					<span id="add-new-item" data-group-id="<?php echo esc_attr( $group_id ); ?>">
+						<input type="submit" name="add-new-item" value="<?php esc_html_e( 'Add item', 'best-restaurant-menu' ); ?>" class="button-primary add-new-item" />
 					</span>
 				</div>
 			<?php
@@ -163,7 +174,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Render item form.
 		 *
 		 * @param int    $item_index The item index.
-		 * @param object $item       The item object
+		 * @param object $item       The item object.
+		 * @param int    $group_id   The group id.
 		 *
 		 * @since 1.0.0
 		 *
@@ -173,14 +185,14 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			ob_start();
 			?>
 				<div class="item-header">
-					<h2><?php _e( 'Item', 'best-restaurant-menu' ); ?></h2>
+					<h2><?php esc_html_e( 'Item', 'best-restaurant-menu' ); ?></h2>
 				</div>
-				<form method="post" enctype="multipart/form-data" id="brm-item-form" class="brm-item-form" data-item-id="<?php echo $item ? esc_attr( $item->id ) : '' ?>" data-group-id="<?php echo $item ? esc_attr( $item->group_id ) : 0 ?>" data-image-id="<?php echo $item ? esc_attr( $item->image_id ) : 0 ?>">
+				<form method="post" enctype="multipart/form-data" id="brm-item-form" class="brm-item-form" data-item-id="<?php echo $item ? esc_attr( $item->id ) : ''; ?>" data-group-id="<?php echo $item ? esc_attr( $item->group_id ) : 0; ?>" data-image-id="<?php echo $item ? esc_attr( $item->image_id ) : 0; ?>">
 				<table class="form-table brm-item-raw-table" id="brm-item-raw-table">
-					<tbody class="brm-item-raw" data-group-id="<?php echo esc_attr( $group_id ) ?>" data-order="<?php echo $item ? esc_attr( $item->sort ) : '' ?>">
+					<tbody class="brm-item-raw" data-group-id="<?php echo esc_attr( $group_id ); ?>" data-order="<?php echo $item ? esc_attr( $item->sort ) : ''; ?>">
 						<tr valign="top">
 							<th scope="row">
-								<label for="item-name"><?php _e( 'Name', 'best-restaurant-menu' ); ?></label>
+								<label for="item-name"><?php esc_html_e( 'Name', 'best-restaurant-menu' ); ?></label>
 							</th>
 							<td>
 								<input type="text" name="name" required class="item-name" id="item-name" value="<?php echo ! empty( $item ) && ! empty( $item->name ) ? esc_attr( stripslashes( $item->name ) ) : ''; ?>" style="width: 80%" class="regular-text" />
@@ -188,7 +200,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="item-description"><?php _e( 'Description', 'best-restaurant-menu' ); ?></label>
+								<label for="item-description"><?php esc_html_e( 'Description', 'best-restaurant-menu' ); ?></label>
 							</th>
 							<td>
 								<textarea id="item-description" class='item-description' rows="4" style="width: 80%"><?php echo ! empty( $item ) && ! empty( $item->description ) ? esc_textarea( stripslashes( $item->description ) ) : ''; ?></textarea>
@@ -199,7 +211,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 						<tr valign="top">
 							<th scope="row">
-								<label for="item-price"><?php _e( 'Price', 'best-restaurant-menu' ); ?></label>
+								<label for="item-price"><?php esc_html_e( 'Price', 'best-restaurant-menu' ); ?></label>
 							</th>
 							<td>
 								<input type="text" name="price" class="item-price" id="item-price" value="<?php echo ! empty( $item ) && ! empty( $item->price ) ? esc_attr( stripslashes( $item->price ) ) : ''; ?>" style="width: 80%" class="regular-text" />
@@ -209,8 +221,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				</table>
 
 				<p class="submit">
-					<input type="submit" name="cancel-item" value="<?php _e( 'Cancel', 'best-restaurant-menu'); ?>" class="button-primary cancel-item" />
-					<input type="submit" name="save-item" value="<?php _e( 'Save', 'best-restaurant-menu'); ?>" class="button-primary save-item" />
+					<input type="submit" name="cancel-item" value="<?php esc_html_e( 'Cancel', 'best-restaurant-menu' ); ?>" class="button-primary cancel-item" />
+					<input type="submit" name="save-item" value="<?php esc_html_e( 'Save', 'best-restaurant-menu' ); ?>" class="button-primary save-item" />
 				</p>
 
 			</form>
@@ -221,14 +233,14 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Render item raw html.
 		 *
-		 * @param int    $id              The item ID
-		 * @param string $name            The item name
-		 * @param string $desc            The item description
-		 * @param int    $image_id        The item image ID
-		 * @param float  $price           The item price
-		 * @param int    $order           The item order
-		 * @param int    $group_id        The item linked group
-		 * @param string $currency_symbol The site currency symbol
+		 * @param int    $id              The item ID.
+		 * @param string $name            The item name.
+		 * @param string $desc            The item description.
+		 * @param int    $image_id        The item image ID.
+		 * @param float  $price           The item price.
+		 * @param int    $order           The item order.
+		 * @param int    $group_id        The item linked group.
+		 * @param string $currency_symbol The site currency symbol.
 		 *
 		 * @since 1.0.0
 		 *
@@ -237,7 +249,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		public static function render_item_raw( $id = 0, $name = null, $desc = null, $image_id = 0, $price = null, $order = 0, $group_id = 0, $currency_symbol = '$' ) {
 			ob_start();
 			?>
-			<div class="item-raw" data-item-id="<?php echo esc_attr( $id ); ?>" data-order="<?php echo esc_attr( $order ) ?>" data-group-id="<?php echo esc_attr( $group_id ) ?>">
+			<div class="item-raw" data-item-id="<?php echo esc_attr( $id ); ?>" data-order="<?php echo esc_attr( $order ); ?>" data-group-id="<?php echo esc_attr( $group_id ); ?>">
 				<table>
 					<tbody>
 						<tr>
@@ -250,7 +262,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 							<td style="">
 								<span class="item-name"><?php echo esc_html( stripslashes( $name ) ); ?></span>
 								<span class="item-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></span>
-								<?php if ( $price && is_numeric( $price )  ) : ?>
+								<?php if ( $price && is_numeric( $price ) ) : ?>
 									<span class="item-price"><?php echo esc_html( stripslashes( $currency_symbol . $price ) ); ?></span>
 								<?php endif; ?>
 							</td>
@@ -286,20 +298,20 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			// Set variables
 			$default_image = '';
 
-			if ( ! empty ( $image_id ) ) {
+			if ( ! empty( $image_id ) ) {
 				$image_attributes = wp_get_attachment_image_src( $image_id, array( $width, $height ) );
-				$src = $image_attributes[0];
-				$value = $image_id;
-				$class = "has-image";
-				$display = 'inline-block;';
+				$src              = $image_attributes[0];
+				$value            = $image_id;
+				$class            = 'has-image';
+				$display          = 'inline-block;';
 			} else {
-				$src = $default_image;
-				$value = '';
-				$class = 'no-image';
+				$src     = $default_image;
+				$value   = '';
+				$class   = 'no-image';
 				$display = 'none;';
 			}
 
-			$text = __( 'Select Image', 'best-restaurant-menu' );
+			$text = esc_html__( 'Select Image', 'best-restaurant-menu' );
 
 			// Print HTML field
 			echo '
@@ -331,35 +343,35 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			// Get the settings currency symbol.
 			$currency_symbol = self::get_currency_symbol();
 
-			$html = "";
+			$html = '';
 
-			if ( isset( $group['parent_cats'][$parent_id] ) ) {
+			if ( isset( $group['parent_cats'][ $parent_id ] ) ) {
 				$html .= "<ul class='brm-groups-admin'>\n";
-				foreach ( $group['parent_cats'][$parent_id] as $cat_id ) {
-					if ( ! isset( $group['parent_cats'][$cat_id] ) ) {
+				foreach ( $group['parent_cats'][ $parent_id ] as $cat_id ) {
+					if ( ! isset( $group['parent_cats'][ $cat_id ] ) ) {
 
-						$html .= "<li class='brm-group-li' data-group=" . esc_attr( $group['categories'][$cat_id]->id ) . ">\n";
-						$html .= self::render_group_raw( $group['categories'][$cat_id]->id, $group['categories'][$cat_id]->name ,$group['categories'][$cat_id]->description,$group['categories'][$cat_id]->sort,$group['categories'][$cat_id]->parent_id );
+						$html .= "<li class='brm-group-li' data-group=" . esc_attr( $group['categories'][ $cat_id ]->id ) . ">\n";
+						$html .= self::render_group_raw( $group['categories'][ $cat_id ]->id, $group['categories'][ $cat_id ]->name, $group['categories'][ $cat_id ]->description, $group['categories'][ $cat_id ]->sort, $group['categories'][ $cat_id ]->parent_id );
 
-						if ( isset( $group['items'][$cat_id] ) ) {
-							$html .= self::get_items_per_group( $group['items'][$cat_id], $currency_symbol );
+						if ( isset( $group['items'][ $cat_id ] ) ) {
+							$html .= self::get_items_per_group( $group['items'][ $cat_id ], $currency_symbol );
 						}
 
-						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id, $parent_id );
+						$html .= self::group_raw_actions( $group['categories'][ $cat_id ]->id, $parent_id );
 
 						$html .= "</li> \n";
 					}
 
-					if ( isset( $group['parent_cats'][$cat_id] ) ) {
+					if ( isset( $group['parent_cats'][ $cat_id ] ) ) {
 
-						$html .=  "<li class='brm-group-li' data-group=" . esc_attr( $group['categories'][$cat_id]->id ) . ">\n";
-						$html .= self::render_group_raw( $group['categories'][$cat_id]->id, $group['categories'][$cat_id]->name ,$group['categories'][$cat_id]->description, $group['categories'][$cat_id]->sort, $group['categories'][$cat_id]->parent_id );
+						$html .= "<li class='brm-group-li' data-group=" . esc_attr( $group['categories'][ $cat_id ]->id ) . ">\n";
+						$html .= self::render_group_raw( $group['categories'][ $cat_id ]->id, $group['categories'][ $cat_id ]->name, $group['categories'][ $cat_id ]->description, $group['categories'][ $cat_id ]->sort, $group['categories'][ $cat_id ]->parent_id );
 
-						if ( isset( $group['items'][$cat_id] ) ) {
-							$html .= self::get_items_per_group( $group['items'][$cat_id], $currency_symbol );
+						if ( isset( $group['items'][ $cat_id ] ) ) {
+							$html .= self::get_items_per_group( $group['items'][ $cat_id ], $currency_symbol );
 						}
 
-						$html .= self::group_raw_actions( $group['categories'][$cat_id]->id, $parent_id );
+						$html .= self::group_raw_actions( $group['categories'][ $cat_id ]->id, $parent_id );
 
 						$html .= self::render_menu_backend( $cat_id, $group );
 						$html .= "</li> \n";
@@ -383,12 +395,12 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		public static function get_items_per_group( $group_index, $currency_symbol ) {
 
 			// Initialize html string.
-			$html = "";
+			$html = '';
 
 			if ( ! empty( $group_index ) ) {
 				$html = "<ul class='brm-items-admin'>\n";
 
-				foreach( $group_index as $item ) {
+				foreach ( $group_index as $item ) {
 					$html .= "<li class='mjs-nestedSortable-no-nesting'>\n";
 					$html .= self::render_item_raw( $item->id, $item->name, $item->description, $item->image_id, $item->price, $item->sort, $item->group_id, $currency_symbol );
 					$html .= "</li>\n";
@@ -405,14 +417,14 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return array
 		 */
 		public static function get_menu_array() {
 			global $wpdb;
 
 			// Database tables.
 			$groups_table = $wpdb->prefix . 'brm_groups';
-			$items_table = $wpdb->prefix . 'brm_items';
+			$items_table  = $wpdb->prefix . 'brm_items';
 
 			// SQL groups query.
 			$groups_sql = "SELECT * FROM $groups_table ORDER BY sort ASC";
@@ -430,19 +442,18 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			);
 
 			if ( ! empty( $groups ) ) {
-				foreach( $groups as $group ) {
+				foreach ( $groups as $group ) {
 					// Push categories to menu array.
-					$menu_array['categories'][$group->id] = $group;
-					$menu_array['parent_cats'][$group->parent_id][] = $group->id;
+					$menu_array['categories'][ $group->id ]           = $group;
+					$menu_array['parent_cats'][ $group->parent_id ][] = $group->id;
 				}
 
 				if ( ! empty( $items ) ) {
-					foreach( $items as $item ) {
+					foreach ( $items as $item ) {
 						// Push items to menu array.
-						$menu_array['items'][$item->group_id][] = $item;
+						$menu_array['items'][ $item->group_id ][] = $item;
 					}
 				}
-
 			}
 
 			return $menu_array;
@@ -453,18 +464,18 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return string
 		 */
-		public static function get_currency_symbol () {
+		public static function get_currency_symbol() {
 			global $wpdb;
 
 			$settings_table = $wpdb->prefix . 'brm_options';
-			$sql = "SELECT $settings_table.option_value FROM $settings_table WHERE $settings_table.option_name = 'brm_menu_settings'";
-			$settings = unserialize( $wpdb->get_var( $sql ) );
+			$sql            = "SELECT $settings_table.option_value FROM $settings_table WHERE $settings_table.option_name = 'brm_menu_settings'";
+			$settings       = unserialize( $wpdb->get_var( $sql ) );
 
-			$symbols    = include( BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/vendor/currency-symbols.php' );
+			$symbols = include BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/vendor/currency-symbols.php';
 
-			$site_currency = ( isset( $settings['business_currency'] ) && ! empty( $settings['business_currency'] ) && isset( $symbols[$settings['business_currency']] ) ) ? $symbols[$settings['business_currency']] : '$';
+			$site_currency = ( isset( $settings['business_currency'] ) && ! empty( $settings['business_currency'] ) && isset( $symbols[ $settings['business_currency'] ] ) ) ? $symbols[ $settings['business_currency'] ] : '$';
 
 			return $site_currency;
 		}
@@ -475,7 +486,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * @since   1.0.0
 		 * @version 1.1.0
 		 *
-		 * @return void
+		 * @return mixed
 		 */
 		public static function render_shortcode_builder_form() {
 			ob_start();
@@ -489,30 +500,30 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			?>
 				<div class="brm-shortcode-header">
-					<h2><?php _e( 'Insert Restaurant Menu Shortcode', 'best-restaurant-menu' ); ?></h2>
+					<h2><?php esc_html_e( 'Insert Restaurant Menu Shortcode', 'best-restaurant-menu' ); ?></h2>
 				</div>
 				<form method="post" multiple="multiple" class="brm-shortcode-builder" id="brm-shortcode-builder">
 					<table class="form-table shortcode-builder">
 						<tbody>
 							<tr valign="top">
 								<th scope="raw">
-									<label for="groups-included"><?php _e( 'Groups', 'best-restaurant-menu' ); ?></label>
+									<label for="groups-included"><?php esc_html_e( 'Groups', 'best-restaurant-menu' ); ?></label>
 								</th>
 								<td>
 									<select name="groups" multiple="multiple" class="small-text groups-included" id="groups-included" style="width: 80%">
 										<?php if ( ! empty( $groups ) ) : ?>
-											<?php foreach( $groups as $group ) : ?>
-												<option value="<?php echo esc_attr( $group->id ) ?>"><?php echo esc_html( $group->name ); ?></option>
+											<?php foreach ( $groups as $group ) : ?>
+												<option value="<?php echo esc_attr( $group->id ); ?>"><?php echo esc_html( $group->name ); ?></option>
 											<?php endforeach; ?>
 										<?php endif; ?>
 									</select>
-									<p class="description" id="groups-included=description"><?php _e( 'Leave it empty to display all menu groups!', 'best-restaurant-menu' ); ?></p>
+									<p class="description" id="groups-included=description"><?php esc_html_e( 'Leave it empty to display all menu groups!', 'best-restaurant-menu' ); ?></p>
 								</td>
 							</tr>
 
 							<tr valign="top">
 								<th scope="raw">
-									<label for="show-group-title"><?php _e( 'Show Group Title', 'best-restaurant-menu' ); ?></label>
+									<label for="show-group-title"><?php esc_html_e( 'Show Group Title', 'best-restaurant-menu' ); ?></label>
 								</th>
 								<td>
 									<input type="checkbox" name="show_group_title" checked value="yes" class="show-group-title" id="show-group-title" />
@@ -521,7 +532,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 							<tr valign="top">
 								<th scope="raw">
-									<label for="show-group-desc"><?php _e( 'Show Group Description', 'best-restaurant-menu' ); ?></label>
+									<label for="show-group-desc"><?php esc_html_e( 'Show Group Description', 'best-restaurant-menu' ); ?></label>
 								</th>
 								<td>
 									<input type="checkbox" name="show_group_desc" checked value="yes" class="show-group-desc" id="show-group-desc" />
@@ -530,7 +541,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 	
 							<tr valign="top">
 								<th scope="raw">
-									<label for="show-items"><?php _e( 'Show Items', 'best-restaurant-menu' ); ?></label>
+									<label for="show-items"><?php esc_html_e( 'Show Items', 'best-restaurant-menu' ); ?></label>
 								</th>
 								<td>
 									<input type="checkbox" name="show_items" checked value="1" class="show-items" id="show-items" />
@@ -539,15 +550,15 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 							<tr valign="top">
 								<th scope="raw">
-									<label for="view-mode"><?php _e( 'View mode', 'best-restaurant-menu' ); ?></label>
+									<label for="view-mode"><?php esc_html_e( 'View mode', 'best-restaurant-menu' ); ?></label>
 								</th>
 								<td>
 									<select id="view-mode" name="view_mode" class="small-text">
-										<option value="minimalist"><?php _e( 'Minimalist', 'best-restaurant-menu' ); ?></option>
-										<option value="two-column-minimalist"><?php _e( '2 Column Minimalist', 'best-restaurant-menu' ); ?></option>
-										<option value="fancy"><?php _e( 'Fancy', 'best-restaurant-menu' ); ?></option>
-										<option value="colorful"><?php _e( 'Colorful', 'best-restaurant-menu' ); ?></option>
-										<option value="bold"><?php _e( 'Bold', 'best-restaurant-menu' ); ?></option>
+										<option value="minimalist"><?php esc_html_e( 'Minimalist', 'best-restaurant-menu' ); ?></option>
+										<option value="two-column-minimalist"><?php esc_html_e( '2 Column Minimalist', 'best-restaurant-menu' ); ?></option>
+										<option value="fancy"><?php esc_html_e( 'Fancy', 'best-restaurant-menu' ); ?></option>
+										<option value="colorful"><?php esc_html_e( 'Colorful', 'best-restaurant-menu' ); ?></option>
+										<option value="bold"><?php esc_html_e( 'Bold', 'best-restaurant-menu' ); ?></option>
 									</select>
 								</td>
 							</tr>
@@ -555,8 +566,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 					</table>
 
 					<p class="submit">
-						<input type="submit" name="insert-shortcode" value="<?php _e( 'Insert shortcode', 'best-restaurant-menu'); ?>" class="button-primary button-large insert-shortcode" />
-						<input type="submit" name="cancel-shortcode" value="<?php _e( 'Cancel', 'best-restaurant-menu'); ?>" class="button-primary button-large cancel-shortcode" />
+						<input type="submit" name="insert-shortcode" value="<?php esc_html_e( 'Insert shortcode', 'best-restaurant-menu' ); ?>" class="button-primary button-large insert-shortcode" />
+						<input type="submit" name="cancel-shortcode" value="<?php esc_html_e( 'Cancel', 'best-restaurant-menu' ); ?>" class="button-primary button-large cancel-shortcode" />
 
 					</p>
 				</form>
@@ -583,11 +594,11 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			$sql   = "SELECT * FROM $items_table WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC";
 			$items = $wpdb->get_results( $sql );
 
-			$html = "";
+			$html = '';
 
 			if ( ! empty( $items ) ) {
 				$html = "<ul class=''>\n";
-				foreach( $items as $item ) {
+				foreach ( $items as $item ) {
 					$html .= "<li>\n";
 					$html .= self::render_item_raw( $item->id, $item->name, $item->description, $item->image_id, $item->price, $item->sort, $item->group_id );
 					$html .= "</li>\n";
@@ -602,10 +613,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Get template html.
 		 *
-		 * @param string $template_name The template name
-		 * @param array  $args          The shortcode args
-		 * @param string $template_path The template path
-		 * @param string $default_path  The default path
+		 * @param string $template_name The template name.
+		 * @param array  $args          The shortcode args.
+		 * @param string $template_path The template path.
+		 * @param string $default_path  The default path.
 		 *
 		 * @return mixed/void
 		 */
@@ -621,10 +632,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Get template.
 		 *
-		 * @param string $template_name The template name
-		 * @param array  $args          The shortcode args
-		 * @param string $template_path The template path
-		 * @param string $default_path  The default path
+		 * @param string $template_name The template name.
+		 * @param array  $args          The shortcode args.
+		 * @param string $template_path The template path.
+		 * @param string $default_path  The default path.
 		 */
 		public static function get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 			$template_name = $template_name . '.php';
@@ -638,7 +649,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			// Validate file existense.
 			if ( ! file_exists( $located ) ) {
-				_doing_it_wrong( __FUNCTION__ , sprintf( '<code>%s</code> does not exist.', $located ), '5.2.2');
+				_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '5.2.2' );
 
 				return;
 			}
@@ -646,13 +657,13 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			/**
 			 * The brm_get_template filter.
 			 *
-			 * Allow 3rd party plugins filter template file outside this plugin
+			 * Allow 3rd party plugins filter template file outside this plugin.
 			 *
-			 * @param string $located       The template full location path
-			 * @param string $template_name The template name
-			 * @param array  $args          The args
-			 * @param string $template_path The template path
-			 * @param string $default_path  The default path
+			 * @param string $located       The template full location path.
+			 * @param string $template_name The template name.
+			 * @param array  $args          The args.
+			 * @param string $template_path The template path.
+			 * @param string $default_path  The default path.
 			 *
 			 * @return $located
 			 */
@@ -663,25 +674,25 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			 *
 			 * Fires before getting template.
 			 *
-			 * @param string $template_name The template name
-			 * @param string $template_path The template path
-			 * @param string $located       The template full location path
-			 * @param array  $args          The args
+			 * @param string $template_name The template name.
+			 * @param string $template_path The template path.
+			 * @param string $located       The template full location path.
+			 * @param array  $args          The args.
 			 */
 			do_action( 'brm_before_template_part', $template_name, $template_path, $located, $args );
 
 			// Include template.
-			include( $located );
+			include $located;
 
 			/**
-			 * The brm_after_template_part action
+			 * The brm_after_template_part action.
 			 *
 			 * Fires after including template.
 			 *
-			 * @param string $template_name The template name
-			 * @param string $template_path The template path
-			 * @param string $located       The template full location path
-			 * @param array  $args          The args
+			 * @param string $template_name The template name.
+			 * @param string $template_path The template path.
+			 * @param string $located       The template full location path.
+			 * @param array  $args          The args.
 			 */
 			do_action( 'brm_after_template_part', $template_name, $template_path, $located, $args );
 		}
@@ -689,13 +700,13 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		/**
 		 * Locates template
 		 *
-		 * @param string $template_name The template name
-		 * @param string $template_path The template path
-		 * @param string $default_path  The default path
+		 * @param string $template_name The template name.
+		 * @param string $template_path The template path.
+		 * @param string $default_path  The default path.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return mixed
 		 */
 		public static function locate_template( $template_name, $template_path = '', $default_path = '' ) {
 
@@ -715,18 +726,18 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			// Locate template from theme folder.
 			$template = locate_template( $template_args );
 
-			// If not existing template folder/file in the theme
+			// If not existing template folder/file in the theme.
 			if ( ! $template ) {
 				// Get default template.
 				$template = $default_path . $template_name;
 			}
 
 			/**
-			 * The brm_locate_template filter
+			 * The brm_locate_template filter.
 			 *
-			 * @param string $template      The template location
-			 * @param string $template_name The template name
-			 * @param string $template_path The template path
+			 * @param string $template      The template location.
+			 * @param string $template_name The template name.
+			 * @param string $template_path The template path.
 			 *
 			 * @return mixed The template location
 			 */
