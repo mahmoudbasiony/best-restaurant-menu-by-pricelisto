@@ -39,7 +39,7 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 		public function __construct() {
 			self::$templates = array();
 
-			if ( version_compare( floatval( get_bloginfo('version') ), '4.7', '<' ) ) {
+			if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) {
 				add_filter( 'page_attributes_dropdown_pages_args', array( $this, 'register' ) );
 			} else {
 				add_filter( 'theme_page_templates', array( $this, 'add' ) );
@@ -48,31 +48,31 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 			add_filter( 'wp_insert_post_data', array( $this, 'register' ) );
 			add_filter( 'template_include', array( $this, 'display' ) );
 
-			// Templates array
+			// Templates array.
 			self::$templates = array(
-				'best-restaurant-menu.php' => __( 'Best Restaurant Menu', 'best-restaurant-menu' ),
+				'best-restaurant-menu.php' => esc_html__( 'Best Restaurant Menu', 'best-restaurant-menu' ),
 			);
 		}
 
 		/**
 		 * Adds the template to the page dropdown for v4.7+.
 		 *
-		 * @param array $templates
+		 * @param array $posts_templates The posts templates.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return array $postsTemplates
+		 * @return array $posts_templates
 		 */
-		public function add( $postsTemplates ) {
-			$postsTemplates = array_merge( $postsTemplates, self::$templates );
-			return $postsTemplates;
+		public function add( $posts_templates ) {
+			$posts_templates = array_merge( $posts_templates, self::$templates );
+			return $posts_templates;
 		}
 
 		/**
 		 * Add the template to the pages cache in order to trick WordPress
 		 * into thinking the template file exists where it doesn't really exists
 		 *
-		 * @param array $atts
+		 * @param array $atts The attributes.
 		 *
 		 * @since 1.0.0
 		 *
@@ -80,24 +80,24 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 		 */
 		public function register( $atts ) {
 			// Create the key used for theme cache.
-			$cacheKey = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
+			$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
 			// Retrieve the cache list
 			// If it doesn't exist, or it's empty prepare an array
-			$templates =  wp_get_theme()->get_page_templates();
+			$templates = wp_get_theme()->get_page_templates();
 
 			if ( empty( $templates ) ) {
 				$templates = array();
 			}
 
 			// New cache, therefore remove the old one.
-			wp_cache_delete( $cacheKey , 'themes' );
+			wp_cache_delete( $cache_key, 'themes' );
 
 			// Now add our templates to the list of templates.
 			$templates = array_merge( $templates, self::$templates );
 
 			// Add the modified cache to allow WordPress to pick it up for listing available templates.
-			wp_cache_add( $cacheKey, $templates, 'themes', 1800 );
+			wp_cache_add( $cache_key, $templates, 'themes', 1800 );
 
 			return $atts;
 		}
@@ -105,7 +105,7 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 		/**
 		 * Check if template assign to page, then display it.
 		 *
-		 * @param array $template
+		 * @param array $template The templates.
 		 *
 		 * @since 1.0.0
 		 *
@@ -125,16 +125,16 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 			}
 
 			// Return default template if we don't have a custom one defined.
-			if ( ! isset ( self::$templates[get_post_meta( $post->ID, '_wp_page_template', true)] ) ) {
+			if ( ! isset( self::$templates[ get_post_meta( $post->ID, '_wp_page_template', true ) ] ) ) {
 				return $template;
 			}
 
-			// Template arguments
+			// Template arguments.
 			$template_name = get_post_meta( $post->ID, '_wp_page_template', true );
 			$template_path = 'best-restaurant-menu/menu/';
 			$default_path  = BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'menu/';
 
-			// Locate template
+			// Locate template.
 			$file = BRM_Utilities::locate_template( $template_name, $template_path, $default_path );
 
 			// Just to be safe, we check if the file exist first.
@@ -147,6 +147,6 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 		}
 	}
 
-	return new BRM_Menu_Template;
+	return new BRM_Menu_Template();
 
 endif;

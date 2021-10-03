@@ -48,7 +48,7 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 		}
-		
+
 		/**
 		 * Enqueues frontend scripts.
 		 *
@@ -58,15 +58,15 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 		 * @return void
 		 */
 		public function scripts() {
-			// Lightbox2 scripts
+			// Lightbox2 scripts.
 			wp_enqueue_script(
 				'lightbox2',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/js/lightbox.min.js',
 				array( 'jquery' ),
-				false,
+				BEST_RESTAURANT_MENU_VER,
 				true
 			);
-	
+
 			/*
 			 * Global front-end scripts.
 			 */
@@ -74,7 +74,7 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 				'brm_scripts',
 				BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/js/public/brm-scripts.min.js',
 				array( 'lightbox2' ),
-				false,
+				BEST_RESTAURANT_MENU_VER,
 				true
 			);
 
@@ -86,7 +86,7 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 					"brm_{$template}",
 					BEST_RESTAURANT_MENU_ROOT_URL . "assets/dist/js/public/brm-{$template}.min.js",
 					array(),
-					false,
+					BEST_RESTAURANT_MENU_VER,
 					true
 				);
 			}
@@ -97,9 +97,12 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 			wp_localize_script(
 				'brm_scripts',
 				'brm_params',
-				apply_filters( 'brm_js_params', array(
-					'ajax_url' => admin_url( 'admin-ajax.php' )
-				) )
+				apply_filters(
+					'brm_js_params',
+					array(
+						'ajax_url' => admin_url( 'admin-ajax.php' ),
+					)
+				)
 			);
 		}
 
@@ -112,7 +115,7 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 		 * @return void
 		 */
 		public function styles() {
-			wp_enqueue_style( 'lightbox2',  BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/css/lightbox.min.css', array(), false, 'all' );
+			wp_enqueue_style( 'lightbox2', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/css/lightbox.min.css', array(), false, 'all' );
 			wp_enqueue_style( 'brm_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/public/brm-global.min.css', array( 'lightbox2' ), false, 'all' );
 
 			/*
@@ -123,13 +126,13 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 					"brm_{$template}",
 					BEST_RESTAURANT_MENU_ROOT_URL . "assets/dist/css/public/brm-{$template}.min.css",
 					array( 'brm_styles' ),
-					false,
+					BEST_RESTAURANT_MENU_VER,
 					'all'
 				);
 			}
 		}
 	}
 
-	return new BRM_Assets;
+	return new BRM_Assets();
 
 endif;

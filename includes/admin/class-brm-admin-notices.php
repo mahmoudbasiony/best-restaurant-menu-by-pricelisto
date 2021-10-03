@@ -84,7 +84,7 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 				}
 
 				echo '<p>' . wp_kses( $notice['message'], array( 'a' => array( 'href' => array() ) ) ) . '</p>';
-				
+
 				echo '</div>';
 			}
 		}
@@ -114,7 +114,7 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 				if ( version_compare( $wp_version, BEST_RESTAURANT_MENU_MIN_WP_VER, '<' ) ) {
 					/* translators: 1) int version 2) int version */
 					$message = __( 'Best Restaurant Menu Extension - The minimum WordPress version required for this plugin is %1$s. You are running %2$s.', 'best-restaurant-menu' );
-					$this->add_admin_notice( 'wpver', 'notice notice-warning', sprintf( $message, BEST_RESTAURANT_MENU_MIN_WP_VER, WC_VERSION ), true );
+					$this->add_admin_notice( 'wpver', 'notice notice-warning', sprintf( $message, BEST_RESTAURANT_MENU_MIN_WP_VER, $wp_version ), true );
 				}
 			}
 
@@ -130,20 +130,20 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 		public function hide_notices() {
 			if ( isset( $_GET['brm-hide-notice'] ) && isset( $_GET['_brm_notice_nonce'] ) ) {
 				if ( ! wp_verify_nonce( $_GET['_brm_notice_nonce'], 'brm_hide_notices_nonce' ) ) {
-					wp_die( __( 'Action failed. Please refresh the page and retry.', 'best-restaurant-menu' ) );
+					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'best-restaurant-menu' ) );
 				}
 
 				if ( ! current_user_can( 'administrator' ) ) {
-					wp_die( __( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
+					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
 				}
 
 				$notice = wc_clean( $_GET['brm-hide-notice'] );
 
 				switch ( $notice ) {
-					case 'phpver' :
+					case 'phpver':
 						update_option( 'brm_show_phpver_notice', 'no' );
 						break;
-					case 'wpver' :
+					case 'wpver':
 						update_option( 'brm_show_wpver_notice', 'no' );
 						break;
 				}

@@ -2,7 +2,6 @@
 /**
  * 2 Column Minimalist template.
  *
- *
  * This template can be overridden by copying it to yourtheme/best-restaurant-menu/two-column-minimalist.php.
  *
  * @var array  $args     The shortcode parameters
@@ -11,43 +10,43 @@
  *
  * @version 1.1.0
  *
- * @see     
+ * @see
  * @package Best_Restaurant_Menu
  * @author  PriceListo
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 /*
  * Include template functions.
  */
-include_once( BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'func-temp/two-column-minimalist.php' );
+require_once BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'func-temp/two-column-minimalist.php';
 
 ?>
 
 <div class="brm-menu minimalist-2-column">
 
 <?php
-$key = key($menu);
+$key = key( $menu );
 
-if (!is_null($key) && isset($menu[$key])):
+if ( ! is_null( $key ) && isset( $menu[ $key ] ) ) :
 
-$menus = array_chunk($menu[$key], ceil(count($menu[$key]) / 2));
+	$menus = array_chunk( $menu[ $key ], ceil( count( $menu[ $key ] ) / 2 ) );
 
-?>
+	?>
 
-<?php foreach ($menus as $groups): ?>
+	<?php foreach ( $menus as $groups ) : ?>
 
 	<div class="brm-menu-column">
 
-	<?php echo brm_column_minimalist_renders_frontend_menu( $groups, $currency ); ?>
+		<?php echo brm_column_minimalist_renders_frontend_menu( $groups, $currency ); ?>
 
 	</div>
 
 <?php endforeach; ?>
-<?php else:?>
+<?php else : ?>
 
 <p>You have not added any groups or items to the menu.</p>
 

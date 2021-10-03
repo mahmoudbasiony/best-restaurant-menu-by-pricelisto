@@ -45,6 +45,11 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		public function order_nesting_groups_items() {
 			global $wpdb;
 
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_order_nesting_groups_items' === $_POST['action'] ) {
 				$sorting_data = isset( $_POST['sorting_data'] ) ? json_decode( stripcslashes( $_POST['sorting_data'] ) ) : 0;
 
@@ -55,11 +60,11 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 					$sql = "UPDATE $group_table SET ";
 
-					$order_sql   = "sort = CASE id ";
-					$nesting_sql = "parent_id = CASE id ";
+					$order_sql   = 'sort = CASE id ';
+					$nesting_sql = 'parent_id = CASE id ';
 
-					foreach( $sorting_data as $data ) {
-						if ( $data->group_id  ) {
+					foreach ( $sorting_data as $data ) {
+						if ( $data->group_id ) {
 							$order_sql   .= "when '{$data->group_id}' then '{$data->order}' ";
 							$nesting_sql .= "when '{$data->group_id}' then '{$data->parent_id}' ";
 
@@ -68,7 +73,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 					}
 
 					$imploded_ids = implode( ',', $ids );
-					$sql .= $order_sql . "end, ". $nesting_sql . "end where id IN ($imploded_ids)";
+					$sql         .= $order_sql . 'end, ' . $nesting_sql . "end where id IN ($imploded_ids)";
 				}
 
 				$result['groups_query'] = $sql;
@@ -107,26 +112,26 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 				$sql = "UPDATE $item_table SET ";
 
-				$order_sql        = "sort = CASE id ";
-				$linked_group_sql = "group_id = CASE id ";
+				$order_sql        = 'sort = CASE id ';
+				$linked_group_sql = 'group_id = CASE id ';
 
 				// Initialize items_found variable.
 				$items_found = false;
 
-				foreach( $sorting_data as $data ) {
+				foreach ( $sorting_data as $data ) {
 					if ( $data->item_id ) {
 						// Set item found to true.
 						$items_found = true;
 
 						$order_sql        .= "when '{$data->item_id}' then '{$data->item_order}' ";
 						$linked_group_sql .= "when '{$data->item_id}' then '{$data->group_linked}' ";
-						$ids[] = $data->item_id;
+						$ids[]             = $data->item_id;
 					}
 				}
 
 				if ( $items_found ) {
 					$imploded_ids = implode( ',', $ids );
-					$sql .= $order_sql . "end, ". $linked_group_sql . "end where id IN ($imploded_ids)";
+					$sql         .= $order_sql . 'end, ' . $linked_group_sql . "end where id IN ($imploded_ids)";
 
 					$result['item_query'] = $sql;
 
@@ -151,6 +156,11 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		public function delete_group() {
 			global $wpdb;
 
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_delete_group' === $_POST['action'] ) {
 				$group_id = (int) isset( $_POST['group_id'] ) ? sanitize_text_field( $_POST['group_id'] ) : 0;
 
@@ -159,10 +169,10 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				if ( $wpdb->delete(
 					$group_table,
 					array(
-						'id' => $group_id
+						'id' => $group_id,
 					),
 					array(
-						'%d'
+						'%d',
 					)
 				) ) {
 					$result['status']   = 'deleted';
@@ -181,21 +191,27 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 */
 		public function edit_group() {
 			global $wpdb;
+
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_edit_group' === $_POST['action'] ) {
 				$group_id  = isset( $_POST['group_id'] ) ? sanitize_text_field( $_POST['group_id'] ) : 0;
 				$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 0;
 				$parent_id = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
 
 				$group_table = $wpdb->prefix . 'brm_groups';
-				$sql = "SELECT * FROM $group_table WHERE $group_table.id = '{$group_id}'";
+				$sql         = "SELECT * FROM $group_table WHERE $group_table.id = '{$group_id}'";
 
 				$group = $wpdb->get_results( $sql );
 
 				if ( ! empty( $group ) ) {
 					$result['form'] = BRM_Utilities::render_group_form( $order, $group[0], $parent_id );
 
-					$result['order'] = $order;
-					$result['group'] = json_encode( $group );
+					$result['order']     = $order;
+					$result['group']     = json_encode( $group );
 					$result['parent_id'] = $parent_id;
 
 					wp_send_json_success( $result );
@@ -214,7 +230,12 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 			global $wpdb;
 			$group_table = $wpdb->prefix . 'brm_groups';
 
-			if ( isset($_POST) && ! empty( $_POST['action'] ) && 'brm_save_group' === $_POST['action'] ) {
+			// Check for nonce security.
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
+				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			}
+
+			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_save_group' === $_POST['action'] ) {
 				$group_name = isset( $_POST['group_name'] ) ? sanitize_text_field( $_POST['group_name'] ) : '';
 				$group_desc = isset( $_POST['group_desc'] ) ? sanitize_textarea_field( $_POST['group_desc'] ) : '';
 				$parent_id  = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
@@ -223,7 +244,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				$updated_at = current_time( 'mysql' );
 
 				// Validate group name.
-				if( ! $group_name || '' == $group_name ) {
+				if ( ! $group_name || '' == $group_name ) {
 					$result['status']  = 'error';
 					$result['message'] = __( 'Group Name is a required field!', 'best-restaurant-menu' );
 					wp_send_json_error( $result );
@@ -231,7 +252,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 				if ( isset( $_POST['group_id'] ) && ! empty( $_POST['group_id'] ) ) {
 					$group_id = (int) sanitize_text_field( $_POST['group_id'] );
-					
+
 					if ( $wpdb->update(
 						$group_table,
 						array(
@@ -239,15 +260,15 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 							'description' => $group_desc,
 							'sort'        => $order,
 							'parent_id'   => $parent_id,
-							'updated_at'  => $updated_at
+							'updated_at'  => $updated_at,
 						),
 						array( 'id' => $group_id ),
-						array( 
+						array(
 							'%s',
 							'%s',
 							'%d',
 							'%d',
-							'%s'
+							'%s',
 						),
 						array( '%d' )
 					) ) {
@@ -258,7 +279,6 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 					} else {
 						$result['status'] = 'failed';
 					}
-
 				} else {
 					$sql = $wpdb->prepare(
 						"INSERT INTO $group_table (name, description, sort, parent_id, created_at, updated_at) VALUES ( %s, %s, %d, %d, %s, %s )",
@@ -268,15 +288,15 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 							$order,
 							$parent_id,
 							$created_at,
-							$updated_at
+							$updated_at,
 						)
 					);
 
 					if ( $wpdb->query( $sql ) ) {
 						$result['status'] = 'created';
 
-						$group_id = $wpdb->insert_id;
-						$result['group_id'] = $group_id;
+						$group_id            = $wpdb->insert_id;
+						$result['group_id']  = $group_id;
 						$result['group_raw'] = BRM_Utilities::render_group_raw( $group_id, $group_name, $group_desc, $order, $parent_id );
 					} else {
 						$result['status'] = 'failed';
@@ -288,6 +308,6 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		}
 	}
 
-	return new BRM_Admin_Groups;
+	return new BRM_Admin_Groups();
 
 endif;

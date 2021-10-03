@@ -109,7 +109,8 @@
 			group_id: groupId,
 			order: order,
 			parent_id: parentID,
-			action: 'brm_edit_group'
+			action: 'brm_edit_group',
+			nonce: brm_params.nonce
 		};
 
 		$.ajax({
@@ -164,7 +165,8 @@
 			group_desc: groupDesc,
 			parent_id: parentID,
 			order: order,
-			action: 'brm_save_group'
+			action: 'brm_save_group',
+			nonce: brm_params.nonce
 		};
 
 		console.log(data);
@@ -231,7 +233,8 @@
 
 			var data = {
 				group_id: groupId,
-				action: 'brm_delete_group'
+				action: 'brm_delete_group',
+				nonce: brm_params.nonce
 			};
 
 			$.ajax({
@@ -358,7 +361,8 @@
 
 			var data = {
 				sorting_data: sortingData,
-				action: 'brm_order_nesting_groups_items'
+				action: 'brm_order_nesting_groups_items',
+				nonce: brm_params.nonce
 			};
 
 			console.log(sortingData);
@@ -488,7 +492,8 @@
 			price: price,
 			order: order,
 			group_id: groupId,
-			action: 'brm_save_item'
+			action: 'brm_save_item',
+			nonce: brm_params.nonce
 		};
 		console.log(data);
 
@@ -549,7 +554,8 @@
 			item_id: itemId,
 			order: order,
 			group_id: groupId,
-			action: 'brm_edit_item'
+			action: 'brm_edit_item',
+			nonce: brm_params.nonce
 		};
 
 		console.log(data);
@@ -600,7 +606,8 @@
 
 			var data = {
 				item_id: itemID,
-				action: 'brm_delete_item'
+				action: 'brm_delete_item',
+				nonce: brm_params.nonce
 			};
 
 			$.ajax({

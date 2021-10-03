@@ -1,9 +1,9 @@
 === Best Restaurant Menu by PriceListo ===
-Contributors: pricelisto, mahmoudbasiony
+Contributors: pricelisto
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
 Requires at least: 4.4.0
-Tested up to: 5.4.1
-Stable tag: 1.2.0
+Tested up to: 5.8.1
+Stable tag: 1.3.0
 License: GNU General Public License v3.0
 
 The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
@@ -18,6 +18,7 @@ The fastest and easiest way to create a professional-looking menu or price list 
 - Menu supports groups/categories, sub groups/categories, and items.
 - Items can include item name, description, image, and price.
 - Menu editor allows you to easily drag and drop groups and items to re-organize easily and quickly.
+- Fully supports network/multisite websites.
 
 == Installation ==
 
@@ -70,23 +71,30 @@ You. The menu templates were designed and coded to look great on desktop and mob
 
 Creating a custom template is easy. If you're used to working and creating WordPress themes, then you're in luck. Best Restuarant Menu templates work the same way. To get started, simply create a new file in `/wp-content/plugins/best-restaurant-menu/templates/` and use the format from one of the default templates as a starting point. The template file should be named the same as the template name. If you wish to use a separate css file, you can name it the same as the template name.
 
+= Can I run this menu plugin on a multisite installation?
+Yes. You can run this menu plugin across an entire multisite network by **Network Activating** Best Restaurant Menu by PriceListo through the Network Dashboard. You can also activate Best Restaurant Menu by PriceListo just on the main site, and then individually on other sites of your choice.
+
 == Changelog ==
-## 1.2.0 - 2020-07-28
-### Feature - add lightbox image feature.
-### Tweak - display group and item id in the html markup.
-### Fix - santize textarea new line bug.
 
-## 1.1.1 - 2020-05-26
-### Bug fix
+= 1.3.0 = 04 Oct 2021
+Feature: Add support for multisite installation.
 
-## 1.1.0 - 2020-05-24
-### Feature - add show group title shortcode attribute.
-### Feature - add show group description shortcode attribute.
-### Tweak - display group ID beside group name in menu dashboard.
-### Feature - enable one level nested subgroups feature.
+= 1.2.0 = 11 June 2020
+Feature: add lightbox image feature.
+Tweak: display group and item id in the html markup.
+Fix: santize textarea new line bug.
 
-## 1.0.1 - 2020-03-05
-### Fix - rational table prefix bug.
+= 1.1.1 = 26 May 2020
+Fix: bug fix.
 
-## 1.0.0 - 2019-10-10
-### Initial release
+= 1.1.0 = 24 May 2020
+Feature: add show group title shortcode attribute.
+Feature: add show group description shortcode attribute.
+Tweak: display group ID beside group name in menu dashboard.
+Feature: enable one level nested subgroups feature.
+
+= 1.0.1 = 05 March 2020
+Fix: rational table prefix bug.
+
+= 1.0.0 = 10 Oct 2019
+* Initial release

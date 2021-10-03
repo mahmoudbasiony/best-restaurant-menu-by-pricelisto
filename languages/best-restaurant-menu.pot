@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Best Restaurant Menu
+# Copyright (C) 2021 Best Restaurant Menu
 # This file is distributed under the same license as the Best Restaurant Menu package.
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Best Restaurant Menu"
 msgstr ""
 
-#: includes/class-brm-shortcode.php:112
+#: includes/class-brm-shortcode.php:117
 msgid "Best Restaurant Menu Plugin by"
 msgstr ""
 
@@ -25,107 +25,111 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: includes/class-brm-utilities.php:64, includes/class-brm-utilities.php:183
+#: includes/class-brm-utilities.php:64, includes/class-brm-utilities.php:195
 msgid "Name"
 msgstr ""
 
-#: includes/class-brm-utilities.php:72, includes/class-brm-utilities.php:191
+#: includes/class-brm-utilities.php:72, includes/class-brm-utilities.php:203
 msgid "Description"
 msgstr ""
 
-#: includes/class-brm-utilities.php:82, includes/class-brm-utilities.php:212
-msgid "Save"
-msgstr ""
-
-#: includes/class-brm-utilities.php:83, includes/class-brm-utilities.php:213, includes/class-brm-utilities.php:559
+#: includes/class-brm-utilities.php:82, includes/class-brm-utilities.php:224, includes/class-brm-utilities.php:570
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-brm-utilities.php:151
+#: includes/class-brm-utilities.php:83, includes/class-brm-utilities.php:225
+msgid "Save"
+msgstr ""
+
+#: includes/class-brm-utilities.php:162
 msgid "Add subgroup"
 msgstr ""
 
-#: includes/class-brm-utilities.php:155
+#: includes/class-brm-utilities.php:166
 msgid "Add item"
 msgstr ""
 
-#: includes/class-brm-utilities.php:176
+#: includes/class-brm-utilities.php:188
 msgid "Item"
 msgstr ""
 
-#: includes/class-brm-utilities.php:202
+#: includes/class-brm-utilities.php:214
 msgid "Price"
 msgstr ""
 
-#: includes/class-brm-utilities.php:302
+#: includes/class-brm-utilities.php:314
 msgid "Select Image"
 msgstr ""
 
-#: includes/class-brm-utilities.php:307
+#: includes/class-brm-utilities.php:319
 msgid "Item Image"
 msgstr ""
 
-#: includes/class-brm-utilities.php:492
+#: includes/class-brm-utilities.php:503
 msgid "Insert Restaurant Menu Shortcode"
 msgstr ""
 
-#: includes/class-brm-utilities.php:499
+#: includes/class-brm-utilities.php:510
 msgid "Groups"
 msgstr ""
 
-#: includes/class-brm-utilities.php:509
+#: includes/class-brm-utilities.php:520
 msgid "Leave it empty to display all menu groups!"
 msgstr ""
 
-#: includes/class-brm-utilities.php:515
+#: includes/class-brm-utilities.php:526
 msgid "Show Group Title"
 msgstr ""
 
-#: includes/class-brm-utilities.php:524
+#: includes/class-brm-utilities.php:535
 msgid "Show Group Description"
 msgstr ""
 
-#: includes/class-brm-utilities.php:533
+#: includes/class-brm-utilities.php:544
 msgid "Show Items"
 msgstr ""
 
-#: includes/class-brm-utilities.php:542
+#: includes/class-brm-utilities.php:553
 msgid "View mode"
 msgstr ""
 
-#: includes/class-brm-utilities.php:546
+#: includes/class-brm-utilities.php:557
 msgid "Minimalist"
 msgstr ""
 
-#: includes/class-brm-utilities.php:547
+#: includes/class-brm-utilities.php:558
 msgid "2 Column Minimalist"
 msgstr ""
 
-#: includes/class-brm-utilities.php:548
+#: includes/class-brm-utilities.php:559
 msgid "Fancy"
 msgstr ""
 
-#: includes/class-brm-utilities.php:549
+#: includes/class-brm-utilities.php:560
 msgid "Colorful"
 msgstr ""
 
-#: includes/class-brm-utilities.php:550
+#: includes/class-brm-utilities.php:561
 msgid "Bold"
 msgstr ""
 
-#: includes/class-brm-utilities.php:558
+#: includes/class-brm-utilities.php:569
 msgid "Insert shortcode"
 msgstr ""
 
-#: includes/admin/class-brm-admin-groups.php:228
+#: includes/admin/class-brm-admin-groups.php:50, includes/admin/class-brm-admin-groups.php:161, includes/admin/class-brm-admin-groups.php:197, includes/admin/class-brm-admin-groups.php:235, includes/admin/class-brm-admin-items.php:51, includes/admin/class-brm-admin-items.php:85, includes/admin/class-brm-admin-items.php:121
+msgid "Action failed due to security issues, please try again later"
+msgstr ""
+
+#: includes/admin/class-brm-admin-groups.php:249
 msgid "Group Name is a required field!"
 msgstr ""
 
-#: includes/admin/class-brm-admin-items.php:123
+#: includes/admin/class-brm-admin-items.php:138
 msgid "Item Name is a required field!"
 msgstr ""
 
-#: includes/admin/class-brm-admin-items.php:131
+#: includes/admin/class-brm-admin-items.php:146
 msgid "Price is a numeric field!"
 msgstr ""
 
@@ -133,7 +137,7 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: includes/admin/class-brm-admin-menu.php:63, includes/admin/class-brm-admin-menu.php:64, templates/admin/settings.php:86
+#: includes/admin/class-brm-admin-menu.php:63, includes/admin/class-brm-admin-menu.php:64, templates/admin/settings.php:88
 msgid "Settings"
 msgstr ""
 
@@ -151,7 +155,7 @@ msgstr ""
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class-brm-admin-notices.php:137
+#: includes/admin/class-brm-admin-notices.php:137, includes/admin/class-brm-admin-shortcode-inserter.php:46
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -159,66 +163,67 @@ msgstr ""
 msgid "Add new group"
 msgstr ""
 
-#: templates/admin/settings.php:72
+#: templates/admin/settings.php:75
 msgid "Updating settings failed!"
 msgstr ""
 
-#: templates/admin/settings.php:67
+#: templates/admin/settings.php:70
 msgid "Settings updated!"
 msgstr ""
 
-#: templates/admin/settings.php:92
+#: templates/admin/settings.php:94
 msgid "Business Name"
 msgstr ""
 
-#: templates/admin/settings.php:96
+#: templates/admin/settings.php:98
 msgid "."
 msgstr ""
 
-#: templates/admin/settings.php:101
+#: templates/admin/settings.php:103
 msgid "Address"
 msgstr ""
 
-#: templates/admin/settings.php:105, templates/admin/settings.php:114, templates/admin/settings.php:123, templates/admin/settings.php:132, templates/admin/settings.php:158
+#: templates/admin/settings.php:107, templates/admin/settings.php:116, templates/admin/settings.php:125, templates/admin/settings.php:134, templates/admin/settings.php:164
+msgid ""
 msgstr ""
 
-#: templates/admin/settings.php:110
+#: templates/admin/settings.php:112
 msgid "City"
 msgstr ""
 
-#: templates/admin/settings.php:119
+#: templates/admin/settings.php:121
 msgid "State"
 msgstr ""
 
-#: templates/admin/settings.php:128
+#: templates/admin/settings.php:130
 msgid "ZIP Code"
 msgstr ""
 
-#: templates/admin/settings.php:138
+#: templates/admin/settings.php:140
 msgid "Country"
 msgstr ""
 
-#: templates/admin/settings.php:154
+#: templates/admin/settings.php:160
 msgid "Phone Number"
 msgstr ""
 
-#: templates/admin/settings.php:164
+#: templates/admin/settings.php:170
 msgid "Currency"
 msgstr ""
 
-#: templates/admin/settings.php:180
+#: templates/admin/settings.php:190
 msgid "Display"
 msgstr ""
 
-#: templates/admin/settings.php:185
+#: templates/admin/settings.php:195
 msgid "Theme template"
 msgstr ""
 
-#: templates/admin/settings.php:195
+#: templates/admin/settings.php:209
 msgid "Theme used to generate front-end menu"
 msgstr ""
 
-#: templates/admin/settings.php:202
+#: templates/admin/settings.php:216
 msgid "Save Changes"
 msgstr ""
 

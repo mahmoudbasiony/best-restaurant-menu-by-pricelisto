@@ -2,7 +2,6 @@
 /**
  * Minimalist template.
  *
- *
  * This template can be overridden by copying it to yourtheme/best-restaurant-menu/minimalist.php.
  *
  * @var array  $args     The shortcode parameters
@@ -11,33 +10,33 @@
  *
  * @version 1.1.0
  *
- * @see     
+ * @see
  * @package Best_Restaurant_Menu
  * @author  PriceListo
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 /*
  * Include template functions.
  */
-include_once( BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'func-temp/minimalist.php' );
+require_once BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'func-temp/minimalist.php';
 
 ?>
 
 <div class="brm-menu minimalist">
 
 <?php
-$key = key($menu);
-if ( ! is_null( $key ) && isset( $menu[$key] ) ) :
+$key = key( $menu );
+if ( ! is_null( $key ) && isset( $menu[ $key ] ) ) :
 	/*
-	 * Render the menu HTML
+	 * Render the menu HTML.
 	 */
-	echo brm_minimalist_renders_frontend_menu( $menu[$key], $currency );
-else:
-?>
+	echo brm_minimalist_renders_frontend_menu( $menu[ $key ], $currency );
+else :
+	?>
 	<p>You have not added any groups or items to the menu.</p>
 <?php endif; ?>
 

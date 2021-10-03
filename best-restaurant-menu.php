@@ -2,12 +2,12 @@
 /**
  * Plugin Name: Best Restaurant Menu by PriceListo
  * Plugin URI: https://www.pricelisto.com/plugins
- * Description: The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. 
- * Version: 1.2.0
+ * Description: The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well.
+ * Version: 1.3.0
  * Author: PriceListo
  * Author URI: https://www.pricelisto.com
  * Requires at least: 4.4.0
- * Tested up to: 5.4.1
+ * Tested up to: 5.8.1
  *
  * Text Domain: best-restaurant-menu
  * Domain Path: /languages/
@@ -26,11 +26,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /*
  * Globals constants.
  */
-define( 'BEST_RESTAURANT_MENU_MIN_PHP_VER',   '5.6.0' );
-define( 'BEST_RESTAURANT_MENU_MIN_WP_VER',    '4.4.0' );
-define( 'BEST_RESTAURANT_MENU_VER',           '1.2.0' );
-define( 'BEST_RESTAURANT_MENU_ROOT_URL',      plugin_dir_url( __FILE__ ) );
-define( 'BEST_RESTAURANT_MENU_ROOT_PATH',     plugin_dir_path( __FILE__ ) );
+define( 'BEST_RESTAURANT_MENU_MIN_PHP_VER', '5.6.0' );
+define( 'BEST_RESTAURANT_MENU_MIN_WP_VER', '4.4.0' );
+define( 'BEST_RESTAURANT_MENU_VER', '1.3.0' );
+define( 'BEST_RESTAURANT_MENU_ROOT_URL', plugin_dir_url( __FILE__ ) );
+define( 'BEST_RESTAURANT_MENU_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BEST_RESTAURANT_MENU_TEMPLATE_PATH', plugin_dir_path( __FILE__ ) . 'templates/' );
 
 if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
@@ -56,7 +56,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		private static $tables = array(
 			'brm_options',
 			'brm_groups',
-			'brm_items'
+			'brm_items',
 		);
 
 		/**
@@ -91,7 +91,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * Private constructor to make sure it can not be called directly from outside the class.
 		 *
 		 * @since 1.0.0
-		 * 
+		 *
 		 * @return void
 		 */
 		private function __construct() {
@@ -116,32 +116,35 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 */
 		public function includes() {
 			// Global includes.
-			include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-utilities.php' );
-			include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-menu-template.php' );
+			include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-utilities.php';
+			include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-menu-template.php';
 			if ( is_admin() ) {
 				// Back-end only includes.
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-notices.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-assets.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-menu.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-groups.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-items.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-shortcode-inserter.php' );
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-notices.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-assets.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-menu.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-groups.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-items.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/admin/class-brm-admin-shortcode-inserter.php';
 			} else {
 				// Front-end only includes.
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-assets.php' );
-				include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-shortcode.php' );
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-assets.php';
+				include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'includes/class-brm-shortcode.php';
 			}
 		}
 
 		/**
 		 * Plugin hooks.
 		 *
-		 * @since 1.0.0
+		 * @since   1.0.0
+		 * @version 1.3.0
 		 *
 		 * @return void
 		 */
 		public function hooks() {
-			// Nothing to hook for now.
+			// Actions.
+			add_action( 'wp_initialize_site', array( $this, 'new_site_added' ), 900, 1 );
+			add_action( 'wp_delete_site', array( $this, 'site_deleted' ), 10, 1 );
 		}
 
 		/**
@@ -154,12 +157,12 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		public static function create_structure() {
 			global $wpdb;
 
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			$current_db_version = self::check_table_exists( 'brm_options' ) ? $wpdb->get_var( "SELECT option_value FROM {$wpdb->prefix}brm_options WHERE option_name = 'brm_db_version'" ) : '0.0.0';
 
-			if ( version_compare( self::$db_version, $current_db_version, ">" ) ) {
-				foreach (self::$tables as $table) {
+			if ( version_compare( self::$db_version, $current_db_version, '>' ) ) {
+				foreach ( self::$tables as $table ) {
 					if ( ! self::check_table_exists( $table ) ) {
 						self::create_table( $table );
 					}
@@ -184,7 +187,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		public static function check_table_exists( $table_name ) {
 			global $wpdb;
 			$table_name_with_prefix = $wpdb->prefix . $table_name;
-			if ( $wpdb->get_var("SHOW TABLES LIKE '$table_name_with_prefix'") != $table_name_with_prefix ) {
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name_with_prefix'" ) != $table_name_with_prefix ) {
 				return false;
 			} else {
 				return true;
@@ -203,12 +206,12 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		public static function create_table( $table_name ) {
 			global $wpdb;
 
-			$charset_collate = $wpdb->get_charset_collate();
+			$charset_collate        = $wpdb->get_charset_collate();
 			$table_name_with_prefix = $wpdb->prefix . $table_name;
 
 			$sql = self::get_table_structure( $table_name, $table_name_with_prefix, $charset_collate );
 			if ( ! empty( $sql ) ) {
-				dbDelta($sql);
+				dbDelta( $sql );
 			}
 
 		}
@@ -216,9 +219,9 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		/**
 		 * Get table structure
 		 *
-		 * @param $table_name
-		 * @param $table_name_with_prefix
-		 * @param $charset_collate
+		 * @param string $table_name The base table name.
+		 * @param string $table_name_with_prefix The prefixed table name.
+		 * @param string $charset_collate The charset.
 		 *
 		 * @since 1.0.0
 		 *
@@ -227,14 +230,14 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		public static function get_table_structure( $table_name, $table_name_with_prefix, $charset_collate ) {
 			$sql = '';
 			switch ( $table_name ) {
-				case'brm_options':
-					$sql = self::create_brm_options_table($table_name_with_prefix, $charset_collate);
+				case 'brm_options':
+					$sql = self::create_brm_options_table( $table_name_with_prefix, $charset_collate );
 					break;
-				case'brm_groups':
-					$sql = self::create_brm_groups_table($table_name_with_prefix, $charset_collate);
+				case 'brm_groups':
+					$sql = self::create_brm_groups_table( $table_name_with_prefix, $charset_collate );
 					break;
-				case'brm_items':
-					$sql = self::create_brm_items_table($table_name_with_prefix, $charset_collate);
+				case 'brm_items':
+					$sql = self::create_brm_items_table( $table_name_with_prefix, $charset_collate );
 					break;
 				default:
 					break;
@@ -250,7 +253,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return string
 		 */
 		public static function create_brm_options_table( $table_name_with_prefix, $charset_collate ) {
 			$sql = "CREATE TABLE {$table_name_with_prefix} (
@@ -263,18 +266,18 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 				KEY autoload (autoload)
 				) {$charset_collate};";
 
-				return $sql;
+			return $sql;
 		}
 
 		/**
 		 * Create custom groups table.
 		 *
 		 * @param string $table_name_with_prefix The prefixed table name.
-		 * @param string $charset_collate        The charset
+		 * @param string $charset_collate        The charset.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return string
 		 */
 		public static function create_brm_groups_table( $table_name_with_prefix, $charset_collate ) {
 			$sql = "CREATE TABLE {$table_name_with_prefix} (
@@ -296,11 +299,11 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * Create custom items table.
 		 *
 		 * @param string $table_name_with_prefix The prefixed table name.
-		 * @param string $charset_collate        The charset
+		 * @param string $charset_collate        The charset.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return string
 		 */
 		public static function create_brm_items_table( $table_name_with_prefix, $charset_collate ) {
 
@@ -340,13 +343,13 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 
 			$settings = unserialize( $wpdb->get_var( $sql ) );
 
-			// Define create page variabe
+			// Define create page variabe.
 			$create_page = false;
 
 			if ( ! $settings ) {
 				$settings = array();
 
-				// Default settings
+				// Default settings.
 				$settings['business_name']     = '';
 				$settings['business_address']  = '';
 				$settings['business_city']     = '';
@@ -373,14 +376,14 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			}
 
 			if ( $create_page ) {
-				// Create menu page
+				// Create menu page.
 				$menu_page_id = wp_insert_post(
 					array(
 						'post_title'   => 'Menu',
 						'post_content' => '',
 						'post_status'  => 'draft',
 						'post_type'    => 'page',
-						'post_parent'  => 0
+						'post_parent'  => 0,
 					)
 				);
 
@@ -397,11 +400,11 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 						$options_table,
 						array(
 							'option_name'  => 'brm_menu_settings',
-							'option_value' => $serialized_settings
+							'option_value' => $serialized_settings,
 						),
 						array(
 							'%s',
-							'%s'
+							'%s',
 						)
 					);
 				}
@@ -409,18 +412,102 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		}
 
 		/**
-		 * On plugin activation.
+		 * Fires after new site added in multisite mode.
 		 *
-		 * @since 1.0.0
+		 * It fires after new site added in multisite and adds custom tables to it.
+		 * It requires WordPress version 5.1 or higher.
+		 *
+		 * @param object new_site The new site object.
+		 *
+		 * @since 1.3.0
 		 *
 		 * @return void
 		 */
-		public static function activate() {
-			// Create database structure.
-			self::create_structure();
+		public function new_site_added( WP_Site $new_site ) : void {
+			// Check if plugin is active for network.
+			if ( is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
+				switch_to_blog( $new_site->blog_id );
 
-			// Create frontend menu page
-			self::create_frontend_menu_page();
+				// Create database structure.
+				self::create_structure();
+
+				// Create frontend menu page
+				self::create_frontend_menu_page();
+
+				restore_current_blog();
+			}
+		}
+
+		/**
+		 * Fires after site deleted from multisite mode.
+		 *
+		 * It fires after site deleted in multisite and delete custom tables from db.
+		 * It requires WordPress version 5.1 or higher.
+		 *
+		 * @param object $old_site The old deleted site.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @return void
+		 */
+		public function site_deleted( WP_Site $old_site ) : void {
+			switch_to_blog( $old_site->blog_id );
+
+			global $wpdb;
+
+			// Database prefix.
+			$prefix = $wpdb->prefix;
+
+			/*
+			 * Remove plugin custom databse tables.
+			 */
+			foreach ( $tables as $table ) {
+				$prefixed_table = $prefix . $table;
+				$sql            = "DROP TABLE $prefixed_table";
+				$wpdb->query( $sql );
+			}
+
+			restore_current_blog();
+		}
+
+		/**
+		 * On plugin activation.
+		 *
+		 * @param bool $network_wide The network wide.
+		 *
+		 * @since   1.0.0
+		 * @version 1.3.0
+		 *
+		 * @return void
+		 */
+		public static function activate( $network_wide ) {
+			global $wpdb;
+
+			/*
+			 * Validates multisite network enabled.
+			 */
+			if ( is_multisite() && $network_wide ) {
+				// Get ids of all sites.
+				$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+				foreach ( $blogids as $blogid ) {
+					switch_to_blog( $blogid );
+
+					// Create database structure.
+					self::create_structure();
+
+					// Create frontend menu page.
+					self::create_frontend_menu_page();
+
+					restore_current_blog();
+				}
+			} else {
+				// Create database structure.
+				self::create_structure();
+
+				// Create frontend menu page.
+				self::create_frontend_menu_page();
+			}
 		}
 
 		/**
@@ -431,7 +518,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * @return void
 		 */
 		public static function deactivate() {
-			// Nothing To Do for Now.
+			// Nothing to Do for Now.
 		}
 
 		/**
@@ -442,7 +529,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * @return void
 		 */
 		public static function uninstall() {
-			include_once( BEST_RESTAURANT_MENU_ROOT_PATH . 'uninstall.php' );
+			include_once BEST_RESTAURANT_MENU_ROOT_PATH . 'uninstall.php';
 		}
 	}
 

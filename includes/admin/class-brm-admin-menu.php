@@ -28,7 +28,7 @@ if ( ! class_exists( 'BRM_Admin_Menu' ) ) :
 		 * @return void
 		 */
 		public function __construct() {
-			// Actions
+			// Actions.
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 		}
 
@@ -83,9 +83,9 @@ if ( ! class_exists( 'BRM_Admin_Menu' ) ) :
 
 			$screen = get_current_screen();
 
-			foreach( $pages as $page ) {
-				if( $this->validate_current_screen( $screen->base, $page ) ) {
-					include_once( BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/' . $page . '.php' );
+			foreach ( $pages as $page ) {
+				if ( $this->validate_current_screen( $screen->base, $page ) ) {
+					include_once BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/' . $page . '.php';
 
 					break;
 				}
@@ -95,24 +95,24 @@ if ( ! class_exists( 'BRM_Admin_Menu' ) ) :
 		/**
 		 * Validate current screen page.
 		 *
-		 * @param string $screen The screen base
-		 * @param string $page   The page name
+		 * @param string $screen The screen base.
+		 * @param string $page   The page name.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @return boolean Whether is valid page or not.
 		 */
 		public function validate_current_screen( $screen, $page ) {
-			$length = strlen($page);
-			if ($length == 0) {
+			$length = strlen( $page );
+			if ( 0 == $length ) {
 				return true;
 			}
 
-			return (substr($screen, -$length) === $page);
+			return ( substr( $screen, -$length ) === $page );
 		}
 
 	}
 
-	return new BRM_Admin_Menu;
+	return new BRM_Admin_Menu();
 
 endif;
