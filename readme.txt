@@ -1,5 +1,5 @@
 === Best Restaurant Menu by PriceListo ===
-Contributors: pricelisto
+Contributors: pricelisto, mahmoudbasiony
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
 Requires at least: 4.4.0
 Tested up to: 5.8.1
