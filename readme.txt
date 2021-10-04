@@ -20,6 +20,19 @@ The fastest and easiest way to create a professional-looking menu or price list 
 - Menu editor allows you to easily drag and drop groups and items to re-organize easily and quickly.
 - Fully supports network/multisite websites.
 
+= Adding menu to the WordPress page =
+
+1. Upon plugin activation, a new page is created called Menu. The menu is automatically inserted on this page. If you'd like to display the menu on a different page, proceed to step 2.
+2. Create a page or go into the editing mode in an already-created page.
+3. Under Page Attributes, select "Best Restaurant Menu" as template of the page.
+4. If you want more control over it, you can instead insert the shortcode `[brm_restaurant_menu]`.
+
+= Short code attibutes =
+
+1. `groups` - With this attribute you can specify the group IDs you would like to display in the frontend by this shortcode (comma-separated). ex: `[brm_restaurant_menu groups="1,4,6"]`. That will display only three groups with IDs 1, 4 and 6.
+2. `show_items` - Whether to display the group items or not. `0` : Not to show items. Displays only the groups without related items. `1` : Show items. ex: `[brm_restaurant_menu show_items="1"]`
+3. `view` - With this attribute, you can select the style view of the menu. Available style attributes: `minimalist`, `two-column-minimalist`, `fancy`, `colorful`, and `bold`. ex: `[brm_restaurant_menu view="colorful"]`
+
 == Installation ==
 
 = From your WordPress Dashboard =
@@ -43,19 +56,6 @@ The fastest and easiest way to create a professional-looking menu or price list 
 5. Then click on Menu link under the main Menu category in the left navigation.
 6. Start adding groups and items to your menu.
 7. When you're done adding your groups and items, it's time to insert the menu on a WordPress page.
-
-= Adding menu to the WordPress page =
-
-1. Upon plugin activation, a new page is created called Menu. The menu is automatically inserted on this page. If you'd like to display the menu on a different page, proceed to step 2.
-2. Create a page or go into the editing mode in an already-created page.
-3. Under Page Attributes, select "Best Restaurant Menu" as template of the page.
-4. If you want more control over it, you can instead insert the shortcode `[brm_restaurant_menu]`.
-
-= Short code attibutes =
-
-1. `groups` - With this attribute you can specify the group IDs you would like to display in the frontend by this shortcode (comma-separated). ex: `[brm_restaurant_menu groups="1,4,6"]`. That will display only three groups with IDs 1, 4 and 6.
-2. `show_items` - Whether to display the group items or not. `0` : Not to show items. Displays only the groups without related items. `1` : Show items. ex: `[brm_restaurant_menu show_items="1"]`
-3. `view` - With this attribute, you can select the style view of the menu. Available style attributes: `minimalist`, `two-column-minimalist`, `fancy`, `colorful`, and `bold`. ex: `[brm_restaurant_menu view="colorful"]`
 
 == Frequently Asked Questions ==
 
