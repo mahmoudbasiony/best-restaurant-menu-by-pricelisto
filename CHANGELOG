@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to the plugin will be documented in this file.
 
-## 1.3.0 - 2021-10-04
+## 1.3.1 - 2021-10-04
+### Fix - small css bug fix.
+
+## 1.3.0 - 2021-10-03
 ### Feature - add support for multisite installation.
 
 ## 1.2.0 - 2020-06-11

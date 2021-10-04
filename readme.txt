@@ -3,7 +3,7 @@ Contributors: pricelisto, mahmoudbasiony
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
 Requires at least: 4.4.0
 Tested up to: 5.8.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GNU General Public License v3.0
 
 The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
@@ -76,8 +76,11 @@ Yes. You can run this menu plugin across an entire multisite network by **Networ
 
 == Changelog ==
 
-= 1.3.0 = 04 Oct 2021
-Feature: Add support for multisite installation.
+= 1.3.1 = 04 Oct 2021
+Fix: small css bug fix.
+
+= 1.3.0 = 03 Oct 2021
+Feature: add support for multisite installation.
 
 = 1.2.0 = 11 June 2020
 Feature: add lightbox image feature.

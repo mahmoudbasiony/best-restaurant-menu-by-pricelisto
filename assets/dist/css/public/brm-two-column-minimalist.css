@@ -64,7 +64,8 @@
   box-shadow: 2px 2px 0 #fff, 5px 5px 0 #ddd; }
 
 .brm-item-image img {
-  display: block; }
+  display: block;
+  width: 100%; }
 
 .brm-item-details {
   float: none;
