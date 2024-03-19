@@ -81,7 +81,7 @@ function brm_bold_render_items( $items, $currency, $is_subgroup = false ) {
 			$html .= '</div>';
 		endif;
 
-		++$counter;
+		$counter++;
 	endforeach;
 
 	$html .= '</div>';
