@@ -68,7 +68,7 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 		 */
 		public function admin_notices() {
 			// Exit if user has no privilges.
-			if ( ! current_user_can( 'administrator' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
@@ -117,7 +117,6 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 					$this->add_admin_notice( 'wpver', 'notice notice-warning', sprintf( $message, BEST_RESTAURANT_MENU_MIN_WP_VER, $wp_version ), true );
 				}
 			}
-
 		}
 
 		/**
@@ -133,7 +132,7 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'best-restaurant-menu' ) );
 				}
 
-				if ( ! current_user_can( 'administrator' ) ) {
+				if ( ! current_user_can( 'manage_options' ) ) {
 					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
 				}
 

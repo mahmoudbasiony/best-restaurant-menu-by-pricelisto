@@ -32,8 +32,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			foreach ( $notices as $notice ) {
 				$class   = $notice['class'];
 				$message = $notice['message'];
-
-				echo "<div id=\"message\" class=\"{$class} inline\"><p><strong>{$message}</strong></p></div>";
+				$output  = '<div id="message" class="' . esc_attr( $class ) . ' inline"><p><strong>' . esc_html( $message ) . '</strong></p></div>';
+				echo $output;
 			}
 		}
 
@@ -114,7 +114,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 									<?php echo esc_html( stripslashes( $name ) ); ?>
 									<span class="group-id">Group ID: <?php echo esc_attr( stripslashes( $id ) ); ?></span>
 								</div>
-								<div class="group-desc" id="group-<?php echo $id; ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
+								<div class="group-desc" id="group-<?php echo esc_attr( $id ); ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
 							</td>
 							<td style="width:82px; position:absolute; top:10px; right:60px;">
 								<div class="edit-icons">
@@ -295,7 +295,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 */
 		public static function image_uploader( $name, $image_id, $width, $height ) {
 
-			// Set variables
+			// Set variables.
 			$default_image = '';
 
 			if ( ! empty( $image_id ) ) {
@@ -311,18 +311,18 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				$display = 'none;';
 			}
 
-			$text = esc_html__( 'Select Image', 'best-restaurant-menu' );
+			$text = __( 'Select Image', 'best-restaurant-menu' );
 
-			// Print HTML field
+			// Print HTML field.
 			echo '
 				<tr class="upload">
-					<th>' . __( 'Item Image', 'best-restaurant-menu' ) . '</th>
+					<th>' . esc_html__( 'Item Image', 'best-restaurant-menu' ) . '</th>
 					<td>
-						<img data-src="' . esc_url( $default_image ) . '" src="' . esc_url( $src ) . '" width="' . $width . 'px" height="' . $height . 'px" style="display: ' . $display . '" />
+						<img data-src="' . esc_url( $default_image ) . '" src="' . esc_url( $src ) . '" width="' . esc_attr( $width ) . 'px" height="' . esc_attr( $height ) . 'px" style="display: ' . esc_attr( $display ) . '" />
 						<div class="' . sanitize_html_class( $class ) . '">
 							<input type="hidden" name="' . esc_attr( $name ) . '" id="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" />
-							<button type="submit" class="upload_image_button button">' . $text . '</button>
-							<button type="submit" class="remove_image_button button" style="display: ' . $display . '">&times;</button>
+							<button type="submit" class="upload_image_button button">' . esc_html( $text ) . '</button>
+							<button type="submit" class="remove_image_button button" style="display: ' . esc_attr( $display ) . '">&times;</button>
 						</div>
 					</td>
 				</tr>
@@ -427,11 +427,11 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			$items_table  = $wpdb->prefix . 'brm_items';
 
 			// SQL groups query.
-			$groups_sql = "SELECT * FROM $groups_table ORDER BY sort ASC";
+			$groups_sql = $wpdb->prepare( 'SELECT * FROM %i ORDER BY sort ASC', $groups_table );
 			$groups     = $wpdb->get_results( $groups_sql );
 
-			// SQL items query
-			$items_sql = "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM $items_table LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC";
+			// SQL items query.
+			$items_sql = $wpdb->prepare( "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM %i LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC", $items_table );
 			$items     = $wpdb->get_results( $items_sql );
 
 			// Initialize the menu array.
@@ -470,7 +470,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			global $wpdb;
 
 			$settings_table = $wpdb->prefix . 'brm_options';
-			$sql            = "SELECT $settings_table.option_value FROM $settings_table WHERE $settings_table.option_name = 'brm_menu_settings'";
+			$sql            = $wpdb->prepare( "SELECT $settings_table.option_value FROM %i WHERE $settings_table.option_name = 'brm_menu_settings'", $settings_table );
 			$settings       = unserialize( $wpdb->get_var( $sql ) );
 
 			$symbols = include BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/vendor/currency-symbols.php';
@@ -494,7 +494,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			global $wpdb;
 			$groups_table = $wpdb->prefix . 'brm_groups';
 
-			$sql = "SELECT * FROM $groups_table ORDER BY sort ASC";
+			$sql = $wpdb->prepare( 'SELECT * FROM %i ORDER BY sort ASC', $groups_table );
 
 			$groups = $wpdb->get_results( $sql );
 
@@ -581,7 +581,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 *
 		 * Get item for each group by sql.
 		 *
-		 * @param int $group_id The group ID
+		 * @param int $group_id The group ID.
 		 *
 		 * @return deprecated
 		 */
@@ -591,7 +591,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			$groups_table = $wpdb->prefix . 'brm_groups';
 			$items_table  = $wpdb->prefix . 'brm_items';
 
-			$sql   = "SELECT * FROM $items_table WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC";
+			$sql   = $wpdb->prepare( "SELECT * FROM %i WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC", $items_table );
 			$items = $wpdb->get_results( $sql );
 
 			$html = '';
@@ -623,7 +623,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		public static function get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 			ob_start();
 
-			// Get the template
+			// Get the template.
 			self::get_template( $template_name, $args, $template_path, $default_path );
 
 			return ob_get_clean();
@@ -633,7 +633,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Get template.
 		 *
 		 * @param string $template_name The template name.
-		 * @param array  $args          The shortcode args.
+		 * @param array  $args          The args.
 		 * @param string $template_path The template path.
 		 * @param string $default_path  The default path.
 		 */

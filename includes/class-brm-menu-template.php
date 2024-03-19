@@ -82,8 +82,8 @@ if ( ! class_exists( 'BRM_Menu_Template' ) ) :
 			// Create the key used for theme cache.
 			$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
-			// Retrieve the cache list
-			// If it doesn't exist, or it's empty prepare an array
+			// Retrieve the cache list.
+			// If it doesn't exist, or it's empty prepare an array.
 			$templates = wp_get_theme()->get_page_templates();
 
 			if ( empty( $templates ) ) {

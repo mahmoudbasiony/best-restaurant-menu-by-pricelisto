@@ -103,7 +103,6 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 			$plugin_array['brm_restaurant_menu'] = BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/js/admin/brm-admin-mce-script.min.js';
 			return $plugin_array;
 		}
-
 	}
 
 	return new BRM_Admin_Shortcode_Inserter();

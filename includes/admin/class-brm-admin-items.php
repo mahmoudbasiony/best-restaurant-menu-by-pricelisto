@@ -90,7 +90,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				$order    = isset( $_POST['order'] ) ? (int) sanitize_text_field( $_POST['order'] ) : 0;
 				$group_id = isset( $_POST['group_id'] ) ? (int) sanitize_text_field( $_POST['group_id'] ) : 0;
 
-				$sql = "SELECT * FROM $item_table WHERE $item_table.id = '{$item_id}'";
+				$sql = $wpdb->prepare( "SELECT * FROM %i WHERE $item_table.id = %d", $item_table, $item_id );
 
 				$item = $wpdb->get_results( $sql );
 
@@ -183,8 +183,9 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				} else {
 
 					$sql = $wpdb->prepare(
-						"INSERT INTO $item_table (name, description, image_id, price, sort, group_id, created_at, updated_at) VALUES ( %s, %s, %d, %f, %d, %d, %s, %s )",
+						'INSERT INTO %i (name, description, image_id, price, sort, group_id, created_at, updated_at) VALUES ( %s, %s, %d, %f, %d, %d, %s, %s )',
 						array(
+							$item_table,
 							$item_name,
 							$item_desc,
 							$image_id,

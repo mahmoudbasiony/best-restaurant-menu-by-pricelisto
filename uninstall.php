@@ -67,7 +67,7 @@ function brm_remove_plugin_data() {
 	/*
 	 * Remove created menu page.
 	 */
-	$sql      = "SELECT option_value FROM {$tables['brm_options']} WHERE option_name = 'brm_menu_settings'";
+	$sql      = $wpdb->prepare( "SELECT option_value FROM %i WHERE option_name = 'brm_menu_settings'", $tables['brm_options'] );
 	$settings = unserialize( $wpdb->get_var( $sql ) );
 
 	if ( isset( $settings ) && isset( $settings['menu_page_id'] ) && ! empty( $settings['menu_page_id'] ) ) {
@@ -81,7 +81,7 @@ function brm_remove_plugin_data() {
 	 * Remove plugin custom databse tables.
 	 */
 	foreach ( $tables as $table ) {
-		$sql = "DROP TABLE $table";
+		$sql = $wpdb->prepare( 'DROP TABLE %i', $table );
 		$wpdb->query( $sql );
 	}
 }

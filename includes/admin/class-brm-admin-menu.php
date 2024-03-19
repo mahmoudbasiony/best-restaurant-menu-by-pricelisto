@@ -110,7 +110,6 @@ if ( ! class_exists( 'BRM_Admin_Menu' ) ) :
 
 			return ( substr( $screen, -$length ) === $page );
 		}
-
 	}
 
 	return new BRM_Admin_Menu();

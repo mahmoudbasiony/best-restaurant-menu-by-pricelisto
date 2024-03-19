@@ -14,7 +14,7 @@ global $wpdb;
 
 $settings_table = $wpdb->prefix . 'brm_options';
 
-$sql = "SELECT $settings_table.option_value FROM $settings_table WHERE $settings_table.option_name = 'brm_menu_settings'";
+$sql = $wpdb->prepare( "SELECT %i.option_value FROM %i WHERE %i.option_name = 'brm_menu_settings'", array( $settings_table, $settings_table, $settings_table ) );
 
 // General settings.
 $settings = unserialize( $wpdb->get_var( $sql ) );
@@ -38,6 +38,11 @@ $theme_templates = apply_filters(
  * Save settings.
  */
 if ( isset( $_POST['save'] ) ) {
+
+	// Check for nonce security.
+	if ( ! isset( $_POST['brm_save_settings_nonce'] ) || ( isset( $_POST['brm_save_settings_nonce'] ) && ! wp_verify_nonce( $_POST['brm_save_settings_nonce'], 'brm_settings_nonce' ) ) ) {
+		wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+	}
 
 	$settings['business_name']     = isset( $_POST['business_name'] ) ? sanitize_text_field( stripslashes( $_POST['business_name'] ) ) : '';
 	$settings['business_address']  = isset( $_POST['business_address'] ) ? sanitize_text_field( stripslashes( $_POST['business_address'] ) ) : '';
@@ -82,6 +87,7 @@ if ( isset( $_POST['save'] ) ) {
 	}
 }
 
+$nonce = wp_create_nonce( 'brm_settings_nonce' );
 ?>
 
 <form method="post" id="brm_settings">
@@ -95,7 +101,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_name" id="business_name" value="<?php echo isset( $settings['business_name'] ) ? esc_html( stripslashes( $settings['business_name'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_name-description"><?php esc_html_e( '.', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -104,7 +109,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_address" id="business_address" value="<?php echo isset( $settings['business_address'] ) ? esc_html( stripslashes( $settings['business_address'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_address-description"><?php esc_html_e( '', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -113,7 +117,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_city" id="business_city" value="<?php echo isset( $settings['business_city'] ) ? esc_html( stripslashes( $settings['business_city'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_city-description"><?php esc_html_e( '', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -122,7 +125,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_state" id="business_state" value="<?php echo isset( $settings['business_state'] ) ? esc_html( stripslashes( $settings['business_state'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_state-description"><?php esc_html_e( '', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -131,7 +133,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_zip_code" id="business_zip_code" value="<?php echo isset( $settings['business_zip_code'] ) ? esc_html( stripslashes( $settings['business_zip_code'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_zip_code-description"><?php esc_html_e( '', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 
@@ -161,7 +162,6 @@ if ( isset( $_POST['save'] ) ) {
 				</th>
 				<td>
 					<input type="text" name="business_phone" id="business_phone" value="<?php echo isset( $settings['business_phone'] ) ? esc_html( stripslashes( $settings['business_phone'] ) ) : ''; ?>" class="regular-text">
-					<p class="description" id="business_phone-description"><?php esc_html_e( '', 'best-restaurant-menu' ); ?></p>
 				</td>
 			</tr>
 
@@ -213,6 +213,7 @@ if ( isset( $_POST['save'] ) ) {
 	</table>
 
 	<p class="submit">
+		<input type="hidden" name="brm_save_settings_nonce" value="<?php echo esc_attr( $nonce ); ?>">
 		<input type="submit" name="save" value="<?php esc_html_e( 'Save Changes', 'best-restaurant-menu' ); ?>" class="button-primary">
 	</p>
 </form>

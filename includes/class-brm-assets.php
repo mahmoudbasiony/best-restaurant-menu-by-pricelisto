@@ -115,8 +115,8 @@ if ( ! class_exists( 'BRM_Assets' ) ) :
 		 * @return void
 		 */
 		public function styles() {
-			wp_enqueue_style( 'lightbox2', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/css/lightbox.min.css', array(), false, 'all' );
-			wp_enqueue_style( 'brm_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/public/brm-global.min.css', array( 'lightbox2' ), false, 'all' );
+			wp_enqueue_style( 'lightbox2', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/vendor/lightbox2/dist/css/lightbox.min.css', array(), BEST_RESTAURANT_MENU_VER, 'all' );
+			wp_enqueue_style( 'brm_styles', BEST_RESTAURANT_MENU_ROOT_URL . 'assets/dist/css/public/brm-global.min.css', array( 'lightbox2' ), BEST_RESTAURANT_MENU_VER, 'all' );
 
 			/*
 			 * Registers front-end tempates styles.

@@ -1,8 +1,8 @@
-# Copyright (C) 2021 Best Restaurant Menu
-# This file is distributed under the same license as the Best Restaurant Menu package.
+# Copyright (C) 2021 Best_Restaurant_Menu
+# This file is distributed under the same license as the Best_Restaurant_Menu package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Best Restaurant Menu\n"
+"Project-Id-Version: Best_Restaurant_Menu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

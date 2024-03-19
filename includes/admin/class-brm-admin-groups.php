@@ -28,7 +28,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * @return void
 		 */
 		public function __construct() {
-			// Actions
+			// Actions.
 			add_action( 'wp_ajax_brm_save_group', array( $this, 'save_groups' ) );
 			add_action( 'wp_ajax_brm_edit_group', array( $this, 'edit_group' ) );
 			add_action( 'wp_ajax_brm_delete_group', array( $this, 'delete_group' ) );
@@ -95,7 +95,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		/**
 		 * Re orders/sorting items.
 		 *
-		 * @param array $sorting_data The sorting data
+		 * @param array $sorting_data The sorting data.
 		 * @param array $result       The result json array.
 		 *
 		 * @since 1.0.0
@@ -203,9 +203,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				$parent_id = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
 
 				$group_table = $wpdb->prefix . 'brm_groups';
-				$sql         = "SELECT * FROM $group_table WHERE $group_table.id = '{$group_id}'";
-
-				$group = $wpdb->get_results( $sql );
+				$group       = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i.id = %d', array( $group_table, $group_table, $group_id ) ) );
 
 				if ( ! empty( $group ) ) {
 					$result['form'] = BRM_Utilities::render_group_form( $order, $group[0], $parent_id );
@@ -281,8 +279,9 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 					}
 				} else {
 					$sql = $wpdb->prepare(
-						"INSERT INTO $group_table (name, description, sort, parent_id, created_at, updated_at) VALUES ( %s, %s, %d, %d, %s, %s )",
+						'INSERT INTO %i (name, description, sort, parent_id, created_at, updated_at) VALUES ( %s, %s, %d, %d, %s, %s )',
 						array(
+							$group_table,
 							$group_name,
 							$group_desc,
 							$order,

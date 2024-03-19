@@ -47,7 +47,7 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 
 			// Get general settings.
 			$options_table = $wpdb->prefix . 'brm_options';
-			$sql           = "SELECT option_value FROM $options_table WHERE option_name = 'brm_menu_settings'";
+			$sql           = $wpdb->prepare( "SELECT option_value FROM %i WHERE option_name = 'brm_menu_settings'", $options_table );
 			$settings      = unserialize( $wpdb->get_var( $sql ) );
 
 			/*
@@ -114,17 +114,17 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 		 * @return mixed
 		 */
 		public function render_template_backlink( $template_name, $template_path, $located, $args ) {
-			echo sprintf( '<div class="pl-developer"><span>%1$s </span><a href="%2$s">%3$s</a></div>', esc_html__( 'Best Restaurant Menu Plugin by', 'best-restaurant-menu' ), 'https://www.pricelisto.com/plugins', 'PriceListo' );
+			printf( '<div class="pl-developer"><span>%1$s </span><a href="%2$s">%3$s</a></div>', esc_html__( 'Best Restaurant Menu Plugin by', 'best-restaurant-menu' ), 'https://www.pricelisto.com/plugins', 'PriceListo' );
 		}
 
 		/**
 		 * Get menu array frontend.
 		 *
-		 * @param array $args The shortcode arguments
+		 * @param array $args The shortcode arguments.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return array $menu_array The menu array
+		 * @return array $menu_array The menu array.
 		 */
 		public function get_menu_array( $args ) {
 			global $wpdb;
@@ -136,10 +136,10 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 			/*
 			 * Groups.
 			 */
-			$groups_sql = "SELECT * FROM $groups_table ORDER BY sort ASC";
+			$groups_sql = $wpdb->prepare( 'SELECT * FROM %i ORDER BY sort ASC', $groups_table );
 
 			if ( isset( $args['groups'] ) && ! empty( $args['groups'] ) ) {
-				$groups_sql = "SELECT * FROM $groups_table WHERE id in ({$args['groups']}) ORDER BY sort ASC";
+				$groups_sql = $wpdb->prepare( "SELECT * FROM %i WHERE id in ({$args['groups']}) ORDER BY sort ASC", $groups_table );
 			}
 
 			$groups_sql = apply_filters( 'brm_groups_sql_query', $groups_sql, $args );
@@ -151,10 +151,10 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 			$items = array();
 
 			if ( isset( $args['show_items'] ) && ! empty( $args['show_items'] ) && 1 == $args['show_items'] ) {
-				$items_sql = "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM $items_table LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC";
+				$items_sql = $wpdb->prepare( "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM %i LEFT JOIN %i ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC", $items_table, $groups_table );
 
 				if ( isset( $args['groups'] ) && ! empty( $args['groups'] ) ) {
-					$items_sql = "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM $items_table LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id WHERE $groups_table.id in ({$args['groups']}) ORDER BY $items_table.sort ASC";
+					$items_sql = $wpdb->prepare( "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM %i LEFT JOIN %i ON $groups_table.id = $items_table.group_id WHERE $groups_table.id in ({$args['groups']}) ORDER BY $items_table.sort ASC", $items_table, $groups_table );
 				}
 
 				$items_sql = apply_filters( 'brm_items_sql_query', $items_sql, $args );
@@ -212,7 +212,6 @@ if ( ! class_exists( 'BRM_Shortcodes' ) ) :
 
 			return apply_filters( 'brm_menu_array', $menu_array, $args );
 		}
-
 	}
 
 	return new BRM_Shortcodes();
