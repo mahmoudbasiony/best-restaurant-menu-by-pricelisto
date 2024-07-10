@@ -1,12 +1,12 @@
-=== Best Restaurant Menu by PriceListo ===
+=== Great Restaurant Menu WP Plugin ===
 Contributors: pricelisto, mahmoudbasiony
-Tags: restaurant menu, food menu, dinner menu, restaurant, price list, cafe, food, fast food, pizza, salon menu
+Tags: restaurant menu, food menu, dinner menu, restaurant, price list
 Requires at least: 6.2
-Tested up to: 6.4.1
-Stable tag: 1.4.0
+Tested up to: 6.5.5
+Stable tag: 1.4.1
 License: GNU General Public License v3.0
 
-The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well. You can insert the menu into a WordPress page using a shortcode or selecting the page template from the page editor settings.
+The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business.
 
 == Description ==
 
@@ -75,6 +75,10 @@ Creating a custom template is easy. If you're used to working and creating WordP
 Yes. You can run this menu plugin across an entire multisite network by **Network Activating** Best Restaurant Menu by PriceListo through the Network Dashboard. You can also activate Best Restaurant Menu by PriceListo just on the main site, and then individually on other sites of your choice.
 
 == Changelog ==
+= 1.4.1 = 30 June 2024
+* Ensured compatibility with WordPress version 6.5.
+* Updated the plugin name to "Great Restaurant Menu WP Plugin" from "Best Restaurant Menu."
+
 = 1.4.0 = 19 Mar 2024
 * Fixed some security issues.
 * Resolved groups and items sorting issues on WordPress version 5.9 and above.
