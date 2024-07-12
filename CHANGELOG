@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to the plugin will be documented in this file.
 
+## 1.4.2 = 12 July 2024
+### Fixed some security issues.
+### Fixed site deletion bug on multisite.
+
 ## 1.4.1 = 30 June 2024
 ### Declared compatibility with WordPress 6.5.
 ### Updated the plugin name to "Great Restaurant Menu WP Plugin" from "Best Restaurant Menu."

@@ -17,7 +17,7 @@ $settings_table = $wpdb->prefix . 'brm_options';
 $sql = $wpdb->prepare( "SELECT %i.option_value FROM %i WHERE %i.option_name = 'brm_menu_settings'", array( $settings_table, $settings_table, $settings_table ) );
 
 // General settings.
-$settings = unserialize( $wpdb->get_var( $sql ) );
+$settings = unserialize( $wpdb->get_var( $sql ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 
 $countries  = include_once 'vendor/countries.php';
 $currencies = include_once 'vendor/currencies.php';
@@ -57,19 +57,14 @@ if ( isset( $_POST['save'] ) ) {
 	$serialized_settings = serialize( $settings );
 
 	// Validate updating option.
-	if (
-		$wpdb->replace(
-			$settings_table,
-			array(
-				'option_name'  => 'brm_menu_settings',
-				'option_value' => $serialized_settings,
-			),
-			array(
-				'%s',
-				'%s',
-			)
-		)
-	) {
+	if ( $wpdb->replace(   // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
+		$settings_table,
+		array(
+			'option_name'  => 'brm_menu_settings',
+			'option_value' => $serialized_settings,
+		),
+		array( '%s', '%s' )
+	) ) {
 		$notices['settings_updated'] = array(
 			'class'   => 'updated',
 			'message' => __( 'Settings updated!', 'best-restaurant-menu' ),

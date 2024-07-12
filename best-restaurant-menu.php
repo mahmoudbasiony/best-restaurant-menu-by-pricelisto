@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Great Restaurant Menu WP Plugin
+ * Plugin Name: Great Restaurant Menu WP
  * Plugin URI: https://www.pricelisto.com/plugins
  * Description: The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: PriceListo
  * Author URI: https://www.pricelisto.com
  * Requires at least: 6.2.0
  * Tested up to: 6.5.5
  *
- * Text Domain: best-restaurant-menu
+ * Text Domain: best-restaurant-menu-by-pricelisto
  * Domain Path: /languages/
  *
  * License: GNU General Public License v3.0
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 define( 'BEST_RESTAURANT_MENU_MIN_PHP_VER', '5.6.0' );
 define( 'BEST_RESTAURANT_MENU_MIN_WP_VER', '6.2.0' );
-define( 'BEST_RESTAURANT_MENU_VER', '1.4.0' );
+define( 'BEST_RESTAURANT_MENU_VER', '1.4.2' );
 define( 'BEST_RESTAURANT_MENU_ROOT_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEST_RESTAURANT_MENU_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BEST_RESTAURANT_MENU_TEMPLATE_PATH', plugin_dir_path( __FILE__ ) . 'templates/' );
@@ -159,7 +159,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-			$current_db_version = self::check_table_exists( 'brm_options' ) ? $wpdb->get_var( "SELECT option_value FROM {$wpdb->prefix}brm_options WHERE option_name = 'brm_db_version'" ) : '0.0.0';
+			$current_db_version = self::check_table_exists( 'brm_options' ) ? $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->prefix}brm_options WHERE option_name = %s", 'brm_db_version' ) ) : '0.0.0'; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 			if ( version_compare( self::$db_version, $current_db_version, '>' ) ) {
 				foreach ( self::$tables as $table ) {
@@ -169,9 +169,9 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 				}
 
 				// Update database version option.
-				$sql = "INSERT INTO {$wpdb->prefix}brm_options SET option_value = '%s' , option_name = 'brm_db_version' ";
-				$wpdb->query( sprintf( $sql, self::$db_version ) );
+				$sql = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}brm_options (option_value, option_name) VALUES (%s, %s)", self::$db_version, 'brm_db_version' );
 
+				$wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 			}
 		}
 
@@ -186,12 +186,16 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 */
 		public static function check_table_exists( $table_name ) {
 			global $wpdb;
+
 			$table_name_with_prefix = $wpdb->prefix . $table_name;
-			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name_with_prefix'" ) != $table_name_with_prefix ) {
+
+			$sql = $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name_with_prefix );
+
+			if ( $wpdb->get_var( $sql ) != $table_name_with_prefix ) {  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 				return false;
-			} else {
-				return true;
 			}
+
+			return true;
 		}
 
 		/**
@@ -213,7 +217,6 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			if ( ! empty( $sql ) ) {
 				dbDelta( $sql );
 			}
-
 		}
 
 		/**
@@ -332,6 +335,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * Creates menu page for frontend.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return void
 		 */
@@ -339,44 +343,40 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			global $wpdb;
 			$options_table = $wpdb->prefix . 'brm_options';
 
-			$sql = "SELECT option_value FROM $options_table WHERE option_name = 'brm_menu_settings'";
+			// Securely fetch settings from the database.
+			$sql = $wpdb->prepare( "SELECT option_value FROM {$options_table} WHERE option_name = %s", 'brm_menu_settings' ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Safe interpolation of table and column names.
 
-			$settings = unserialize( $wpdb->get_var( $sql ) );
+			$settings_values = $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
-			// Define create page variabe.
-			$create_page = false;
+			$settings = $settings_values ? unserialize( $settings_values ) : false;
 
+			// Initialize default settings if not found.
 			if ( ! $settings ) {
-				$settings = array();
-
-				// Default settings.
-				$settings['business_name']     = '';
-				$settings['business_address']  = '';
-				$settings['business_city']     = '';
-				$settings['business_state']    = '';
-				$settings['business_zip_code'] = '';
-				$settings['business_country']  = 'US';
-				$settings['business_phone']    = '';
-				$settings['business_currency'] = 'USD';
-				$settings['theme_template']    = 'minimalist';
-
+				$settings    = array(
+					'business_name'     => '',
+					'business_address'  => '',
+					'business_city'     => '',
+					'business_state'    => '',
+					'business_zip_code' => '',
+					'business_country'  => 'US',
+					'business_phone'    => '',
+					'business_currency' => 'USD',
+					'theme_template'    => 'minimalist',
+				);
 				$create_page = true;
 			} else {
-				if ( ! isset( $settings['menu_page_id'] ) || empty( $settings['menu_page_id'] ) || 0 == $settings['menu_page_id'] ) {
-					$create_page = true;
-				} else {
-					$page_id = $settings['menu_page_id'];
+				$create_page = ! isset( $settings['menu_page_id'] ) || empty( $settings['menu_page_id'] );
+			}
 
-					$menu_page = get_post( $page_id );
-
-					if ( ! $menu_page || ( $menu_page && 'page' != $menu_page->post_type ) || ( $menu_page && 'trash' == $menu_page->post_status && 'page' == $menu_page->post_type ) ) {
-						$create_page = true;
-					}
-				}
+			// Check if the menu page exists and is not trashed.
+			if ( ! $create_page ) {
+				$page_id     = $settings['menu_page_id'];
+				$menu_page   = get_post( $page_id );
+				$create_page = ! $menu_page || 'page' !== $menu_page->post_type || 'trash' === $menu_page->post_status;
 			}
 
 			if ( $create_page ) {
-				// Create menu page.
+				// Attempt to create the menu page.
 				$menu_page_id = wp_insert_post(
 					array(
 						'post_title'   => 'Menu',
@@ -387,27 +387,24 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 					)
 				);
 
-				if ( $menu_page_id ) {
-					// Set template page attribute.
-					update_post_meta( $menu_page_id, '_wp_page_template', 'best-restaurant-menu.php' );
-
-					// Set menu page ID to settings array.
-					$settings['menu_page_id'] = $menu_page_id;
-
-					$serialized_settings = serialize( $settings );
-
-					$wpdb->replace(
-						$options_table,
-						array(
-							'option_name'  => 'brm_menu_settings',
-							'option_value' => $serialized_settings,
-						),
-						array(
-							'%s',
-							'%s',
-						)
-					);
+				if ( ! $menu_page_id || is_wp_error( $menu_page_id ) ) {
+					// Handle error in page creation.
+					error_log( 'Failed to create menu page: ' . $menu_page_id->get_error_message() );
+					return;
 				}
+
+				// Update settings with the new page ID and save.
+				$settings['menu_page_id'] = $menu_page_id;
+				update_post_meta( $menu_page_id, '_wp_page_template', 'best-restaurant-menu.php' );
+				$serialized_settings = serialize( $settings );
+				$wpdb->replace(  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
+					$options_table,
+					array(
+						'option_name'  => 'brm_menu_settings',
+						'option_value' => $serialized_settings,
+					),
+					array( '%s', '%s' )
+				);
 			}
 		}
 
@@ -417,13 +414,13 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * It fires after new site added in multisite and adds custom tables to it.
 		 * It requires WordPress version 5.1 or higher.
 		 *
-		 * @param object new_site The new site object.
+		 * @param WP_Site $new_site The new site object.
 		 *
 		 * @since 1.3.0
 		 *
 		 * @return void
 		 */
-		public function new_site_added( WP_Site $new_site ) : void {
+		public function new_site_added( WP_Site $new_site ): void {
 			// Check if plugin is active for network.
 			if ( is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
 				switch_to_blog( $new_site->blog_id );
@@ -431,7 +428,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 				// Create database structure.
 				self::create_structure();
 
-				// Create frontend menu page
+				// Create frontend menu page.
 				self::create_frontend_menu_page();
 
 				restore_current_blog();
@@ -444,13 +441,14 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 		 * It fires after site deleted in multisite and delete custom tables from db.
 		 * It requires WordPress version 5.1 or higher.
 		 *
-		 * @param object $old_site The old deleted site.
+		 * @param WP_Site $old_site The old deleted site.
 		 *
 		 * @since 1.3.0
+		 * @version 1.4.2
 		 *
 		 * @return void
 		 */
-		public function site_deleted( WP_Site $old_site ) : void {
+		public function site_deleted( WP_Site $old_site ): void {
 			switch_to_blog( $old_site->blog_id );
 
 			global $wpdb;
@@ -461,10 +459,10 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			/*
 			 * Remove plugin custom databse tables.
 			 */
-			foreach ( $tables as $table ) {
+			foreach ( self::$tables as $table ) {
 				$prefixed_table = $prefix . $table;
 				$sql            = "DROP TABLE $prefixed_table";
-				$wpdb->query( $sql );
+				$wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 			}
 
 			restore_current_blog();
@@ -488,7 +486,7 @@ if ( ! class_exists( 'Best_Restaurant_Menu' ) ) :
 			 */
 			if ( is_multisite() && $network_wide ) {
 				// Get ids of all sites.
-				$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+				$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 				foreach ( $blogids as $blogid ) {
 					switch_to_blog( $blogid );
@@ -544,7 +542,7 @@ endif;
  *
  * @return Best_Restaurant_Menu
  */
-function best_restaurant_menu() {
+function best_restaurant_menu() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid, Universal.Files.SeparateFunctionsFromOO.Mixed -- Function name is valid.
 	return Best_Restaurant_Menu::get_instance();
 }
 

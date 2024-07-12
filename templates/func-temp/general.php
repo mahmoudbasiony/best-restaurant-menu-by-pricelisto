@@ -54,7 +54,7 @@ function brm_render_items_html( $items, $currency, $is_subgroup = false ) {
 		<div class="brm-item brm-item-<?php echo esc_attr( $item->id ); ?>">
 			<?php
 			if ( ! empty( $item->image_id ) ) :
-				// Image data
+				// Image data.
 				$caption     = wp_get_attachment_caption( $item->image_id );
 				$alt         = get_post_meta( $item->image_id, '_wp_attachment_image_alt', true );
 				$large_image = wp_get_attachment_image_src( $item->image_id, 'large' )[0];
@@ -62,7 +62,7 @@ function brm_render_items_html( $items, $currency, $is_subgroup = false ) {
 				?>
 			<div class="brm-item-image">
 				<a href="<?php echo esc_url( $large_image ); ?>" data-lightbox="item-image-<?php echo esc_attr( $item->id ); ?>" data-title="<?php echo esc_attr( $caption ); ?>" data-alt="<?php echo esc_attr( $alt ); ?>">
-					<img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo $alt; ?>"/>
+					<img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( $alt ); ?>"/>
 				</a>
 			</div>
 			<?php endif; ?>

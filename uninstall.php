@@ -14,35 +14,27 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit; // Exit if uninstall not called from WordPress.
 }
 
+global $wpdb;
+
 /*
- * Only remove plugin data if the BRM_REMOVE_ALL_DATA constant is set to true in user's
- * wp-config.php. This is to prevent data loss when deleting the plugin from the backend
- * and to ensure only the site owner can perform this action.
- *
- * @todo Remove database tables and menu page.
+ * Checks if multisite is enabled.
  */
-if ( defined( 'BRM_REMOVE_ALL_DATA' ) && true === BRM_REMOVE_ALL_DATA ) {
-	global $wpdb;
+if ( is_multisite() ) {
+	// Get ids of all sites.
+	$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 
-	/*
-	 * Checks if multisite is enabled.
-	 */
-	if ( is_multisite() ) {
-		// Get ids of all sites.
-		$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+	foreach ( $blogids as $blogid ) {
+		switch_to_blog( $blogid );
 
-		foreach ( $blogids as $blogid ) {
-			switch_to_blog( $blogid );
-
-			// Deletes all plugin data.
-			brm_remove_plugin_data();
-
-			restore_current_blog();
-		}
-	} else {
+		// Deletes all plugin data.
 		brm_remove_plugin_data();
+
+		restore_current_blog();
 	}
+} else {
+	brm_remove_plugin_data();
 }
+
 
 /**
  * Removes all plugin data from the database.
@@ -68,7 +60,7 @@ function brm_remove_plugin_data() {
 	 * Remove created menu page.
 	 */
 	$sql      = $wpdb->prepare( "SELECT option_value FROM %i WHERE option_name = 'brm_menu_settings'", $tables['brm_options'] );
-	$settings = unserialize( $wpdb->get_var( $sql ) );
+	$settings = unserialize( $wpdb->get_var( $sql ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 
 	if ( isset( $settings ) && isset( $settings['menu_page_id'] ) && ! empty( $settings['menu_page_id'] ) ) {
 		$menu_page_id = $settings['menu_page_id'];
@@ -82,6 +74,6 @@ function brm_remove_plugin_data() {
 	 */
 	foreach ( $tables as $table ) {
 		$sql = $wpdb->prepare( 'DROP TABLE %i', $table );
-		$wpdb->query( $sql );
+		$wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 	}
 }

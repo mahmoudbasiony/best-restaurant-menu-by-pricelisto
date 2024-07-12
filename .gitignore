@@ -1,0 +1,10 @@
+node_modules/
+vendor/
+
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml
+.DS_Store
+best-restaurant-menu-by-pricelisto.zip

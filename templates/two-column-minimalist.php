@@ -41,7 +41,7 @@ if ( ! is_null( $key ) && isset( $menu[ $key ] ) ) :
 
 	<div class="brm-menu-column">
 
-		<?php echo brm_column_minimalist_renders_frontend_menu( $groups, $currency ); ?>
+		<?php echo brm_column_minimalist_renders_frontend_menu( $groups, $currency ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is safely escaped within brm_column_minimalist_renders_frontend_menu. ?>
 
 	</div>
 

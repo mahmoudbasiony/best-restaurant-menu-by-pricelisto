@@ -54,7 +54,7 @@ function brm_colorful_render_items( $items, $currency, $is_subgroup = false ) {
 		<div class="brm-item brm-item-<?php echo esc_attr( $item->id ); ?>">
 			<?php
 			if ( ! empty( $item->image_id ) ) :
-				// Image data
+				// Image data.
 				$caption     = wp_get_attachment_caption( $item->image_id );
 				$alt         = get_post_meta( $item->image_id, '_wp_attachment_image_alt', true );
 				$large_image = wp_get_attachment_image_src( $item->image_id, 'large' )[0];
@@ -84,9 +84,9 @@ function brm_colorful_render_items( $items, $currency, $is_subgroup = false ) {
 /**
  * Renders frontend menu html -- (Recursion)
  *
- * @param array  $menu     The menu array
- * @param string $currency The menu currency
- * @param bool   $is_child    Whether is a child group section or not - Default: false
+ * @param array  $menu     The menu array.
+ * @param string $currency The menu currency.
+ * @param bool   $is_child    Whether is a child group section or not - Default: false.
  *
  * @since   1.1.0
  * @version 1.1.0

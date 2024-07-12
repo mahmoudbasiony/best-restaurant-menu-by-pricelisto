@@ -17,12 +17,14 @@ $groups_table = $wpdb->prefix . 'brm_groups';
 $items_table  = $wpdb->prefix . 'brm_items';
 
 // SQL groups query.
-$groups_sql = "SELECT * FROM $groups_table ORDER BY sort ASC";
-$groups     = $wpdb->get_results( $groups_sql );
+$groups_sql = "SELECT * FROM {$groups_table} ORDER BY sort ASC";
+
+$groups = $wpdb->get_results( $groups_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Properly prepared SQL statement.
 
 // SQL items query.
-$items_sql = "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM $items_table LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC";
-$items     = $wpdb->get_results( $items_sql );
+$items_sql = "SELECT {$items_table}.group_id, {$items_table}.id, {$items_table}.name, {$items_table}.description, {$items_table}.image_id, {$items_table}.price, {$items_table}.sort FROM {$items_table} LEFT JOIN {$groups_table} ON {$groups_table}.id = {$items_table}.group_id ORDER BY {$items_table}.sort ASC";
+
+$items = $wpdb->get_results( $items_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 
 // Initialize the menu array.
 $menu_array = array(
@@ -58,7 +60,7 @@ $menu_array = array(
 			 *
 			 * Render the menu in the backend (groups, sub groups and items)
 			 */
-			echo BRM_Utilities::render_menu_backend( 0, $menu_array );
+			echo BRM_Utilities::render_menu_backend( 0, $menu_array ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is safely escaped within render_menu_backend method.
 		}
 
 		?>

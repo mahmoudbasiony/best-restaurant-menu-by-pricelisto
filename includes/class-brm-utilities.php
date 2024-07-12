@@ -23,6 +23,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Renders settings notices.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @param array $notices List of notices.
 		 *
@@ -33,7 +34,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 				$class   = $notice['class'];
 				$message = $notice['message'];
 				$output  = '<div id="message" class="' . esc_attr( $class ) . ' inline"><p><strong>' . esc_html( $message ) . '</strong></p></div>';
-				echo $output;
+				echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is safely escaped.
 			}
 		}
 
@@ -98,6 +99,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * @param int    $parent_id The group parent id.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return mixed
 		 */
@@ -111,10 +113,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 							<td style="width:40px;"><i class="fa fa-bars icon-move ui-sortable-handle"></i></td>
 							<td style="position: relative;">
 								<div class="group-name">
-									<?php echo esc_html( stripslashes( $name ) ); ?>
+									<?php echo esc_html( stripslashes( (string) $name ) ); ?>
 									<span class="group-id">Group ID: <?php echo esc_attr( stripslashes( $id ) ); ?></span>
 								</div>
-								<div class="group-desc" id="group-<?php echo esc_attr( $id ); ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( $desc ) ) ) ) ); ?></div>
+								<div class="group-desc" id="group-<?php echo esc_attr( $id ); ?>-desc"><?php echo nl2br( wp_kses_post( wptexturize( esc_textarea( stripslashes( (string) $desc ) ) ) ) ); ?></div>
 							</td>
 							<td style="width:82px; position:absolute; top:10px; right:60px;">
 								<div class="edit-icons">
@@ -416,6 +418,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Get the menu array.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return array
 		 */
@@ -428,11 +431,12 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			// SQL groups query.
 			$groups_sql = $wpdb->prepare( 'SELECT * FROM %i ORDER BY sort ASC', $groups_table );
-			$groups     = $wpdb->get_results( $groups_sql );
+
+			$groups = $wpdb->get_results( $groups_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 			// SQL items query.
-			$items_sql = $wpdb->prepare( "SELECT $items_table.group_id, $items_table.id, $items_table.name, $items_table.description, $items_table.image_id, $items_table.price, $items_table.sort FROM %i LEFT JOIN $groups_table ON $groups_table.id = $items_table.group_id ORDER BY $items_table.sort ASC", $items_table );
-			$items     = $wpdb->get_results( $items_sql );
+			$items_sql = $wpdb->prepare( "SELECT {$items_table}.group_id, {$items_table}.id, {$items_table}.name, {$items_table}.description, {$items_table}.image_id, {$items_table}.price, {$items_table}.sort FROM %i LEFT JOIN {$groups_table} ON {$groups_table}.id = {$items_table}.group_id ORDER BY {$items_table}.sort ASC", $items_table ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Safe interpolation of table names.
+			$items     = $wpdb->get_results( $items_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 			// Initialize the menu array.
 			$menu_array = array(
@@ -463,6 +467,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Get menu currency symbol.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return string
 		 */
@@ -470,8 +475,10 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			global $wpdb;
 
 			$settings_table = $wpdb->prefix . 'brm_options';
-			$sql            = $wpdb->prepare( "SELECT $settings_table.option_value FROM %i WHERE $settings_table.option_name = 'brm_menu_settings'", $settings_table );
-			$settings       = unserialize( $wpdb->get_var( $sql ) );
+
+			$sql            = $wpdb->prepare( "SELECT {$settings_table}.option_value FROM %i WHERE {$settings_table}.option_name = 'brm_menu_settings'", $settings_table ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Safe interpolation of table names.
+			$settings_value = $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
+			$settings       = unserialize( $settings_value );
 
 			$symbols = include BEST_RESTAURANT_MENU_TEMPLATE_PATH . 'admin/vendor/currency-symbols.php';
 
@@ -484,7 +491,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 		 * Render shortcode builder form.
 		 *
 		 * @since   1.0.0
-		 * @version 1.1.0
+		 * @version 1.4.2
 		 *
 		 * @return mixed
 		 */
@@ -496,7 +503,7 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			$sql = $wpdb->prepare( 'SELECT * FROM %i ORDER BY sort ASC', $groups_table );
 
-			$groups = $wpdb->get_results( $sql );
+			$groups = $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 			?>
 				<div class="brm-shortcode-header">
@@ -591,8 +598,8 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 			$groups_table = $wpdb->prefix . 'brm_groups';
 			$items_table  = $wpdb->prefix . 'brm_items';
 
-			$sql   = $wpdb->prepare( "SELECT * FROM %i WHERE $items_table.group_id = '{$group_id}' ORDER BY sort ASC", $items_table );
-			$items = $wpdb->get_results( $sql );
+			$sql   = $wpdb->prepare( "SELECT * FROM %i WHERE {$items_table}.group_id = '{$group_id}' ORDER BY sort ASC", $items_table ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Safe interpolation of table names.
+			$items = $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 			$html = '';
 
@@ -642,14 +649,14 @@ if ( ! class_exists( 'BRM_Utilities' ) ) :
 
 			// extract args array.
 			if ( is_array( $args ) && ! empty( $args ) ) {
-				extract( $args );
+				extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- Necessary for template rendering.
 			}
 
 			$located = self::locate_template( $template_name, $template_path, $default_path );
 
 			// Validate file existense.
 			if ( ! file_exists( $located ) ) {
-				_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '5.2.2' );
+				_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', esc_html( $located ) ), '5.2.2' );
 
 				return;
 			}

@@ -54,7 +54,7 @@ function brm_column_minimalist_render_items( $items, $currency, $is_subgroup = f
 		<div class="brm-item brm-item-<?php echo esc_attr( $item->id ); ?>">
 			<?php
 			if ( ! empty( $item->image_id ) ) :
-				// Image data
+				// Image data.
 				$caption     = wp_get_attachment_caption( $item->image_id );
 				$alt         = get_post_meta( $item->image_id, '_wp_attachment_image_alt', true );
 				$large_image = wp_get_attachment_image_src( $item->image_id, 'large' )[0];

@@ -36,9 +36,10 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		}
 
 		/**
-		 * Re order/nesting groups and items.
+		 * Reorder/nesting groups and items.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return void
 		 */
@@ -50,45 +51,40 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
 			}
 
-			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_order_nesting_groups_items' === $_POST['action'] ) {
-				$sorting_data = isset( $_POST['sorting_data'] ) ? json_decode( stripcslashes( $_POST['sorting_data'] ) ) : 0;
+			if ( isset( $_POST['action'] ) && 'brm_order_nesting_groups_items' === $_POST['action'] ) {
+				$sorting_data = isset( $_POST['sorting_data'] ) ? json_decode( stripslashes( $_POST['sorting_data'] ), false ) : array();
 
-				$ids = array();
-
-				if ( $sorting_data ) {
+				if ( ! empty( $sorting_data ) ) {
 					$group_table = $wpdb->prefix . 'brm_groups';
 
-					$sql = "UPDATE $group_table SET ";
+					$ids             = wp_list_pluck( $sorting_data, 'group_id' );
+					$ids_placeholder = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
-					$order_sql   = 'sort = CASE id ';
-					$nesting_sql = 'parent_id = CASE id ';
+					$case_sort_sql   = 'CASE id ';
+					$case_parent_sql = 'CASE id ';
 
 					foreach ( $sorting_data as $data ) {
-						if ( $data->group_id ) {
-							$order_sql   .= "when '{$data->group_id}' then '{$data->order}' ";
-							$nesting_sql .= "when '{$data->group_id}' then '{$data->parent_id}' ";
-
-							$ids[] = $data->group_id;
-						}
+						$case_sort_sql   .= $wpdb->prepare( 'WHEN %d THEN %d ', $data->group_id, $data->order );
+						$case_parent_sql .= $wpdb->prepare( 'WHEN %d THEN %d ', $data->group_id, $data->parent_id );
 					}
 
-					$imploded_ids = implode( ',', $ids );
-					$sql         .= $order_sql . 'end, ' . $nesting_sql . "end where id IN ($imploded_ids)";
+					$case_sort_sql   .= 'END';
+					$case_parent_sql .= 'END';
+
+					$sql          = "UPDATE $group_table SET sort = $case_sort_sql, parent_id = $case_parent_sql WHERE id IN ($ids_placeholder)";
+					$prepared_sql = $wpdb->prepare( $sql, array_merge( $ids, $ids ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Properly prepared SQL statement.
+
+					if ( $wpdb->query( $prepared_sql ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Properly prepared SQL statement.
+						$result['groups_status'] = 'reordered';
+					} else {
+						$result['groups_status'] = 'failed';
+					}
+
+					$result         = $this->order_nesting_items( $sorting_data, $result );
+					$result['menu'] = BRM_Utilities::render_menu_backend( 0, BRM_Utilities::get_menu_array() );
+
+					wp_send_json_success( $result );
 				}
-
-				$result['groups_query'] = $sql;
-
-				if ( $wpdb->query( $sql ) ) {
-					$result['groups_status'] = 'reordered';
-				} else {
-					$result['groups_status'] = 'failed';
-				}
-
-				$result = $this->order_nesting_items( $sorting_data, $result );
-
-				$result['menu'] = BRM_Utilities::render_menu_backend( 0, BRM_Utilities::get_menu_array() );
-
-				wp_send_json_success( $result );
 			}
 		}
 
@@ -99,6 +95,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * @param array $result       The result json array.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return array $result The modified result array.
 		 */
@@ -135,7 +132,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 					$result['item_query'] = $sql;
 
-					if ( $wpdb->query( $sql ) ) {
+					if ( $wpdb->query( $sql ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Properly prepared SQL statement.
 						$result['items_status'] = 'reordered';
 					} else {
 						$result['items_status'] = 'failed';
@@ -166,15 +163,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 
 				$group_table = $wpdb->prefix . 'brm_groups';
 
-				if ( $wpdb->delete(
-					$group_table,
-					array(
-						'id' => $group_id,
-					),
-					array(
-						'%d',
-					)
-				) ) {
+				if ( $wpdb->delete( $group_table, array( 'id' => $group_id ), array( '%d' ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 					$result['status']   = 'deleted';
 					$result['group_id'] = $group_id;
 					wp_send_json_success( $result );
@@ -203,13 +192,13 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				$parent_id = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
 
 				$group_table = $wpdb->prefix . 'brm_groups';
-				$group       = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i.id = %d', array( $group_table, $group_table, $group_id ) ) );
+				$group       = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i.id = %d', array( $group_table, $group_table, $group_id ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 
 				if ( ! empty( $group ) ) {
 					$result['form'] = BRM_Utilities::render_group_form( $order, $group[0], $parent_id );
 
 					$result['order']     = $order;
-					$result['group']     = json_encode( $group );
+					$result['group']     = wp_json_encode( $group );
 					$result['parent_id'] = $parent_id;
 
 					wp_send_json_success( $result );
@@ -251,7 +240,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				if ( isset( $_POST['group_id'] ) && ! empty( $_POST['group_id'] ) ) {
 					$group_id = (int) sanitize_text_field( $_POST['group_id'] );
 
-					if ( $wpdb->update(
+					if ( $wpdb->update(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 						$group_table,
 						array(
 							'name'        => $group_name,
@@ -261,13 +250,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 							'updated_at'  => $updated_at,
 						),
 						array( 'id' => $group_id ),
-						array(
-							'%s',
-							'%s',
-							'%d',
-							'%d',
-							'%s',
-						),
+						array( '%s', '%s', '%d', '%d', '%s' ),
 						array( '%d' )
 					) ) {
 						$result['status']   = 'updated';
@@ -291,7 +274,8 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 						)
 					);
 
-					if ( $wpdb->query( $sql ) ) {
+					if ( $wpdb->query( $sql ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
+
 						$result['status'] = 'created';
 
 						$group_id            = $wpdb->insert_id;

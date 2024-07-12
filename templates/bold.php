@@ -34,7 +34,7 @@ if ( ! is_null( $key ) && isset( $menu[ $key ] ) ) :
 	/*
 	 * Render the menu HTML.
 	 */
-	echo brm_renders_bold_frontend_menu( $menu[ $key ], $currency );
+	echo brm_renders_bold_frontend_menu( $menu[ $key ], $currency ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is safely escaped within brm_renders_bold_frontend_menu.
 else :
 	?>
 	<p>You have not added any groups or items to the menu.</p>

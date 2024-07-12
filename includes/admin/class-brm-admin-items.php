@@ -54,13 +54,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_delete_item' === $_POST['action'] ) {
 				$item_id = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( $_POST['item_id'] ) : 0;
 
-				if ( $wpdb->delete(
-					$item_table,
-					array(
-						'id' => $item_id,
-					),
-					array( '%d' )
-				) ) {
+				if ( $wpdb->delete( $item_table, array( 'id' => $item_id ), array( '%d' ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 					$result['status']  = 'deleted';
 					$result['item_id'] = $item_id;
 
@@ -73,6 +67,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * Edit item.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return void
 		 */
@@ -90,14 +85,14 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				$order    = isset( $_POST['order'] ) ? (int) sanitize_text_field( $_POST['order'] ) : 0;
 				$group_id = isset( $_POST['group_id'] ) ? (int) sanitize_text_field( $_POST['group_id'] ) : 0;
 
-				$sql = $wpdb->prepare( "SELECT * FROM %i WHERE $item_table.id = %d", $item_table, $item_id );
+				$sql = $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $item_table, $item_id );
 
-				$item = $wpdb->get_results( $sql );
+				$item = $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 
 				if ( ! empty( $item ) ) {
 					$result['form']     = BRM_Utilities::render_item_form( $order, $item[0], $group_id );
 					$result['order']    = $order;
-					$result['item']     = json_encode( $item );
+					$result['item']     = wp_json_encode( $item );
 					$result['group_id'] = $group_id;
 
 					wp_send_json_success( $result );
@@ -109,6 +104,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * Save Item.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.2
 		 *
 		 * @return void
 		 */
@@ -150,7 +146,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 				if ( isset( $_POST['item_id'] ) && ! empty( $_POST['item_id'] ) ) {
 					$item_id = (int) $_POST['item_id'];
 
-					if ( $wpdb->update(
+					if ( $wpdb->update(  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 						$item_table,
 						array(
 							'name'        => $item_name,
@@ -162,15 +158,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 							'updated_at'  => $updated_at,
 						),
 						array( 'id' => $item_id ),
-						array(
-							'%s',
-							'%s',
-							'%d',
-							'%f',
-							'%d',
-							'%d',
-							'%s',
-						),
+						array( '%s', '%s', '%d', '%f', '%d', '%d', '%s' ),
 						array( '%d' )
 					) ) {
 						$result['status']  = 'updated';
@@ -197,7 +185,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 						)
 					);
 
-					if ( $wpdb->query( $sql ) ) {
+					if ( $wpdb->query( $sql ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Properly prepared SQL statement.
 						$result['status'] = 'created';
 
 						$item_id            = $wpdb->insert_id;

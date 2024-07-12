@@ -34,7 +34,7 @@ if ( ! is_null( $key ) && isset( $menu[ $key ] ) ) :
 	/*
 	 * Render the menu HTML.
 	 */
-	echo brm_minimalist_renders_frontend_menu( $menu[ $key ], $currency );
+	echo brm_minimalist_renders_frontend_menu( $menu[ $key ], $currency ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is safely escaped within brm_minimalist_renders_frontend_menu.
 else :
 	?>
 	<p>You have not added any groups or items to the menu.</p>
