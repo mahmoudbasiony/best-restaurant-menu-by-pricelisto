@@ -2,8 +2,8 @@
 Contributors: pricelisto, mahmoudbasiony
 Tags: restaurant menu, food menu, dinner menu, restaurant, price list
 Requires at least: 6.2
-Tested up to: 6.5.5
-Stable tag: 1.4.2
+Tested up to: 6.6.2
+Stable tag: 1.4.3
 License: GNU General Public License v3.0
 
 The fastest and easiest way to create a professional-looking menu or price list for your restaurant or business.
@@ -75,6 +75,9 @@ Creating a custom template is easy. If you're used to working and creating WordP
 Yes. You can run this menu plugin across an entire multisite network by **Network Activating** Best Restaurant Menu by PriceListo through the Network Dashboard. You can also activate Best Restaurant Menu by PriceListo just on the main site, and then individually on other sites of your choice.
 
 == Changelog ==
+= 1.4.3 = 20 Sep 2024
+* Fixed a security vulnerability and handle some wordpress recommendations.
+
 = 1.4.2 = 12 July 2024
 * Fixed some security issues.
 * Fixed site deletion bug on multisite.

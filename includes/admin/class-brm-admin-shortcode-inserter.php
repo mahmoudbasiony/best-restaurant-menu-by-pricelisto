@@ -41,12 +41,13 @@ if ( ! class_exists( 'BRM_Admin_Shortcode_Inserter' ) ) :
 		 * @return void
 		 */
 		public function shortcode_builder_form() {
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
-			}
 
 			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_shortcode_builder_form' === $_POST['action'] ) {
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
+				}
+
 				// Initialize result array.
 				$result                   = array();
 				$result['status']         = '200';

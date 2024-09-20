@@ -3,11 +3,11 @@
  * Plugin Name: Great Restaurant Menu WP
  * Plugin URI: https://www.pricelisto.com/plugins
  * Description: The fastest and easiest way to create professional-looking menu or price list for your restaurant or business. Includes five menu templates and support for custom templates as well.
- * Version: 1.4.2
+ * Version: 1.4.3
  * Author: PriceListo
  * Author URI: https://www.pricelisto.com
  * Requires at least: 6.2.0
- * Tested up to: 6.5.5
+ * Tested up to: 6.6.2
  *
  * Text Domain: best-restaurant-menu-by-pricelisto
  * Domain Path: /languages/
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 define( 'BEST_RESTAURANT_MENU_MIN_PHP_VER', '5.6.0' );
 define( 'BEST_RESTAURANT_MENU_MIN_WP_VER', '6.2.0' );
-define( 'BEST_RESTAURANT_MENU_VER', '1.4.2' );
+define( 'BEST_RESTAURANT_MENU_VER', '1.4.3' );
 define( 'BEST_RESTAURANT_MENU_ROOT_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEST_RESTAURANT_MENU_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BEST_RESTAURANT_MENU_TEMPLATE_PATH', plugin_dir_path( __FILE__ ) . 'templates/' );

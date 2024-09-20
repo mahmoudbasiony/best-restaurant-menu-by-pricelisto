@@ -38,21 +38,27 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * Delete item
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
 		public function delete_item() {
 			global $wpdb;
 
-			$item_table = $wpdb->prefix . 'brm_items';
-
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'brm_delete_item' === $_POST['action'] ) {
-				$item_id = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( $_POST['item_id'] ) : 0;
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$item_id = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['item_id'] ) ) : 0;
+
+				$item_table = $wpdb->prefix . 'brm_items';
 
 				if ( $wpdb->delete( $item_table, array( 'id' => $item_id ), array( '%d' ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 					$result['status']  = 'deleted';
@@ -67,23 +73,29 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * Edit item.
 		 *
 		 * @since 1.0.0
-		 * @version 1.4.2
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
 		public function edit_item() {
 			global $wpdb;
-			$item_table = $wpdb->prefix . 'brm_items';
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_edit_item' === $_POST['action'] ) {
-				$item_id  = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( $_POST['item_id'] ) : 0;
-				$order    = isset( $_POST['order'] ) ? (int) sanitize_text_field( $_POST['order'] ) : 0;
-				$group_id = isset( $_POST['group_id'] ) ? (int) sanitize_text_field( $_POST['group_id'] ) : 0;
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$item_id  = isset( $_POST['item_id'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['item_id'] ) ) : 0;
+				$order    = isset( $_POST['order'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['order'] ) ) : 0;
+				$group_id = isset( $_POST['group_id'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['group_id'] ) ) : 0;
+
+				$item_table = $wpdb->prefix . 'brm_items';
 
 				$sql = $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $item_table, $item_id );
 
@@ -104,7 +116,7 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 		 * Save Item.
 		 *
 		 * @since 1.0.0
-		 * @version 1.4.2
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
@@ -112,18 +124,23 @@ if ( ! class_exists( 'BRM_Admin_Items' ) ) :
 			global $wpdb;
 			$item_table = $wpdb->prefix . 'brm_items';
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_save_item' === $_POST['action'] ) {
-				$item_name  = isset( $_POST['item_name'] ) ? sanitize_text_field( $_POST['item_name'] ) : 0;
-				$item_desc  = isset( $_POST['item_desc'] ) ? sanitize_textarea_field( $_POST['item_desc'] ) : 0;
-				$image_id   = isset( $_POST['image_id'] ) ? (int) sanitize_text_field( $_POST['image_id'] ) : 0;
-				$price      = isset( $_POST['price'] ) ? sanitize_text_field( $_POST['price'] ) : 0;
-				$order      = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 0;
-				$group_id   = isset( $_POST['group_id'] ) ? sanitize_text_field( $_POST['group_id'] ) : 0;
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$item_name  = isset( $_POST['item_name'] ) ? sanitize_text_field( wp_unslash( $_POST['item_name'] ) ) : 0;
+				$item_desc  = isset( $_POST['item_desc'] ) ? sanitize_textarea_field( wp_unslash( $_POST['item_desc'] ) ) : 0;
+				$image_id   = isset( $_POST['image_id'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['image_id'] ) ) : 0;
+				$price      = isset( $_POST['price'] ) ? sanitize_text_field( wp_unslash( $_POST['price'] ) ) : 0;
+				$order      = isset( $_POST['order'] ) ? sanitize_text_field( wp_unslash( $_POST['order'] ) ) : 0;
+				$group_id   = isset( $_POST['group_id'] ) ? sanitize_text_field( wp_unslash( $_POST['group_id'] ) ) : 0;
 				$created_at = current_time( 'mysql' );
 				$updated_at = current_time( 'mysql' );
 

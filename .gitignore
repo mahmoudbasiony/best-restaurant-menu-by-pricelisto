@@ -1,10 +1,13 @@
 node_modules/
 vendor/
 
-composer.json
-composer.lock
-package.json
+languages/best-restaurant-menu.pot
 package-lock.json
-phpcs.xml
+composer.lock
 .DS_Store
 best-restaurant-menu-by-pricelisto.zip
+.history/
+composer.json
+package.json
+phpcs.xml
+gulpfile.js

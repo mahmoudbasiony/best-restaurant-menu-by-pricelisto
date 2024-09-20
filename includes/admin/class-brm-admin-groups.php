@@ -39,20 +39,25 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * Reorder/nesting groups and items.
 		 *
 		 * @since 1.0.0
-		 * @version 1.4.2
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
 		public function order_nesting_groups_items() {
 			global $wpdb;
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST['action'] ) && 'brm_order_nesting_groups_items' === $_POST['action'] ) {
-				$sorting_data = isset( $_POST['sorting_data'] ) ? json_decode( stripslashes( $_POST['sorting_data'] ), false ) : array();
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$sorting_data = isset( $_POST['sorting_data'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['sorting_data'] ) ), false ) : array();
 
 				if ( ! empty( $sorting_data ) ) {
 					$group_table = $wpdb->prefix . 'brm_groups';
@@ -147,19 +152,25 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * Delete group raw.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
 		public function delete_group() {
 			global $wpdb;
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_delete_group' === $_POST['action'] ) {
-				$group_id = (int) isset( $_POST['group_id'] ) ? sanitize_text_field( $_POST['group_id'] ) : 0;
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$group_id = (int) isset( $_POST['group_id'] ) ? sanitize_text_field( wp_unslash( $_POST['group_id'] ) ) : 0;
 
 				$group_table = $wpdb->prefix . 'brm_groups';
 
@@ -175,21 +186,27 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * Edit group raw.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
 		public function edit_group() {
 			global $wpdb;
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_edit_group' === $_POST['action'] ) {
-				$group_id  = isset( $_POST['group_id'] ) ? sanitize_text_field( $_POST['group_id'] ) : 0;
-				$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 0;
-				$parent_id = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$group_id  = isset( $_POST['group_id'] ) ? sanitize_text_field( wp_unslash( $_POST['group_id'] ) ) : 0;
+				$order     = isset( $_POST['order'] ) ? sanitize_text_field( wp_unslash( $_POST['order'] ) ) : 0;
+				$parent_id = isset( $_POST['parent_id'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_id'] ) ) : 0;
 
 				$group_table = $wpdb->prefix . 'brm_groups';
 				$group       = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i.id = %d', array( $group_table, $group_table, $group_id ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
@@ -210,6 +227,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 		 * Save group.
 		 *
 		 * @since 1.0.0
+		 * @version 1.4.3
 		 *
 		 * @return void
 		 */
@@ -217,16 +235,21 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 			global $wpdb;
 			$group_table = $wpdb->prefix . 'brm_groups';
 
-			// Check for nonce security.
-			if ( ! wp_verify_nonce( $_POST['nonce'], 'brm-nonce' ) ) {
-				wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+			// Validate user permissions.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
 			}
 
 			if ( isset( $_POST ) && ! empty( $_POST['action'] ) && 'brm_save_group' === $_POST['action'] ) {
-				$group_name = isset( $_POST['group_name'] ) ? sanitize_text_field( $_POST['group_name'] ) : '';
-				$group_desc = isset( $_POST['group_desc'] ) ? sanitize_textarea_field( $_POST['group_desc'] ) : '';
-				$parent_id  = isset( $_POST['parent_id'] ) ? sanitize_text_field( $_POST['parent_id'] ) : 0;
-				$order      = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : '';
+				// Check for nonce security.
+				if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'brm-nonce' ) ) {
+					wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
+				}
+
+				$group_name = isset( $_POST['group_name'] ) ? sanitize_text_field( wp_unslash( $_POST['group_name'] ) ) : '';
+				$group_desc = isset( $_POST['group_desc'] ) ? sanitize_textarea_field( wp_unslash( $_POST['group_desc'] ) ) : '';
+				$parent_id  = isset( $_POST['parent_id'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_id'] ) ) : 0;
+				$order      = isset( $_POST['order'] ) ? sanitize_text_field( wp_unslash( $_POST['order'] ) ) : '';
 				$created_at = current_time( 'mysql' );
 				$updated_at = current_time( 'mysql' );
 
@@ -238,7 +261,7 @@ if ( ! class_exists( 'BRM_Admin_Groups' ) ) :
 				}
 
 				if ( isset( $_POST['group_id'] ) && ! empty( $_POST['group_id'] ) ) {
-					$group_id = (int) sanitize_text_field( $_POST['group_id'] );
+					$group_id = (int) sanitize_text_field( wp_unslash( $_POST['group_id'] ) );
 
 					if ( $wpdb->update(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Necessary for custom table operations, following best practices for security.
 						$group_table,

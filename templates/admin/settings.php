@@ -39,20 +39,25 @@ $theme_templates = apply_filters(
  */
 if ( isset( $_POST['save'] ) ) {
 
+	// Validate user permissions.
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You do not have sufficient permissions.', 'best-restaurant-menu' ) );
+	}
+
 	// Check for nonce security.
-	if ( ! isset( $_POST['brm_save_settings_nonce'] ) || ( isset( $_POST['brm_save_settings_nonce'] ) && ! wp_verify_nonce( $_POST['brm_save_settings_nonce'], 'brm_settings_nonce' ) ) ) {
+	if ( ! isset( $_POST['brm_save_settings_nonce'] ) || ( isset( $_POST['brm_save_settings_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['brm_save_settings_nonce'] ) ), 'brm_settings_nonce' ) ) ) {
 		wp_die( esc_html__( 'Action failed due to security issues, please try again later', 'best-restaurant-menu' ) );
 	}
 
-	$settings['business_name']     = isset( $_POST['business_name'] ) ? sanitize_text_field( stripslashes( $_POST['business_name'] ) ) : '';
-	$settings['business_address']  = isset( $_POST['business_address'] ) ? sanitize_text_field( stripslashes( $_POST['business_address'] ) ) : '';
-	$settings['business_city']     = isset( $_POST['business_city'] ) ? sanitize_text_field( stripslashes( $_POST['business_city'] ) ) : '';
-	$settings['business_state']    = isset( $_POST['business_state'] ) ? sanitize_text_field( stripslashes( $_POST['business_state'] ) ) : '';
-	$settings['business_zip_code'] = isset( $_POST['business_zip_code'] ) ? sanitize_text_field( stripslashes( $_POST['business_zip_code'] ) ) : '';
-	$settings['business_country']  = isset( $_POST['business_country'] ) ? sanitize_text_field( stripslashes( $_POST['business_country'] ) ) : '';
-	$settings['business_phone']    = isset( $_POST['business_phone'] ) ? sanitize_text_field( stripslashes( $_POST['business_phone'] ) ) : '';
-	$settings['business_currency'] = isset( $_POST['business_currency'] ) ? sanitize_text_field( stripslashes( $_POST['business_currency'] ) ) : '';
-	$settings['theme_template']    = isset( $_POST['theme_template'] ) ? sanitize_text_field( stripslashes( $_POST['theme_template'] ) ) : '';
+	$settings['business_name']     = isset( $_POST['business_name'] ) ? sanitize_text_field( wp_unslash( $_POST['business_name'] ) ) : '';
+	$settings['business_address']  = isset( $_POST['business_address'] ) ? sanitize_text_field( wp_unslash( $_POST['business_address'] ) ) : '';
+	$settings['business_city']     = isset( $_POST['business_city'] ) ? sanitize_text_field( wp_unslash( $_POST['business_city'] ) ) : '';
+	$settings['business_state']    = isset( $_POST['business_state'] ) ? sanitize_text_field( wp_unslash( $_POST['business_state'] ) ) : '';
+	$settings['business_zip_code'] = isset( $_POST['business_zip_code'] ) ? sanitize_text_field( wp_unslash( $_POST['business_zip_code'] ) ) : '';
+	$settings['business_country']  = isset( $_POST['business_country'] ) ? sanitize_text_field( wp_unslash( $_POST['business_country'] ) ) : '';
+	$settings['business_phone']    = isset( $_POST['business_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['business_phone'] ) ) : '';
+	$settings['business_currency'] = isset( $_POST['business_currency'] ) ? sanitize_text_field( wp_unslash( $_POST['business_currency'] ) ) : '';
+	$settings['theme_template']    = isset( $_POST['theme_template'] ) ? sanitize_text_field( wp_unslash( $_POST['theme_template'] ) ) : '';
 
 	$serialized_settings = serialize( $settings );
 
@@ -141,7 +146,7 @@ $nonce = wp_create_nonce( 'brm_settings_nonce' );
 						if ( ! empty( $countries ) ) :
 							foreach ( $countries as $country_code => $country_name ) :
 								?>
-								<option value="<?php echo esc_attr( stripslashes( $country_code ) ); ?>" <?php selected( $settings['business_country'], $country_code ); ?>><?php echo esc_html( stripslashes( $country_name ) ); ?></option>
+								<option value="<?php echo esc_attr( wp_unslash( $country_code ) ); ?>" <?php selected( $settings['business_country'], $country_code ); ?>><?php echo esc_html( wp_unslash( $country_name ) ); ?></option>
 								<?php
 							endforeach;
 							endif;
@@ -156,7 +161,7 @@ $nonce = wp_create_nonce( 'brm_settings_nonce' );
 					<label for="business_phone"><?php esc_html_e( 'Phone Number', 'best-restaurant-menu' ); ?></label>
 				</th>
 				<td>
-					<input type="text" name="business_phone" id="business_phone" value="<?php echo isset( $settings['business_phone'] ) ? esc_html( stripslashes( $settings['business_phone'] ) ) : ''; ?>" class="regular-text">
+					<input type="text" name="business_phone" id="business_phone" value="<?php echo isset( $settings['business_phone'] ) ? esc_html( wp_unslash( $settings['business_phone'] ) ) : ''; ?>" class="regular-text">
 				</td>
 			</tr>
 
@@ -170,7 +175,7 @@ $nonce = wp_create_nonce( 'brm_settings_nonce' );
 						if ( ! empty( $currencies ) ) :
 							foreach ( $currencies as $currency_code => $currency_name ) :
 								?>
-								<option value="<?php echo esc_attr( stripslashes( $currency_code ) ); ?>" <?php selected( $settings['business_currency'], $currency_code ); ?>><?php echo esc_html( isset( $symbols[ $currency_code ] ) ? stripslashes( $currency_name . ' (' . $symbols[ $currency_code ] . ') ' ) : $currency_name ); ?></option>
+								<option value="<?php echo esc_attr( wp_unslash( $currency_code ) ); ?>" <?php selected( $settings['business_currency'], $currency_code ); ?>><?php echo esc_html( isset( $symbols[ $currency_code ] ) ? wp_unslash( $currency_name . ' (' . $symbols[ $currency_code ] . ') ' ) : $currency_name ); ?></option>
 								<?php
 							endforeach;
 							endif;
@@ -195,7 +200,7 @@ $nonce = wp_create_nonce( 'brm_settings_nonce' );
 						if ( ! empty( $theme_templates ) ) :
 							foreach ( $theme_templates as $template_key => $template_name ) :
 								?>
-								<option value="<?php echo esc_attr( stripslashes( $template_key ) ); ?>" <?php selected( $settings['theme_template'], $template_key ); ?>><?php echo esc_html( stripslashes( $template_name ) ); ?></option>
+								<option value="<?php echo esc_attr( wp_unslash( $template_key ) ); ?>" <?php selected( $settings['theme_template'], $template_key ); ?>><?php echo esc_html( wp_unslash( $template_name ) ); ?></option>
 								<?php
 							endforeach;
 							endif;

@@ -128,7 +128,8 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 		 */
 		public function hide_notices() {
 			if ( isset( $_GET['brm-hide-notice'] ) && isset( $_GET['_brm_notice_nonce'] ) ) {
-				if ( ! wp_verify_nonce( $_GET['_brm_notice_nonce'], 'brm_hide_notices_nonce' ) ) {
+				// Check for nonce security.
+				if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_brm_notice_nonce'] ) ), 'brm_hide_notices_nonce' ) ) {
 					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'best-restaurant-menu' ) );
 				}
 
@@ -136,7 +137,7 @@ if ( ! class_exists( 'BRM_Admin_Notices' ) ) :
 					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'best-restaurant-menu' ) );
 				}
 
-				$notice = wc_clean( $_GET['brm-hide-notice'] );
+				$notice = wc_clean( sanitize_text_field( wp_unslash( $_GET['brm-hide-notice'] ) ) );
 
 				switch ( $notice ) {
 					case 'phpver':
